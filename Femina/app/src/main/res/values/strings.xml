@@ -7,6 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+<<<<<<< HEAD
     <string name="menu_Testimonios">Testimonios</string>
     <string name="menu_mis_datos">Mis datos</string>
     <string name="menu_ayuda">Ayuda</string>
@@ -19,4 +20,9 @@
     <string name="proxima_pregunta">Proxima pregunta</string>
     <string name="pregunta_anterior">Pregunta anterior</string>
     <string name="no">No</string>
+=======
+    <string name="menu_home">Inicio</string>
+    <string name="menu_gallery">Prueba</string>
+    <string name="menu_slideshow">Slideshow</string>
+>>>>>>> e182efbcd76a88f22115b3994aa2da56cdcd9bdc
 </resources>
