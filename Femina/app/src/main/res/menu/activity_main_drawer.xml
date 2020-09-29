@@ -4,17 +4,35 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        menu_mis_datos
         <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:id="@+id/nav_mis_datos"
+            android:icon="@drawable/misdatos"
+            android:title="@string/menu_mis_datos" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:id="@+id/nav_contactos_emergencia"
+            android:icon="@drawable/contactos"
+            android:title="@string/menu_contactos_emergencia" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:id="@+id/nav_testimonios"
+            android:icon="@drawable/testimonio"
+            android:title="@string/menu_Testimonios" />
+        <item
+            android:id="@+id/nav_crear_icono"
+            android:icon="@drawable/cambiaricono"
+            android:title="@string/menu_crear_icono" />
+        <item
+            android:id="@+id/nav_test_violencia"
+            android:icon="@drawable/test"
+            android:title="@string/menu_test_volencia" />
+        <item
+            android:id="@+id/nav_que_hacer"
+            android:icon="@drawable/quehacer"
+            android:title="@string/menu_que_hacer" />
+
+        <item
+            android:id="@+id/nav_ayuda"
+            android:icon="@drawable/preguntas"
+            android:title="@string/menu_ayuda" />
     </group>
 </menu>

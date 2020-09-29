@@ -2,12 +2,21 @@
     <string name="app_name">Femina</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Femina</string>
+    <string name="nav_header_subtitle"></string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_Testimonios">Testimonios</string>
+    <string name="menu_mis_datos">Mis datos</string>
+    <string name="menu_ayuda">Ayuda</string>
+    <string name="menu_crear_icono">Crear icono</string>
+    <string name="menu_test_volencia">Test violencia</string>
+    <string name="menu_que_hacer">¿Que hacer?</string>
+    <string name="menu_contactos_emergencia">Contactos de Emergencia</string>
+    <string name="menu_slideshow">Slideshow</string>quit
+    <string name="si">Si</string>
+    <string name="proxima_pregunta">Proxima pregunta</string>
+    <string name="pregunta_anterior">Pregunta anterior</string>
+    <string name="no">No</string>
 </resources>

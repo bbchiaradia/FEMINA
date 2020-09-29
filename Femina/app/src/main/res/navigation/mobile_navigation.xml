@@ -8,13 +8,13 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.alejandro.android.femina.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="@string/menu_Testimonios"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.alejandro.android.femina.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/menu_mis_datos"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
