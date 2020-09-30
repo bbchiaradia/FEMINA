@@ -20,9 +20,8 @@
     <string name="proxima_pregunta">Proxima pregunta</string>
     <string name="pregunta_anterior">Pregunta anterior</string>
     <string name="no">No</string>
-=======
+
     <string name="menu_home">Inicio</string>
     <string name="menu_gallery">Prueba</string>
 
->>>>>>> e182efbcd76a88f22115b3994aa2da56cdcd9bdc
 </resources>

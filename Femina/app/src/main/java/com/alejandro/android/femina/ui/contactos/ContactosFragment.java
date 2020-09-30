@@ -1,4 +1,4 @@
-package com.alejandro.android.femina.ui.home;
+package com.alejandro.android.femina.ui.contactos;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,20 +14,20 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.R;
 
-public class HomeFragment extends Fragment {
+public class ContactosFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private ContactosViewModel contactosViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        //final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        contactosViewModel =
+                ViewModelProviders.of(this).get(ContactosViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_contactos, container, false);
+        //final TextView textView = root.findViewById(R.id.txt_contactos);
+        contactosViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-               // textView.setText(s);
+        //        textView.setText(s);
             }
         });
         return root;

@@ -12,9 +12,46 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.alejandro.android.femina.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_mis_datos"
+        android:name="com.alejandro.android.femina.ui.perfil.PerfilFragment"
+        android:label="@string/menu_mis_datos"
+        tools:layout="@layout/fragment_perfil" />
+
+    <fragment
+        android:id="@+id/nav_ayuda"
+        android:name="com.alejandro.android.femina.ui.ayuda.AyudaFragment"
+        android:label="@string/menu_ayuda"
+        tools:layout="@layout/fragment_ayuda" />
+
+    <fragment
+        android:id="@+id/nav_contactos_emergencia"
+        android:name="com.alejandro.android.femina.ui.contactos.ContactosFragment"
+        android:label="@string/menu_contactos_emergencia"
+        tools:layout="@layout/fragment_contactos" />
+
+    <fragment
+        android:id="@+id/nav_crear_icono"
+        android:name="com.alejandro.android.femina.ui.icono.IconoFragment"
+        android:label="@string/menu_crear_icono"
+        tools:layout="@layout/fragment_icono" />
+
+    <fragment
+        android:id="@+id/nav_que_hacer"
+        android:name="com.alejandro.android.femina.ui.que_hacer.QueHacerFragment"
+        android:label="@string/menu_que_hacer"
+        tools:layout="@layout/fragment_que_hacer" />
+
+    <fragment
+        android:id="@+id/nav_test_violencia"
+        android:name="com.alejandro.android.femina.ui.test_violencia.TestViolenciaFragment"
+        android:label="@string/menu_test_volencia"
+        tools:layout="@layout/fragment_test_violencia" />
+
+
+    <fragment
+        android:id="@+id/nav_testimonios"
+        android:name="com.alejandro.android.femina.ui.testimonios.TestimoniosFragment"
+        android:label="@string/menu_Testimonios"
+        tools:layout="@layout/fragment_testimonios" />
 
 </navigation>

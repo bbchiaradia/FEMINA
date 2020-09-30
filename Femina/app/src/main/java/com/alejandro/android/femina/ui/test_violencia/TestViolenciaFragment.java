@@ -1,4 +1,4 @@
-package com.alejandro.android.femina.ui.gallery;
+package com.alejandro.android.femina.ui.test_violencia;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,21 +13,22 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.ui.que_hacer.QueHacerViewModel;
 
-public class GalleryFragment extends Fragment {
+public class TestViolenciaFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private TestViolenciaViewModel testViolenciaViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        testViolenciaViewModel =
+                ViewModelProviders.of(this).get(TestViolenciaViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_test_violencia, container, false);
+        //final TextView textView = root.findViewById(R.id.txt_test_violencia);
+        testViolenciaViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            //    textView.setText(s);
             }
         });
         return root;
