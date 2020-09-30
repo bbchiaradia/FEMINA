@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        Fragment fragment = new PerfilFragment();
+        Fragment fragment = new HomeFragment();
 
         getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).commit();
 
@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         navigationView.setItemIconTintList(null);
+
 
     }
 
