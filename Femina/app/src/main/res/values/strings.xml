@@ -16,6 +16,7 @@
     <string name="menu_que_hacer">¿Que hacer?</string>
     <string name="menu_contactos_emergencia">Contactos de Emergencia</string>
 
+    <string name="nombre_usuario">Nombre Usuario</string>
     <string name="si">Si</string>
     <string name="proxima_pregunta">Proxima pregunta</string>
     <string name="pregunta_anterior">Pregunta anterior</string>
