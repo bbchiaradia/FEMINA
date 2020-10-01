@@ -17,10 +17,20 @@
     <string name="menu_contactos_emergencia">Contactos de Emergencia</string>
 
     <string name="nombre_usuario">Nombre Usuario</string>
+    <string name="usuario">Usuario</string>
+    <string name="contraseña">Contraseña</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="telefono">Telefono</string>
+    <string name="femenino">Femenino</string>
+    <string name="masculino">Masculino</string>
+    <string name="sexo">Sexo</string>
+    <string name="guardar">Guardar</string>
     <string name="si">Si</string>
     <string name="proxima_pregunta">Proxima pregunta</string>
     <string name="pregunta_anterior">Pregunta anterior</string>
     <string name="no">No</string>
+
 
     <string name="menu_home">Inicio</string>
     <string name="menu_gallery">Prueba</string>
