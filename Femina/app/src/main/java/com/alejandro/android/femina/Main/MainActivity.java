@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Toast;
 
 import com.alejandro.android.femina.Fragments.ayuda.AyudaFragment;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
@@ -16,7 +17,10 @@ import com.alejandro.android.femina.Fragments.test_violencia.Principal.TestViole
 import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
 import com.alejandro.android.femina.R;
 import com.google.android.material.navigation.NavigationView;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
@@ -33,6 +37,7 @@ import androidx.appcompat.widget.Toolbar;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private BottomBar bottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         navigationView.setItemIconTintList(null);
+
+        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                if (tabId == R.id.tab_ini) {
+                    // The tab with id R.id.tab_calls was selected,
+                    // change your content accordingly.
+                    Toast.makeText(getApplicationContext(), "Estoy en inicio", Toast.LENGTH_SHORT).show();
+                    //textView.setText("Your Calls");
+                } else if (tabId == R.id.tab_call911) {
+                    // The tab with id R.id.tab_calls was selected,
+                    // change your content accordingly.
+                    Toast.makeText(getApplicationContext(),"llamando al 911",Toast.LENGTH_SHORT).show();
+                    //textView.setText("Your Calls");
+                } else if (tabId == R.id.tab_call144) {
+                    // The tab with id R.id.tab_groups was selected,
+                    // change your content accordingly.
+                    Toast.makeText(getApplicationContext(),"llamando al 144",Toast.LENGTH_SHORT).show();
+                } else if (tabId == R.id.tab_sms) {
+                    // The tab with id R.id.tab_chats was selected,
+                    // change your content accordingly.
+                    Toast.makeText(getApplicationContext(),"envio sms",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
     }

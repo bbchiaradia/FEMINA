@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+<tab
+    id="@+id/tab_ini"
+    icon="@drawable/ic_ini"
+    title="Inicio"
+    activeColor="@color/colorAccent"
+    />
+<tab
+    id="@+id/tab_call911"
+    icon="@drawable/ic_calls"
+    title="911"
+    activeColor="@color/colorAccent"
+    />
+<tab
+    id="@+id/tab_call144"
+    icon="@drawable/ic_calls"
+    title="144"
+    activeColor="@color/colorAccent" />
+<tab
+    id="@+id/tab_sms"
+    icon="@drawable/ic_sms"
+    title="SMS de Ayuda"
+    activeColor="@color/colorAccent"
+    />
+</tabs>
