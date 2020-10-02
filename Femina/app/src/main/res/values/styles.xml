@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#EF7CD3</item>
-        <item name="colorPrimaryDark">#F6568D</item>
-        <item name="colorAccent">#8F8B8F</item>
+        <item name="colorPrimary">#fcd1c6</item>
+        <item name="colorPrimaryDark">#EF90B1</item>
+        <item name="colorAccent">#26C6DA</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,10 +16,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="AppTheme.TransNav" parent="AppTheme">
-        <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-    </style>
+    <style name="AppTheme.TransNav" parent="AppTheme" />
 
 </resources>
