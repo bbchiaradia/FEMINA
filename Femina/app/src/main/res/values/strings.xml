@@ -25,8 +25,11 @@
     <string name="menu_ayuda_test_violencia">Test de Violencia</string>
     <string name="menu_ayuda_test_violencia_descripcion">El test consta de un cuestionario y una conclusion final si tienes o no una relacion con signos de violencia.Este test pretende, entre otras cosas, generar conciencia en una sociedad muy golpeada por este tipo de violencia. </string>
 
+<<<<<<< Updated upstream
     <string name="menu_testViolencia_test_violencia">Cuando se habla de violencia de genero automaticamente pensamos en agresiones fisicas, amenazas, abuso sexual y femicidios, sin embargo la violencia puede presentarse en situaciones cotidianas en una relacion de pareja y muchas veces pasar desapercibida.Este test no solo pretende brindar medios de apoyo y asistencia a quienes son victimas de relaciones violentas, si no tambien generar conciencia y convertirnos en agentes multiplicadores de una sociedad libre de violencia.</string>
     <string name="menu_testViolencia_empezar_test">Empezar Test</string>
+=======
+>>>>>>> Stashed changes
 
     <string name="nombre_usuario">Nombre Usuario</string>
     <string name="usuario">Usuario</string>
@@ -43,8 +46,19 @@
     <string name="pregunta_anterior">Pregunta anterior</string>
     <string name="no">No</string>
 
+    <string name="registrarse">Registrarse</string>
+    <string name="registro">Registro</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="olvidaste">Olvidaste tu contraseña?</string>
+
+    <string name="femina_mayus">FEMINA</string>
 
     <string name="menu_home">Inicio</string>
     <string name="menu_gallery">Prueba</string>
+
+    <string-array name="sexo_array">
+        <item>Masculino</item>
+        <item>Femenino</item>
+    </string-array>
 
 </resources>

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_dark"
-    android:backgroundTint="#EFE6E6"
+    android:background="@color/fondo_pantallas"
     tools:context=".Fragments.home.HomeFragment">
 
     <ImageButton

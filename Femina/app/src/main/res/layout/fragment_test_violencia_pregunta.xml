@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#EFE6E6"
+    android:background="@color/fondo_pantallas"
     android:layout_height="match_parent">
 
     <TextView
