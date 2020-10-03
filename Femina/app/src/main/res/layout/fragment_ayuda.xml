@@ -93,8 +93,8 @@
 
                         <TextView
                             android:id="@+id/textView9"
-                            android:layout_width="279dp"
-                            android:layout_height="match_parent"
+                            android:layout_width="302dp"
+                            android:layout_height="70dp"
                             android:gravity="center"
                             android:text="@string/menu_ayuda_testimonio_descripcion" />
                     </TableRow>
@@ -164,8 +164,8 @@
 
                         <TextView
                             android:id="@+id/textView15"
-                            android:layout_width="305dp"
-                            android:layout_height="match_parent"
+                            android:layout_width="306dp"
+                            android:layout_height="106dp"
                             android:gravity="center"
                             android:text="@string/menu_ayuda_test_violencia_descripcion" />
                     </TableRow>
