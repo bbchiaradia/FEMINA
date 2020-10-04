@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.alejandro.android.femina">
 
     <application
@@ -21,6 +22,11 @@
             android:name=".Main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name="Fragments.perfil.PerfilFragment"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:ignore="MissingClass"></activity>
     </application>
 
 </manifest>
