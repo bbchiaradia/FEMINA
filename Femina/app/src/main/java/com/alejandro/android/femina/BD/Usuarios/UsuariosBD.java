@@ -1,5 +1,6 @@
 package com.alejandro.android.femina.BD.Usuarios;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -37,15 +38,16 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     private Context context;
     private ProgressDialog dialog;
     private String mensaje_devuelto;
-    private boolean dejo_loguear;
+    private boolean dejo_loguear,insertamos;
     private Session session_usuario;
+    private int filas;
 
 
 
     public UsuariosBD(Usuarios us, Context ct, String que) {
 
         user = new Usuarios();
-        this.user = us;
+        user = us;
         this.context = ct;
         this.que_hacer = que;
         dialog = new ProgressDialog(ct);
@@ -64,71 +66,28 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
         PreparedStatement ps;
         PreparedStatement ps_aux = null;
 
-      /*  if(que_hacer.equals("Insertar")) {
+       if(que_hacer.equals("Insertar")) {
 
-            boolean insertamos = true;
-            modifico = false;
+            insertamos = true;
 
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
-                //ps = con.prepareStatement("INSERT INTO usuarios(id, nombre,stock,alertastock,idCategoria) VALUES(?,?,?,?,?)");
-                ps = con.prepareStatement("INSERT INTO usuarios (usuario, contraseña, nombre, " +
-                        "apellido, dni, sexo, email, fecha_nacimiento, fecha_alta, tiporol, " +
-                        "idestado, image) VALUES (?,?,?,?,?,?,?,?,CURRENT_DATE(),?,?,NULL)");
 
-                Statement st = con.createStatement();
-                ResultSet rs;
-                ResultSet rs_;
-
-                Log.d("ROL",""+ tipo_rol);
-
-                rs = st.executeQuery("SELECT * FROM tiporol where rol='" + tipo_rol + "'");
-
-
-                if(rs.next()){
-                    tipo = new TipoRol();
-                    tipo.setId_rol(rs.getInt("idtiporol"));
-                    tipo.setRol(rs.getString("rol"));
-                    user.setTipo(tipo);
-
-                }
-
-                rs = st.executeQuery("SELECT * FROM estados where estado='" + this.estado + "'");
-
-
-                if(rs.next()){
-                    esta = new Estados();
-                    esta.setId_estado(rs.getInt("idestado"));
-                    esta.setEstado(rs.getString("estado"));
-                    user.setEstado(esta);
-
-                }
-
+                ps = con.prepareStatement("INSERT INTO Usuarios (Usuario, Contraseña, nombre, " +
+                        "apellido, sexo, telefono, esAdmin) VALUES (?,?,?,?,?,?,false)");
 
                 ps.setString(1, user.getUsuario());
                 ps.setString(2, user.getContrasena());
                 ps.setString(3, user.getNombre());
                 ps.setString(4, user.getApellido());
-                ps.setString(5, user.getDni());
-                ps.setString(6, String.valueOf(user.getSexo()));
-                ps.setString(7, user.getMail());
-                ps.setDate(8, user.getFecha_nacimiento());
-                //ps.setDate(9, user.getFecha_alta());
-                ps.setInt(9, user.getTipo().getId_rol());
-                ps.setInt(10, user.getEstado().getId_estado());
+                ps.setString(5, String.valueOf(user.getSexo()));
+                ps.setString(6, user.getTelefono());
 
+                Statement st = con.createStatement();
+                ResultSet rs;
 
-                rs = st.executeQuery("SELECT idusuario FROM usuarios where email ='" + user.getMail()+"'");
-
-                if (rs.next()) {
-
-                    insertamos = false;
-                    mensaje_devuelto = "Mail ya registrado!";
-
-                }
-
-                rs = st.executeQuery("SELECT idusuario FROM usuarios where usuario ='" + user.getUsuario()+"'");
+                rs = st.executeQuery("SELECT idUsuario FROM Usuarios where Usuario ='" + user.getUsuario()+"'");
 
                 if (rs.next()) {
 
@@ -137,81 +96,45 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
                 }
 
-                rs = st.executeQuery("SELECT idusuario FROM usuarios where dni ='" + user.getDni()+"'");
 
-                if (rs.next()) {
-
-                    insertamos = false;
-                    mensaje_devuelto = "Dni ya registrado!";
-
-                }
+                if(insertamos)
+                     filas = ps.executeUpdate();
 
 
-                if(insertamos){
+                    if (filas > 0) {
 
-                    int filas = ps.executeUpdate();
+                        mensaje_devuelto = "Bienvenido/a: " + user.getUsuario();
 
+                        rs = st.executeQuery("SELECT idUsuario FROM Usuarios where Usuario ='" + user.getUsuario()+"'");
 
-                    rs = st.executeQuery("SELECT * from usuarios where email ='" + user.getMail() + "' and" +
-                            " usuario='"+user.getUsuario()+"'");
+                        if (rs.next())
+                            session_usuario.setId_usuario(rs.getInt("idUsuario"));
 
-                    if (rs.next()) {
+                        session_usuario.setNombre(user.getNombre());
+                        session_usuario.setApellido(user.getApellido());
+                        session_usuario.setUsuario(user.getUsuario());
+                        session_usuario.setContrasena(user.getContrasena());
+                        if(user.getSexo() == 'M')
+                            session_usuario.setSexo("Masculino");
+                        if(user.getSexo() == 'F')
+                            session_usuario.setSexo("Femenino");
+                        if(user.getSexo() == 'O')
+                            session_usuario.setSexo("Otro");
+                        session_usuario.setTelefono(user.getTelefono());
+                        session_usuario.setEs_admin(false);
+                        session_usuario.setCt(context);
 
-                        user.setId_usuario(rs.getInt("idusuario"));
-
-                    }
-
-
-                    switch(tipo_rol){
-
-                        case "Paciente":
-                            Pacientes pac = new Pacientes();
-                            pac.setId_usuario(user);
-                            ps_aux = con.prepareStatement("INSERT INTO pacientes (idusuario, factors, peso, " +
-                                    "altura, medicocabecera) VALUES (?,NULL,NULL,NULL,NULL)");
-                            ps_aux.setInt(1,pac.getId_usuario().getId_usuario());
-                            break;
-
-                        case "Supervisor":
-                            Profesionales prof = new Profesionales();
-                            prof.setId_usuario(user);
-                            ps_aux = con.prepareStatement("INSERT INTO profesionales (idusuario, nromatricula)" +
-                                    " VALUES (?,?)");
-                            ps_aux.setInt(1,prof.getId_usuario().getId_usuario());
-                            ps_aux.setString(2, matricula);
-                            break;
-
-                        case "Familiar":
-                            Familiares fam = new Familiares();
-                            fam.setId_usuario(user);
-                            ps_aux = con.prepareStatement("INSERT INTO familiares (idusuario, parentesco)" +
-                                    " VALUES (?,NULL)");
-                            ps_aux.setInt(1,fam.getId_usuario().getId_usuario());
-                            break;
+                        session_usuario.nueva_session();
 
                     }
 
-                    int filas_ = ps_aux.executeUpdate();
-
-
-                    if (filas > 0 && filas_>0) {
-                        mensaje_devuelto = "Usuario registrado!";
-                        modifico = true;
-                        if (tipo_rol.equals("Supervisor"))
-                            mensaje_devuelto += ", debes aguardar confirmacion";
-                    }
-                    else
-                        mensaje_devuelto = "Error al registrar usuario!";
-
-                }
                 response = "Conexion exitosa";
                 con.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                //result2 = "Conexion no exitosa";
                 mensaje_devuelto = "Error al registrar usuario!!";
             }
-        }*/
+        }
 
         if(que_hacer.equals("Loguin")) {
 
@@ -277,19 +200,24 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
         }
 
 
-        /*  if(que_hacer.equals("Insertar")) {
+          if(que_hacer.equals("Insertar")) {
             Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_SHORT).show();
-            if(modifico) {
-                Intent intent = new Intent(context, iniciar_sesion.class);
+            if(insertamos) {
+                Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
+                ((Activity) context).finish();
             }
-        }*/
+
+              Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
+
+        }
 
         if(que_hacer.equals("Loguin")){
             if(dejo_loguear){
                 Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
+                ((Activity) context).finish();
             }
             else
                 Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();

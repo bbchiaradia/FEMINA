@@ -58,6 +58,7 @@
     <string-array name="sexo_array">
         <item>Masculino</item>
         <item>Femenino</item>
+        <item>Otro</item>
     </string-array>
 
 </resources>

@@ -88,4 +88,28 @@ public class Usuarios {
     public void setEs_admin(boolean es_admin) {
         this.es_admin = es_admin;
     }
+
+    public String validarDatosPerfil(){
+
+        String mensaje_devuelto = "si";
+
+        if(this.contrasena.length()< 6 || this.contrasena.length() > 8 )
+            mensaje_devuelto = "La contraseña debe contar con un mínimo y máximo de 6 y 8 caracteres respectivamente";
+
+        if(this.usuario.length()< 3 || this.usuario.length() > 8 )
+            mensaje_devuelto = "Tu usuario debe contar con un mínimo y máximo de 3 y 8 caracteres respectivamente";
+
+        if(this.nombre.length()< 3 || this.nombre.length() > 25 )
+            mensaje_devuelto = "Tu nombre debe contar con un mínimo y máximo de 3 y 25 caracteres respectivamente";
+
+        if(this.apellido.length()< 3 || this.apellido.length() > 25 )
+            mensaje_devuelto = "Tu apellido debe contar con un mínimo y máximo de 3 y 25 caracteres respectivamente";
+
+        if(this.telefono.length()< 10 || this.telefono.length() > 15 )
+            mensaje_devuelto = "Tu telefono debe contar con un mínimo y máximo de 10 y 15 caracteres respectivamente";
+
+        return mensaje_devuelto;
+
+    }
+
 }
