@@ -61,4 +61,6 @@
         <item>Otro</item>
     </string-array>
 
+    <string name="no_hay_contactos">No tienes contactos aun</string>
+
 </resources>

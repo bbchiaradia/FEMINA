@@ -82,7 +82,6 @@ public class Registrarse extends AppCompatActivity {
                     }
                     else
                         Toast.makeText(Registrarse.this, mensaje, Toast.LENGTH_SHORT).show();
-
                 }
                 else
                     Toast.makeText(Registrarse.this, "Complete todos los campos!", Toast.LENGTH_SHORT).show();

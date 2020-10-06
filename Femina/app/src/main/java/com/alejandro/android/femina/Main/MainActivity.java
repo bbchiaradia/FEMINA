@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarConfiguration mAppBarConfiguration;
     private BottomBar bottomBar;
+    private static final int INTERVALO = 2000;
+    private long tiempoPrimerClick;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,4 +148,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public void onBackPressed(){
+        if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()){
+            super.onBackPressed();
+            return;
+        }else {
+            Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show();
+        }
+        tiempoPrimerClick = System.currentTimeMillis();
+    }
 }

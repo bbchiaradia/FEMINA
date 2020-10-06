@@ -38,7 +38,7 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     private Context context;
     private ProgressDialog dialog;
     private String mensaje_devuelto;
-    private boolean dejo_loguear,insertamos;
+    private boolean dejo_loguear,insertamos,me_voy_pantalla;
     private Session session_usuario;
     private int filas;
 
@@ -220,7 +220,8 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 ((Activity) context).finish();
             }
             else
-                Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
+                Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_LONG).show();
+
 
         }
 

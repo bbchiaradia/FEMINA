@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/marco_contactos"
+    tools:ignore="ExtraText">
+
+
+    <ImageView
+        android:id="@+id/icono_persona"
+        android:layout_width="68dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_nombre_contacto"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textStyle="italic"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toTopOf="@id/icono_persona"
+        app:layout_constraintStart_toEndOf="@id/icono_persona" />
+
+    <TextView
+        android:id="@+id/txt_numero_contacto"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textStyle="italic"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@id/icono_persona"
+        app:layout_constraintTop_toBottomOf="@id/txt_nombre_contacto"/>
+
+    <TextView
+        android:id="@+id/txt_id_contacto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/txt_idusuario_contacto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="invisible"
+        android:textStyle="italic" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

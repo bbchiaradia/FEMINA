@@ -40,7 +40,6 @@ public class Ingresar extends AppCompatActivity {
                else
                    Toast.makeText(getApplicationContext(),"Complete todos los campos!",Toast.LENGTH_SHORT).show();
 
-
            }
        });
 
