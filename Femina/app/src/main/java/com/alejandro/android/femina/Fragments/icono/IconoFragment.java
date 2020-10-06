@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.alejandro.android.femina.Adapter.AdapterIconos;
+import com.alejandro.android.femina.Adaptadores.AdapterIconos;
 import com.alejandro.android.femina.Entidades.EntidadIcono;
 import com.alejandro.android.femina.R;
 
@@ -49,6 +49,8 @@ public class IconoFragment extends Fragment {
         listIconos.add(new EntidadIcono(R.drawable.icono_horoscopo, "HOROSCOPO"));
         listIconos.add(new EntidadIcono(R.drawable.icono_moda, "MODA"));
         listIconos.add(new EntidadIcono(R.drawable.icono_recetas, "RECETAS"));
+        listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "PELUQUERIA"));
+        listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "PELUQUERIA"));
         listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "PELUQUERIA"));
 
         return listIconos;

@@ -1,4 +1,4 @@
-package com.alejandro.android.femina.Adapter;
+package com.alejandro.android.femina.Adaptadores;
 
 
 import android.content.Context;
@@ -43,7 +43,7 @@ public class AdapterIconos extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         EntidadIcono entidad = (EntidadIcono) getItem(position);
-        convertView = LayoutInflater.from(context).inflate(R.layout.iconos_list,null);
+        convertView = LayoutInflater.from(context).inflate(R.layout.item_iconos_list,null);
         ImageView imgIcono=    convertView.findViewById(R.id.imgIcono) ;
         TextView tvTitulo = (TextView) convertView.findViewById(R.id.iconoTitulo);
 
