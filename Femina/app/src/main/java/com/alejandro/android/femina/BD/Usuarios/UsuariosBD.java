@@ -9,13 +9,16 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import com.alejandro.android.femina.BD.Data.DatosBD;
+import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.Session.Session;
@@ -41,6 +44,9 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     private boolean dejo_loguear,insertamos,me_voy_pantalla;
     private Session session_usuario;
     private int filas;
+    private Session ses;
+    private TextView apeUsu;
+    private TextView nomUsu;
 
 
 
@@ -56,7 +62,16 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     }
 
 
+    public UsuariosBD(Context ct,  TextView nm, TextView ap, String que) {
 
+        user = new Usuarios();
+        this.context = ct;
+        this.que_hacer = que;
+        dialog = new ProgressDialog(ct);
+        apeUsu = ap;
+        nomUsu= nm;
+
+    }
 
 
     @Override
@@ -179,6 +194,39 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
                 mensaje_devuelto = "Error al conectarse con base de datos!!";
             }
+        }
+
+
+
+
+        if (que_hacer.equals("Listar")) {
+
+
+            response = "";
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("SELECT apellido,nombre FROM Usuarios where usuario ='" + user.getUsuario()+"'");
+
+                while (rs.next()) {
+
+                    user = new Usuarios();
+                    user.setApellido(rs.getString("apellido"));
+                    user.setNombre(rs.getString("nombre"));
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch(Exception e){
+                e.printStackTrace();
+                response = "Conexion no exitosa";
+            }
+
+
         }
 
         return response;
