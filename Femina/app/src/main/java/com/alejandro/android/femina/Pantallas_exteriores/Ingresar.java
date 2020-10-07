@@ -30,6 +30,9 @@ public class Ingresar extends AppCompatActivity {
        usuario = (EditText) findViewById(R.id.txt_usuario_ingresar);
        contrasena = (EditText) findViewById(R.id.txt_contraseña_ingresar);
 
+        usuario.setText("User1");
+        contrasena.setText("aleale");
+
 
        btn_ingresar.setOnClickListener(new View.OnClickListener() {
            @Override

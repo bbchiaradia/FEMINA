@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import com.alejandro.android.femina.Fragments.ayuda.AyudaFragment;
+import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
 import com.alejandro.android.femina.Fragments.home.HomeFragment;
 import com.alejandro.android.femina.Fragments.icono.IconoFragment;
@@ -150,12 +151,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed(){
-        if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()){
-            super.onBackPressed();
-            return;
-        }else {
-            Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show();
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_main);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if(currentFragment instanceof ContactosAEFragment){
+            fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosFragment()).commit();
         }
-        tiempoPrimerClick = System.currentTimeMillis();
+        else {
+
+
+            if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
+                super.onBackPressed();
+                return;
+            } else {
+                Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show();
+            }
+            tiempoPrimerClick = System.currentTimeMillis();
+
+        }
     }
 }

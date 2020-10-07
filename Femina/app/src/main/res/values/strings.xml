@@ -63,4 +63,8 @@
 
     <string name="no_hay_contactos">No tienes contactos aun</string>
 
+    <string name="agregar_contacto">Agregar contacto</string>
+
+    <string name="guardar_cambios">Guardar cambios</string>
+
 </resources>
