@@ -48,4 +48,15 @@ public class Videos {
     public void setUrl_video(String url_video) {
         this.url_video = url_video;
     }
+
+
+       // Solo de prueba
+    public Videos(String url_video) {
+        this.url_video = url_video;
+    }
+
+
+
+
+
 }

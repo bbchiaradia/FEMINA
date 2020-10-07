@@ -1,5 +1,9 @@
 package com.alejandro.android.femina.Main;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -24,6 +28,7 @@ import com.roughike.bottombar.OnTabSelectListener;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -75,14 +80,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(getApplicationContext(), "Estoy en inicio", Toast.LENGTH_SHORT).show();
                     //textView.setText("Your Calls");
                 } else if (tabId == R.id.tab_call911) {
-                    // The tab with id R.id.tab_calls was selected,
                     // change your content accordingly.
-                    Toast.makeText(getApplicationContext(),"llamando al 911",Toast.LENGTH_SHORT).show();
-                    //textView.setText("Your Calls");
+                    String phone_911 = "tel:611";
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse(phone_911));
+                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(intent);
+
                 } else if (tabId == R.id.tab_call144) {
-                    // The tab with id R.id.tab_groups was selected,
                     // change your content accordingly.
-                    Toast.makeText(getApplicationContext(),"llamando al 144",Toast.LENGTH_SHORT).show();
+                    String phone_144 = "tel:114";
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse(phone_144));
+                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(intent);
+
                 } else if (tabId == R.id.tab_sms) {
                     // The tab with id R.id.tab_chats was selected,
                     // change your content accordingly.
