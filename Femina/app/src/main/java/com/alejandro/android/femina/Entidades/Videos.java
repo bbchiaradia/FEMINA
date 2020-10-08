@@ -4,17 +4,32 @@ public class Videos {
 
     private int id_video;
     private String titulo;
-    private Categorias id_categoria;
+    private int idCategoria;
     private String url_video;
 
     public Videos() {
     }
 
-    public Videos(int id_video, String titulo, Categorias id_categoria, String url_video) {
+    public Videos(int id_video, String titulo, int idCategoria, String url_video) {
         this.id_video = id_video;
         this.titulo = titulo;
-        this.id_categoria = id_categoria;
+        this.idCategoria = idCategoria;
         this.url_video = url_video;
+    }
+
+
+    public Videos( String titulo, int idCategoria, String url_video) {
+        this.titulo = titulo;
+        this.idCategoria= idCategoria;
+        this.url_video = url_video;
+    }
+
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
     }
 
     public int getId_video() {
@@ -33,14 +48,6 @@ public class Videos {
         this.titulo = titulo;
     }
 
-    public Categorias getId_categoria() {
-        return id_categoria;
-    }
-
-    public void setId_categoria(Categorias id_categoria) {
-        this.id_categoria = id_categoria;
-    }
-
     public String getUrl_video() {
         return url_video;
     }
@@ -48,14 +55,6 @@ public class Videos {
     public void setUrl_video(String url_video) {
         this.url_video = url_video;
     }
-
-
-       // Solo de prueba
-    public Videos(String url_video) {
-        this.url_video = url_video;
-    }
-
-
 
 
 
