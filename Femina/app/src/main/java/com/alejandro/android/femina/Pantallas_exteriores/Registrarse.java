@@ -48,8 +48,8 @@ public class Registrarse extends AppCompatActivity {
 
 
         btn_registro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+                @Override
+                public void onClick(View view) {
 
                 if(!txt_nombre.getText().toString().isEmpty() && !txt_apellido.getText().toString().isEmpty()
                         && !txt_usuario.getText().toString().isEmpty() && !txt_contrasena.getText().toString().isEmpty()

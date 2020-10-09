@@ -9,18 +9,22 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Main.MainActivity;
+import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 
 import java.io.IOException;
@@ -32,6 +36,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
+import java.util.ArrayList;
 
 public class UsuariosBD extends AsyncTask<String, Void, String> {
 
@@ -41,12 +46,17 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     private Context context;
     private ProgressDialog dialog;
     private String mensaje_devuelto;
-    private boolean dejo_loguear,insertamos,me_voy_pantalla;
+    private boolean dejo_loguear,insertamos,me_voy_pantalla,modificamos;
     private Session session_usuario;
     private int filas;
     private Session ses;
     private TextView apeUsu;
     private TextView nomUsu;
+    private TextView contraseniaUsu;
+    private TextView telUsu;
+    private TextView Usu;
+    private Spinner sexUsu;
+
 
 
 
@@ -62,15 +72,17 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     }
 
 
-    public UsuariosBD(Context ct,  TextView nm, TextView ap, String que) {
-
+    public UsuariosBD(Context ct,  TextView nm, TextView ap, TextView cn,TextView tel, TextView usu, Spinner sx, String que) {
         user = new Usuarios();
         this.context = ct;
         this.que_hacer = que;
         dialog = new ProgressDialog(ct);
         apeUsu = ap;
         nomUsu= nm;
-
+        contraseniaUsu = cn;
+        telUsu= tel;
+        Usu = usu;
+        sexUsu = sx;
     }
 
 
@@ -201,7 +213,6 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
         if (que_hacer.equals("Listar")) {
 
-
             response = "";
 
             try {
@@ -210,13 +221,24 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                rs = st.executeQuery("SELECT apellido,nombre FROM Usuarios where usuario ='" + user.getUsuario()+"'");
+                rs = st.executeQuery("SELECT * FROM Usuarios where usuario ='User1'");
 
                 while (rs.next()) {
 
                     user = new Usuarios();
                     user.setApellido(rs.getString("apellido"));
                     user.setNombre(rs.getString("nombre"));
+                    user.setContrasena(rs.getString("Contraseña"));
+                    user.setTelefono(rs.getString("telefono"));
+                    user.setUsuario(rs.getString("usuario"));
+                  //  user.setUsuario(rs.getString("sexo"));
+
+                    if(user.getSexo() == 'M')
+                        user.setUsuario("Masculino");
+                    if(user.getSexo() == 'F')
+                        user.setUsuario("Femenino");
+                    if(user.getSexo() == 'O')
+                        user.setUsuario("Otro");
                 }
 
                 response = "Conexion exitosa";
@@ -228,6 +250,70 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
 
         }
+
+
+
+        if(que_hacer.equals("Modificar")) {
+
+            insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+
+                ps = con.prepareStatement("UPDATE Usuarios SET nombre = ?");
+
+                ps.setString(1, user.getNombre());
+                ps.setString(3, user.getUsuario());
+                ps.setString(2, user.getContrasena());
+
+                ps.setString(4, user.getApellido());
+                ps.setString(5, String.valueOf(user.getSexo()));
+                ps.setString(6, user.getTelefono());
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+
+                if(modificamos)
+                    filas = ps.executeUpdate();
+
+
+                if (filas > 0) {
+
+                    mensaje_devuelto = "Se actualizó el usuario " + user.getUsuario();
+
+                    rs = st.executeQuery("SELECT idUsuario FROM Usuarios where Usuario ='" + user.getUsuario()+"'");
+
+                    if (rs.next())
+                        session_usuario.setId_usuario(rs.getInt("idUsuario"));
+
+                    session_usuario.setNombre(user.getNombre());
+                    session_usuario.setApellido(user.getApellido());
+                    session_usuario.setUsuario(user.getUsuario());
+                    session_usuario.setContrasena(user.getContrasena());
+                    if(user.getSexo() == 'M')
+                        session_usuario.setSexo("Masculino");
+                    if(user.getSexo() == 'F')
+                        session_usuario.setSexo("Femenino");
+                    if(user.getSexo() == 'O')
+                        session_usuario.setSexo("Otro");
+                    session_usuario.setTelefono(user.getTelefono());
+                    session_usuario.setEs_admin(false);
+                    session_usuario.setCt(context);
+
+                    session_usuario.nueva_session();
+
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mensaje_devuelto = "Error al modificar usuario!!";
+            }
+        }
+
 
         return response;
 
@@ -270,6 +356,33 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
             else
                 Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_LONG).show();
 
+
+        }
+
+        if(que_hacer.equals("Listar")) {
+            apeUsu.setText(user.getApellido());
+            nomUsu.setText(user.getNombre());
+            contraseniaUsu.setText(user.getContrasena());
+            telUsu.setText(user.getTelefono());
+            Usu.setText(user.getUsuario());
+
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.context, R.array.sexo_array, android.R.layout.simple_spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            sexUsu.setAdapter(adapter);
+
+            Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
+        }
+
+
+        if(que_hacer.equals("Modificar")) {
+            Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_SHORT).show();
+            if(modificamos) {
+                Intent intent = new Intent(context, MainActivity.class);
+                context.startActivity(intent);
+                ((Activity) context).finish();
+            }
+
+            Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
 
         }
 
