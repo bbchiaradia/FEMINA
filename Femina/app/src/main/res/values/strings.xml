@@ -67,4 +67,21 @@
 
     <string name="guardar_cambios">Guardar cambios</string>
 
+    <string name="existente">Agregar existente</string>
+
+    <string name="ae_contacto">Accion</string>
+
+    <string name="eliminar">Eliminar</string>
+    <string name="modificar">Modificar</string>
+
+    <string-array name="gestion_contacto">
+        <item>Llamar</item>
+        <item>Modificar</item>
+        <item>Eliminar</item>
+    </string-array>
+
+    <string name="telefonodospuntos">Telefono: </string>
+
+    <string name="nombredospuntos">Nombre: </string>
+
 </resources>

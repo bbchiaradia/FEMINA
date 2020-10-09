@@ -48,4 +48,20 @@ public class ContactosEmergencia {
     public void setNombre_contacto(String nombre_contacto) {
         this.nombre_contacto = nombre_contacto;
     }
+
+    public String validarContacto(){
+
+        String mensaje_devuelto = "si";
+
+        if(this.nombre_contacto.length()< 3 || this.nombre_contacto.length() > 25 )
+            mensaje_devuelto = "El nombre debe contar con un mínimo y máximo de 3 y 25 caracteres respectivamente";
+
+        if(this.telefono.length()< 10 || this.telefono.length() > 15 )
+            mensaje_devuelto = "El telefono debe contar con un mínimo y máximo de 10 y 15 caracteres respectivamente";
+
+        return mensaje_devuelto;
+
+    }
+
+
 }

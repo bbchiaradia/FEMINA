@@ -62,7 +62,7 @@
             android:layout_marginLeft="10dp" />
 
         <EditText
-            android:id="@+id/txt_telefono_contacto"
+            android:id="@+id/txt_telefono_contacto_ae"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -75,7 +75,7 @@
             android:inputType="phone"/>
 
         <Button
-            android:id="@+id/btn_confirmar_registro"
+            android:id="@+id/btn_confirmar_registro_contactos"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:layout_marginStart="20dp"

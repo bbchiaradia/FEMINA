@@ -21,6 +21,8 @@ import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.R;
 import java.util.ArrayList;
 
+import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
+
 public class TestimoniosVideosFragment extends Fragment  {
 
     private AdapterVideos adapter_video;
@@ -70,9 +72,10 @@ public class TestimoniosVideosFragment extends Fragment  {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
 
-        inflater.inflate(R.menu.menusearch, menu);
+        inflater.inflate(R.menu.main, menu);
         MenuItem item = menu.findItem(R.id.action_search);
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setVisible(true);
 
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);

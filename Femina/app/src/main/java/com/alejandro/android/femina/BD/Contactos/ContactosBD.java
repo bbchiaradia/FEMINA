@@ -22,6 +22,8 @@ import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Entidades.Usuarios;
+import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
+import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 
 
@@ -118,6 +120,138 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
 
         }
 
+        if (que_hacer.equals("Insertar")) {
+
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("INSERT INTO ContactosEmergencia (idUsuario, nroTelefono, nombreContacto) " +
+                        "VALUES (?,?,?)");
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                ps.setInt(1, cont.getId_usuario().getId_usuario());
+                ps.setString(2, cont.getTelefono());
+                ps.setString(3, cont.getNombre_contacto());
+
+
+                rs = st.executeQuery("SELECT nombreContacto FROM ContactosEmergencia where nroTelefono ='" + cont.getTelefono() +
+                        "' and idUsuario=" + cont.getId_usuario().getId_usuario());
+
+                if (rs.next()) {
+                    insertamos = false;
+                    mensaje_devuelto = "El numero ya esta registrado en tu lista bajo el nombre de "+rs.getString(1)+"!";
+                }
+
+                rs = st.executeQuery("SELECT Count(idUsuario) FROM ContactosEmergencia where idUsuario =" + cont.getId_usuario().getId_usuario());
+
+                if (rs.next()) {
+
+                    if (rs.getInt(1) >= 4 ) {
+                        insertamos = false;
+                        mensaje_devuelto = "Alcanzaste el maximo de contactos en tu cuenta(4)!";
+                    }
+
+                }
+
+
+                if (insertamos) {
+
+                    int filas = ps.executeUpdate();
+
+                    if (filas > 0) {
+                        mensaje_devuelto = "Contacto registrado!";
+                    } else
+                        mensaje_devuelto = "Error al registrar contacto!";
+
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al registrar contacto!!";
+            }
+        }
+
+        if (que_hacer.equals("Modificar")) {
+
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("UPDATE ContactosEmergencia set nombreContacto=?, nroTelefono=? where idContactoEmergencia=?");
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                ps.setString(1, cont.getNombre_contacto());
+                ps.setString(2, cont.getTelefono());
+                ps.setInt(3, cont.getId_contacto_emergencia());
+
+
+                rs = st.executeQuery("SELECT nombreContacto FROM ContactosEmergencia where nroTelefono ='" + cont.getTelefono() +
+                        "' and idUsuario=" + cont.getId_usuario().getId_usuario() + " and idContactoEmergencia <>" + cont.getId_contacto_emergencia());
+
+                if (rs.next()) {
+                    insertamos = false;
+                    mensaje_devuelto = "El numero ya esta registrado en tu lista bajo el nombre de "+rs.getString(1)+"!";
+                }
+
+                if (insertamos) {
+
+                    int filas = ps.executeUpdate();
+
+                    if (filas > 0) {
+                        mensaje_devuelto = "Contacto actualizado!";
+                    } else
+                        mensaje_devuelto = "Error al actualizar contacto!";
+
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al actualizar contacto!!";
+            }
+        }
+
+        if (que_hacer.equals("Eliminar")) {
+
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("Delete from ContactosEmergencia where idContactoEmergencia=?");
+
+
+                ps.setInt(1, cont.getId_contacto_emergencia());
+
+
+                int filas = ps.executeUpdate();
+
+                if (filas > 0) {
+                    mensaje_devuelto = "Contacto eliminado!";
+                } else
+                    mensaje_devuelto = "Error al eliminar contacto!";
+
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al eliminar contacto!!";
+            }
+        }
+
         return response;
 
 
@@ -137,7 +271,6 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
             dialog.dismiss();
         }
 
-
         if(que_hacer.equals("Listar")) {
             final AdaptadorContactos adapter = new AdaptadorContactos(context, listaContactos);
             lcontactos.setAdapter(adapter);
@@ -151,6 +284,20 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
                 lcontactos.setVisibility(View.VISIBLE);
             }
         }
+
+        if(que_hacer.equals("Insertar")) {
+            Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosFragment()).commit();
+        }
+
+        if(que_hacer.equals("Modificar") || que_hacer.equals("Eliminar")){
+            Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosFragment()).commit();
+
+        }
+
 
     }
 

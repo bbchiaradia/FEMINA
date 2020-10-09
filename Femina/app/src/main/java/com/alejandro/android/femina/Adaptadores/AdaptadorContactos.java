@@ -52,9 +52,11 @@ public class AdaptadorContactos extends ArrayAdapter<ContactosEmergencia> implem
 
         TextView nombre = (TextView) item.findViewById(R.id.txt_nombre_contacto);
         TextView numero = (TextView) item.findViewById(R.id.txt_numero_contacto);
+        TextView id_contacto = (TextView) item.findViewById(R.id.txt_id_contacto);
 
-            nombre.setText("Contacto: " + getItem(position).getNombre_contacto());
-            numero.setText("Número: " + getItem(position).getTelefono());
+            nombre.setText( getItem(position).getNombre_contacto());
+            numero.setText( getItem(position).getTelefono());
+            id_contacto.setText("" + getItem(position).getId_contacto_emergencia());
 
         return item;
     }

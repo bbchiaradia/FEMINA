@@ -27,6 +27,7 @@
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:textStyle="italic"
+        android:text="@string/nombredospuntos"
         android:layout_marginTop="5dp"
         app:layout_constraintTop_toTopOf="@id/icono_persona"
         app:layout_constraintStart_toEndOf="@id/icono_persona" />
@@ -37,6 +38,7 @@
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:textStyle="italic"
+        android:text="@string/telefonodospuntos"
         android:layout_marginTop="2dp"
         app:layout_constraintStart_toEndOf="@id/icono_persona"
         app:layout_constraintTop_toBottomOf="@id/txt_nombre_contacto"/>
