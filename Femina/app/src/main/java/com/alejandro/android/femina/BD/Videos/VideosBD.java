@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -36,7 +37,7 @@ public class VideosBD extends AsyncTask<String, Void, String> {
     private ArrayList<Videos> videosArrayList = new ArrayList<>();
     private String que_hacer;
     private ProgressDialog dialog;
-    private String mensaje_devuelto;
+    private String mensaje_devuelto,cate;
     private Boolean no_hay_cont;
     private SearchView buscar;
     private TextView no_hay;
@@ -55,7 +56,8 @@ public VideosBD(Context context, String que, Spinner spn){
 
 }
 
-    public VideosBD(Context context, AdapterVideos adaptervideos, ArrayList<Videos> videosArrayList, TextView tx, String que, SearchView sv){
+    public VideosBD(Context context, AdapterVideos adaptervideos, ArrayList<Videos> videosArrayList, TextView tx, String que, SearchView sv,String cat){
+    videosArrayList.clear();
     this.context = context;
     this.adaptervideos = adaptervideos;
     this.videosArrayList = videosArrayList;
@@ -65,6 +67,8 @@ public VideosBD(Context context, String que, Spinner spn){
     no_hay = tx;
     no_hay_cont = true;
     activity = (Activity) context;
+    this.cate = cat;
+    Log.d("Categoria","" + cat);
 }
 
 
@@ -87,9 +91,12 @@ public VideosBD(Context context, String que, Spinner spn){
                 rs = st.executeQuery("SELECT v.idVideo, v.Titulo, c.Descripcion, v.urlVideo FROM Videos v" +
                         " inner join Categorias c on v.idCategoria = c.idCategoria");
 
+                else if(cate.equals("Todas"))
+                    rs = st.executeQuery("SELECT v.idVideo, v.Titulo, c.Descripcion, v.urlVideo FROM Videos v" +
+                            " inner join Categorias c on v.idCategoria = c.idCategoria");
                 else
                     rs = st.executeQuery("SELECT v.idVideo, v.Titulo, c.Descripcion, v.urlVideo FROM Videos v" +
-                            " inner join Categorias c on v.idCategoria = c.idCategoria where c.Descripcion='" + categoria.getSelectedItem().toString() + "'");
+                            " inner join Categorias c on v.idCategoria = c.idCategoria where c.Descripcion='" + cate + "'");
 
                 while (rs.next()) {
                     no_hay_cont = false;
@@ -147,8 +154,10 @@ public VideosBD(Context context, String que, Spinner spn){
     @Override
     protected void onPreExecute() {
 
+    if(!que_hacer.equals("CargarSpinner")) {
         dialog.setMessage("Procesando...");
         dialog.show();
+    }
 
 
     }
@@ -197,6 +206,7 @@ public VideosBD(Context context, String que, Spinner spn){
         if(que_hacer.equals("CargarSpinner")) {
 
             categoria.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
+            categoria.setSelection(6);
         }
 
     }

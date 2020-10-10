@@ -142,30 +142,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-
-        MenuInflater inflater = getMenuInflater();
+          MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
-/*        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-               *//* if (adapter_video != null){
-                    adapter_video.getFilter().filter(newText);
-                }*//*
-                adapter_video.getFilter().filter(newText);
-
-                return false;
-            }
-        });*/
         return true;
     }
 

@@ -1,6 +1,7 @@
 package com.alejandro.android.femina.Fragments.testimonios.Videos;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -8,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,6 +37,8 @@ public class TestimoniosVideosFragment extends Fragment  {
     private TextView no_hay;
     private SearchView buscar;
     private Spinner spinner;
+    private SearchView sv;
+    private boolean spinner_arranco = false;
 
     private TestimoniosVideosViewModel testimoniosVideosViewModel;
 
@@ -61,6 +65,24 @@ public class TestimoniosVideosFragment extends Fragment  {
 
         VideosBD vid = new VideosBD(getContext(),"CargarSpinner",spinner);
         vid.execute();
+
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if(spinner_arranco) {
+                    VideosBD v = new VideosBD(getContext(), adapter_video, youtubeVideos, no_hay, "SelCategoria", sv, spinner.getSelectedItem().toString());
+                    v.execute();
+                }
+                spinner_arranco = true;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
 
 /*        fillVideoList();
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
@@ -96,10 +118,10 @@ public class TestimoniosVideosFragment extends Fragment  {
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
         item.setVisible(true);
 
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        sv = (SearchView) item.getActionView();
+        sv.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
-        VideosBD v = new VideosBD(getContext(), adapter_video, youtubeVideos,no_hay,"Listar",searchView);
+        VideosBD v = new VideosBD(getContext(), adapter_video, youtubeVideos,no_hay,"Listar",sv,"");
         v.execute();
 
     }
