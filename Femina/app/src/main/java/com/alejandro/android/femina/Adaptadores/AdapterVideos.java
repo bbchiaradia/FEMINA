@@ -1,5 +1,6 @@
 package com.alejandro.android.femina.Adaptadores;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +22,14 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
 
     protected List<Videos> youtubeVideoList;
     protected List<Videos> VideoListFull;
+    private Context mCtx;
 
-    public AdapterVideos(List<Videos> youtubeVideoList) {
+/*    public AdapterVideos(List<Videos> youtubeVideoList) {
+        this.youtubeVideoList = youtubeVideoList;
+        VideoListFull = new ArrayList<>(youtubeVideoList);
+    }*/
+    public AdapterVideos(Context mCtx,List<Videos> youtubeVideoList) {
+        this.mCtx = mCtx;
         this.youtubeVideoList = youtubeVideoList;
         VideoListFull = new ArrayList<>(youtubeVideoList);
     }
@@ -39,7 +46,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
         Videos currentItem = youtubeVideoList.get(position);
         holder.titulo.setText(currentItem.getTitulo());
-        holder.categoria.setText(String.valueOf(currentItem.getIdCategoria()));
+        holder.categoria.setText(currentItem.getIdCategoria().getDescripcion());
         holder.videoWeb.loadData(currentItem.getUrl_video(), "text/html" , "utf-8");
     }
 

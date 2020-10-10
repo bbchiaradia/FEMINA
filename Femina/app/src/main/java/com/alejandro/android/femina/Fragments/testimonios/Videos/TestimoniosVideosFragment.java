@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
+import com.alejandro.android.femina.BD.Videos.VideosBD;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.R;
 import java.util.ArrayList;
@@ -28,6 +32,9 @@ public class TestimoniosVideosFragment extends Fragment  {
     private AdapterVideos adapter_video;
     RecyclerView recyclerView;
     ArrayList<Videos> youtubeVideos = new ArrayList<>();
+    private TextView no_hay;
+    private SearchView buscar;
+    private Spinner spinner;
 
     private TestimoniosVideosViewModel testimoniosVideosViewModel;
 
@@ -37,28 +44,40 @@ public class TestimoniosVideosFragment extends Fragment  {
                 ViewModelProviders.of(this).get(TestimoniosVideosViewModel.class);
         setHasOptionsMenu(true);// ADD THIS
         View root = inflater.inflate(R.layout.fragment_testimonios_videos, container, false);
+        no_hay = root.findViewById(R.id.no_hay_videos);
+        buscar = (SearchView) root.findViewById(R.id.action_search);
         testimoniosVideosViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 //textView.setText(s);
             }
         });
-        fillVideoList();
+        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
+        // llamando a Async Task
+
+        spinner = (Spinner) root.findViewById(R.id.spn_categoria);
+
+        VideosBD vid = new VideosBD(getContext(),"CargarSpinner",spinner);
+        vid.execute();
+
+/*        fillVideoList();
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
         adapter_video = new AdapterVideos(youtubeVideos);
-        recyclerView.setAdapter(adapter_video);
+        recyclerView.setAdapter(adapter_video);*/
         return root;
     }
 
-           private void fillVideoList(){
+/*           private void fillVideoList(){
                youtubeVideos.add(new Videos("TOP 10 JUMP ROPE",1,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/roN-Kbvn-OI\" frameborder=\"0\" allowfullscreen></iframe>"));
                youtubeVideos.add( new Videos("SIDE-SWING",2,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/dqGKhWN9zwU\" frameborder=\"0\" allowfullscreen></iframe>") );
                youtubeVideos.add( new Videos("BEST 360",3,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/fg0iEgpSbdA\" frameborder=\"0\" allowfullscreen></iframe>") );
                youtubeVideos.add( new Videos("TECHNICAL JUMP ROPE",4,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/r6f2ZoHuwho\" frameborder=\"0\" allowfullscreen></iframe>") );
                youtubeVideos.add( new Videos("JUMP ROPE LIKE A MASTER",5,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/5UiQ77kTwLQ\" frameborder=\"0\" allowfullscreen></iframe>") );
-           }
+           }*/
 
 //    Se agrego un widget SearchView para filtrar un RecyclerView en tiempo real.
 //    Agregando un SearchView como un elemento a nuestro menú menusearch y lo haremos expandible con el atributo collapseActionView.
@@ -79,16 +98,9 @@ public class TestimoniosVideosFragment extends Fragment  {
 
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter_video.getFilter().filter(newText);
-                return true;
-            }
-        });
+
+        VideosBD v = new VideosBD(getContext(), adapter_video, youtubeVideos,no_hay,"Listar",searchView);
+        v.execute();
+
     }
 }

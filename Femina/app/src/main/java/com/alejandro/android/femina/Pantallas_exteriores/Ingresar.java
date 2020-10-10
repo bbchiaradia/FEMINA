@@ -33,6 +33,7 @@ public class Ingresar extends AppCompatActivity {
         usuario.setText("User1");
         contrasena.setText("aleale");
 
+        iniciarSesion();
 
        btn_ingresar.setOnClickListener(new View.OnClickListener() {
            @Override

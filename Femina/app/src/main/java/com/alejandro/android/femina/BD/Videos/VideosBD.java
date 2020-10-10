@@ -1,65 +1,81 @@
 package com.alejandro.android.femina.BD.Videos;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
-import android.widget.ListView;
+import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
 import com.alejandro.android.femina.BD.Data.DatosBD;
+import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.Videos;
-
+import com.alejandro.android.femina.R;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-
 //
 // Created by Juan Manuel on 7/10/2020.
 //
 public class VideosBD extends AsyncTask<String, Void, String> {
 
-    private Videos video;
+    private RecyclerView recyclerView;
+    private  Context context;
+    private AdapterVideos adaptervideos,adapter_video;
+    private Videos vi;
+    private Categorias cat;
+    private ArrayList<Videos> videosArrayList = new ArrayList<>();
     private String que_hacer;
-    private Context context;
     private ProgressDialog dialog;
     private String mensaje_devuelto;
     private Boolean no_hay_cont;
- //   private SearchView buscar;
+    private SearchView buscar;
     private TextView no_hay;
+    private Spinner categoria;
+    Activity activity;
 
-    private static ArrayList<Videos> listvideos = new ArrayList<Videos>();
+    private static ArrayList<String> datosSpinner = new ArrayList<String>();
 
-    public VideosBD(Videos vi, Context ct, String que) {
-        video = new Videos();
-        this.video = vi;
-        this.context = ct;
-        this.que_hacer = que;
-        dialog = new ProgressDialog(ct);
-    }
 
-/*    public VideosDB(Context ct, ListView lv, TextView tx, String que) {
-        listvideos.clear();
-        this.context = ct;
-        this.que_hacer = que;
-        dialog = new ProgressDialog(ct);
-        listvideos = lv;
-        no_hay = tx;
-        no_hay_cont = true;
-    }*/
+public VideosBD(Context context, String que, Spinner spn){
+
+    this.context = context;
+    this.que_hacer = que;
+    this.categoria = spn;
+    dialog = new ProgressDialog(context);
+
+}
+
+    public VideosBD(Context context, AdapterVideos adaptervideos, ArrayList<Videos> videosArrayList, TextView tx, String que, SearchView sv){
+    this.context = context;
+    this.adaptervideos = adaptervideos;
+    this.videosArrayList = videosArrayList;
+    this.que_hacer = que;
+    this.buscar = sv;
+    dialog = new ProgressDialog(context);
+    no_hay = tx;
+    no_hay_cont = true;
+    activity = (Activity) context;
+}
+
+
 
 
     @Override
     protected String doInBackground(String... strings) {
-        String response = "";
+      String response = "";
         mensaje_devuelto = "";
         PreparedStatement ps;
-
-        if (que_hacer.equals("Listar")) {
+        if (que_hacer.equals("Listar") || que_hacer.equals("SelCategoria")) {
 
             try {
                 Class.forName("com.mysql.jdbc.Driver");
@@ -67,20 +83,25 @@ public class VideosBD extends AsyncTask<String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                rs = st.executeQuery("SELECT idVideo, Titulo, idCategoria, urlVideo \n" +
-                        "FROM Videos");
+                if(que_hacer.equals("Listar"))
+                rs = st.executeQuery("SELECT v.idVideo, v.Titulo, c.Descripcion, v.urlVideo FROM Videos v" +
+                        " inner join Categorias c on v.idCategoria = c.idCategoria");
 
+                else
+                    rs = st.executeQuery("SELECT v.idVideo, v.Titulo, c.Descripcion, v.urlVideo FROM Videos v" +
+                            " inner join Categorias c on v.idCategoria = c.idCategoria where c.Descripcion='" + categoria.getSelectedItem().toString() + "'");
 
                 while (rs.next()) {
                     no_hay_cont = false;
-                    video = new Videos();
-                    video.setId_video(rs.getInt("idVIdeo"));
-                    video.setTitulo(rs.getString("Titulo"));
-                 //   video.setId_categoria(rs.getInt("idCategoria"));
-                    video.setUrl_video(rs.getString("urlVideo"));
-                    listvideos.add(video);
+                    vi = new Videos();
+                    cat = new Categorias();
+                    vi.setId_video(rs.getInt("idVIdeo"));
+                    vi.setTitulo(rs.getString("Titulo"));
+                    cat.setDescripcion(rs.getString("Descripcion"));
+                    vi.setIdCategoria(cat);
+                    vi.setUrl_video("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + rs.getString("urlVideo") + "\" frameborder=\"0\" allowfullscreen></iframe>");
+                    videosArrayList.add(vi);
                 }
-
 
                 response = "Conexion exitosa";
                 con.close();
@@ -92,15 +113,44 @@ public class VideosBD extends AsyncTask<String, Void, String> {
 
         }
 
-        return response;
+        if(que_hacer.equals("CargarSpinner")) {
 
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+
+                ResultSet rs;
+                Statement st = con.createStatement();
+
+                rs = st.executeQuery("SELECT * from Categorias");
+
+                while(rs.next()){
+
+                    datosSpinner.add(rs.getString("Descripcion"));
+
+                }
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al buscar categorias!";
+            }
+        }
+
+        return response;
 
     }
 
     @Override
     protected void onPreExecute() {
+
         dialog.setMessage("Procesando...");
         dialog.show();
+
+
     }
 
     @Override
@@ -111,19 +161,43 @@ public class VideosBD extends AsyncTask<String, Void, String> {
         }
 
 
-  /*      if(que_hacer.equals("Listar")) {
-            final AdapterVideos adapter = new AdapterVideos(context, listvideos);
-            listvideos.setAdapter(adapter);
+        if(que_hacer.equals("Listar") || que_hacer.equals("SelCategoria")) {
+
+        recyclerView = (RecyclerView) activity.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager( new LinearLayoutManager(context));
+        adaptervideos = new AdapterVideos(activity,videosArrayList);
+        adaptervideos.notifyDataSetChanged();
+        recyclerView.setAdapter(adaptervideos);
+
+          //  buscar.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    adaptervideos.getFilter().filter(newText);
+                    return true;
+                }
+            });
+
 
             if(no_hay_cont) {
                 no_hay.setVisibility(View.VISIBLE);
-                listvideos.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
             }
             else {
                 no_hay.setVisibility(View.GONE);
-                listvideos.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
-        }*/
+        }
+
+        if(que_hacer.equals("CargarSpinner")) {
+
+            categoria.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
+        }
 
     }
 

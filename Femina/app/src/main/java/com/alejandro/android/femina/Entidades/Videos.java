@@ -4,13 +4,13 @@ public class Videos {
 
     private int id_video;
     private String titulo;
-    private int idCategoria;
+    private Categorias idCategoria;
     private String url_video;
 
     public Videos() {
     }
 
-    public Videos(int id_video, String titulo, int idCategoria, String url_video) {
+    public Videos(int id_video, String titulo, Categorias idCategoria, String url_video) {
         this.id_video = id_video;
         this.titulo = titulo;
         this.idCategoria = idCategoria;
@@ -18,17 +18,17 @@ public class Videos {
     }
 
 
-    public Videos( String titulo, int idCategoria, String url_video) {
+    public Videos( String titulo, Categorias idCategoria, String url_video) {
         this.titulo = titulo;
         this.idCategoria= idCategoria;
         this.url_video = url_video;
     }
 
-    public int getIdCategoria() {
+    public Categorias getIdCategoria() {
         return idCategoria;
     }
 
-    public void setIdCategoria(int idCategoria) {
+    public void setIdCategoria(Categorias idCategoria) {
         this.idCategoria = idCategoria;
     }
 
