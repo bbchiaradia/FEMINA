@@ -75,6 +75,7 @@ public class PerfilFragment extends Fragment {
                     if(sexo.getSelectedItem().toString().equals("Otro"))
                         sex = 'O';
 
+
                     user = new Usuarios();
                     user.setUsuario(txt_usuario.getText().toString());
                     user.setContrasena(txt_contrasena.getText().toString());
@@ -84,9 +85,10 @@ public class PerfilFragment extends Fragment {
                     user.setSexo(sex);
                     mensaje = user.validarDatosPerfil();
 
+
                     if(mensaje.equals("si")){
 
-                        usuariosBD = new UsuariosBD(user, getContext(),"Modificar");
+                        usuariosBD = new UsuariosBD( getContext(),user,"Modificar");
                         usuariosBD.execute();
 
                     }

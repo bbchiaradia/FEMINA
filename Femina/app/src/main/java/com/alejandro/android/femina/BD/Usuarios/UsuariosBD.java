@@ -61,7 +61,6 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
 
     public UsuariosBD(Usuarios us, Context ct, String que) {
-
         user = new Usuarios();
         user = us;
         this.context = ct;
@@ -73,6 +72,9 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
 
     public UsuariosBD(Context ct,  TextView nm, TextView ap, TextView cn,TextView tel, TextView usu, Spinner sx, String que) {
+        ses = new Session();
+        ses.setCt(ct);
+        ses.cargar_session();
         user = new Usuarios();
         this.context = ct;
         this.que_hacer = que;
@@ -84,6 +86,21 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
         Usu = usu;
         sexUsu = sx;
     }
+
+
+    public UsuariosBD(Context ct, Usuarios us, String que) {
+        ses = new Session();
+        ses.setCt(ct);
+        ses.cargar_session();
+        user = new Usuarios();
+        user = us;
+        this.context = ct;
+        this.que_hacer = que;
+        dialog = new ProgressDialog(ct);
+        this.dejo_loguear = false;
+        this.session_usuario = new Session();
+    }
+
 
 
     @Override
@@ -221,7 +238,8 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                rs = st.executeQuery("SELECT * FROM Usuarios where usuario ='User1'");
+                rs = st.executeQuery("SELECT * FROM Usuarios where Usuario='" + ses.getUsuario()+"'");
+
 
                 while (rs.next()) {
 
@@ -231,14 +249,16 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                     user.setContrasena(rs.getString("Contraseña"));
                     user.setTelefono(rs.getString("telefono"));
                     user.setUsuario(rs.getString("usuario"));
-                  //  user.setUsuario(rs.getString("sexo"));
 
-                    if(user.getSexo() == 'M')
-                        user.setUsuario("Masculino");
-                    if(user.getSexo() == 'F')
-                        user.setUsuario("Femenino");
-                    if(user.getSexo() == 'O')
-                        user.setUsuario("Otro");
+
+                    if((rs.getString("sexo")).charAt(0) == 'M')
+                        user.setSexo('M');
+                    if((rs.getString("sexo")).charAt(0)  == 'F')
+                        user.setSexo('F');
+                    if((rs.getString("sexo")).charAt(0)  == 'O')
+                        user.setSexo('O');
+
+
                 }
 
                 response = "Conexion exitosa";
@@ -255,21 +275,13 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
         if(que_hacer.equals("Modificar")) {
 
-            insertamos = true;
+            modificamos = true;
 
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
 
-                ps = con.prepareStatement("UPDATE Usuarios SET nombre = ?");
-
-                ps.setString(1, user.getNombre());
-                ps.setString(3, user.getUsuario());
-                ps.setString(2, user.getContrasena());
-
-                ps.setString(4, user.getApellido());
-                ps.setString(5, String.valueOf(user.getSexo()));
-                ps.setString(6, user.getTelefono());
+                ps = con.prepareStatement("UPDATE Usuarios SET Usuario = '"+user.getUsuario()+"', Contraseña = '"+user.getContrasena()+"', nombre = '"+user.getNombre()+"', apellido = '"+user.getApellido()+"', sexo = '"+String.valueOf(user.getSexo())+"', telefono = '"+user.getTelefono()+"' WHERE Usuarios.idUsuario = "+ses.getId_usuario()+"");
 
                 Statement st = con.createStatement();
                 ResultSet rs;
@@ -282,27 +294,7 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 if (filas > 0) {
 
                     mensaje_devuelto = "Se actualizó el usuario " + user.getUsuario();
-
-                    rs = st.executeQuery("SELECT idUsuario FROM Usuarios where Usuario ='" + user.getUsuario()+"'");
-
-                    if (rs.next())
-                        session_usuario.setId_usuario(rs.getInt("idUsuario"));
-
-                    session_usuario.setNombre(user.getNombre());
-                    session_usuario.setApellido(user.getApellido());
-                    session_usuario.setUsuario(user.getUsuario());
-                    session_usuario.setContrasena(user.getContrasena());
-                    if(user.getSexo() == 'M')
-                        session_usuario.setSexo("Masculino");
-                    if(user.getSexo() == 'F')
-                        session_usuario.setSexo("Femenino");
-                    if(user.getSexo() == 'O')
-                        session_usuario.setSexo("Otro");
-                    session_usuario.setTelefono(user.getTelefono());
-                    session_usuario.setEs_admin(false);
-                    session_usuario.setCt(context);
-
-                    session_usuario.nueva_session();
+                    
 
                 }
 
