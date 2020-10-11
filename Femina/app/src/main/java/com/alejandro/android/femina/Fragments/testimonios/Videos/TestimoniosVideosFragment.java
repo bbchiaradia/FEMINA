@@ -27,8 +27,6 @@ import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.R;
 import java.util.ArrayList;
 
-import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
-
 public class TestimoniosVideosFragment extends Fragment  {
 
     private AdapterVideos adapter_video;
@@ -59,10 +57,9 @@ public class TestimoniosVideosFragment extends Fragment  {
         recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
-        // llamando a Async Task
 
         spinner = (Spinner) root.findViewById(R.id.spn_categoria);
-
+        // llamando a Async Task
         VideosBD vid = new VideosBD(getContext(),"CargarSpinner",spinner);
         vid.execute();
 
@@ -71,6 +68,7 @@ public class TestimoniosVideosFragment extends Fragment  {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if(spinner_arranco) {
+                    // llamando a Async Task
                     VideosBD v = new VideosBD(getContext(), adapter_video, youtubeVideos, no_hay, "SelCategoria", sv, spinner.getSelectedItem().toString());
                     v.execute();
                 }
@@ -84,22 +82,9 @@ public class TestimoniosVideosFragment extends Fragment  {
 
         });
 
-/*        fillVideoList();
-        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
-        adapter_video = new AdapterVideos(youtubeVideos);
-        recyclerView.setAdapter(adapter_video);*/
         return root;
     }
 
-/*           private void fillVideoList(){
-               youtubeVideos.add(new Videos("TOP 10 JUMP ROPE",1,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/roN-Kbvn-OI\" frameborder=\"0\" allowfullscreen></iframe>"));
-               youtubeVideos.add( new Videos("SIDE-SWING",2,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/dqGKhWN9zwU\" frameborder=\"0\" allowfullscreen></iframe>") );
-               youtubeVideos.add( new Videos("BEST 360",3,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/fg0iEgpSbdA\" frameborder=\"0\" allowfullscreen></iframe>") );
-               youtubeVideos.add( new Videos("TECHNICAL JUMP ROPE",4,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/r6f2ZoHuwho\" frameborder=\"0\" allowfullscreen></iframe>") );
-               youtubeVideos.add( new Videos("JUMP ROPE LIKE A MASTER",5,"<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/5UiQ77kTwLQ\" frameborder=\"0\" allowfullscreen></iframe>") );
-           }*/
 
 //    Se agrego un widget SearchView para filtrar un RecyclerView en tiempo real.
 //    Agregando un SearchView como un elemento a nuestro menú menusearch y lo haremos expandible con el atributo collapseActionView.

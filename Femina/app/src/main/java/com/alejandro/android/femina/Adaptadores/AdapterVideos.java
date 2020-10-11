@@ -1,7 +1,6 @@
 package com.alejandro.android.femina.Adaptadores;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
         this.youtubeVideoList = youtubeVideoList;
         VideoListFull = new ArrayList<>(youtubeVideoList);
     }
+
 
     @Override
     public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -68,11 +68,6 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
             videoWeb = (WebView) itemView.findViewById(R.id.videoWebView);
 
             videoWeb.getSettings().setJavaScriptEnabled(true);
-            videoWeb.getSettings().setLoadWithOverviewMode(true);
-            videoWeb.getSettings().setUseWideViewPort(false);
-            videoWeb.getSettings().setSupportZoom(false);
-            videoWeb.getSettings().setJavaScriptEnabled(true);
-            videoWeb.setBackgroundColor(Color.TRANSPARENT);
             videoWeb.setWebChromeClient(new WebChromeClient() {
 
 
@@ -113,4 +108,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
         }
     };
 
-}
+
+
+    }
+

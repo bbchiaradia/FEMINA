@@ -10,10 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.view.inputmethod.EditorInfo;
-import android.widget.SearchView;
 import android.widget.Toast;
-
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.ayuda.AyudaFragment;
@@ -29,7 +26,6 @@ import com.alejandro.android.femina.R;
 import com.google.android.material.navigation.NavigationView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
-
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
