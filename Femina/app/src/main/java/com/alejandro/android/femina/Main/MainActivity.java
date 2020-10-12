@@ -16,6 +16,7 @@ import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.ayuda.AyudaFragment;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
+import com.alejandro.android.femina.Fragments.contactos.Seleccion.ContactosSeleccionFragment;
 import com.alejandro.android.femina.Fragments.home.HomeFragment;
 import com.alejandro.android.femina.Fragments.icono.IconoFragment;
 import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
@@ -200,19 +201,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(currentFragment instanceof ContactosAEFragment){
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosFragment()).commit();
         }
-        else {
-
-
-            if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
+        else if(currentFragment instanceof ContactosSeleccionFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosAEFragment()).commit();
+        }else if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
                 super.onBackPressed();
                 return;
             } else {
                 Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show();
             }
             tiempoPrimerClick = System.currentTimeMillis();
+        }
 
         }
-    }
-
-
-}

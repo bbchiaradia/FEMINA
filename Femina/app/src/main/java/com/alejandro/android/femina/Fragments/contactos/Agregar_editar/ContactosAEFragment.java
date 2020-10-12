@@ -3,6 +3,7 @@ package com.alejandro.android.femina.Fragments.contactos.Agregar_editar;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -61,14 +63,18 @@ public class ContactosAEFragment extends Fragment {
         ses.setCt(getContext());
         ses.cargar_session();
 
-        id_contacto = 0;
+        id_contacto = -1;
+
 
         final Bundle datosRecuperados = getArguments();
 
         if (datosRecuperados != null) {
             telefono.setText(datosRecuperados.getString("telefono"));
             nombre.setText(datosRecuperados.getString("nombre"));
+            //if(id_contacto!=-1)
             id_contacto = (datosRecuperados.getInt("idContacto"));
+
+            Log.d("id_contacto","" + id_contacto);
         }
 
         guardar_cambios_contacto.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +91,7 @@ public class ContactosAEFragment extends Fragment {
                     cont.setNombre_contacto(nombre.getText().toString());
                     cont.setId_usuario(user);
 
-                    if(id_contacto !=0)
+                    if(id_contacto !=-1)
                         cont.setId_contacto_emergencia(id_contacto);
 
                     if(cont.validarContacto().equals("si")){
@@ -141,9 +147,29 @@ public class ContactosAEFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fm.beginTransaction().replace(R.id.content_main, new ContactosSeleccionFragment()).commit();
+
+                Fragment fragment = new ContactosSeleccionFragment();
+                Bundle datosAEnviar = new Bundle();
+
+                SharedPreferences preferences = getContext().getSharedPreferences("accion_contactos", Context.MODE_PRIVATE);
+
+                Log.d("Accion",preferences.getString("accion",""));
+
+                if(preferences.getString("accion","").equals("Insertar")) {
+
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fm.beginTransaction().replace(R.id.content_main, fragment).commit();
+                }
+
+                if(preferences.getString("accion","").equals("Modificar")) {
+                    datosAEnviar.putInt("idContacto", id_contacto);
+                    fragment.setArguments(datosAEnviar);
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fm.beginTransaction().replace(R.id.content_main, fragment).commit();
+                }
+
             }
         });
 
