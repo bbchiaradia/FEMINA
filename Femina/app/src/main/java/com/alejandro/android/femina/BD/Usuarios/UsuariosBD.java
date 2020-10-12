@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -358,9 +359,19 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
             telUsu.setText(user.getTelefono());
             Usu.setText(user.getUsuario());
 
+
             ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.context, R.array.sexo_array, android.R.layout.simple_spinner_item);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            sexUsu.setOnItemSelectedListener(sexUsu.getOnItemSelectedListener());
             sexUsu.setAdapter(adapter);
+
+            if (user.getSexo()=='M')
+                sexUsu.setSelection(0);
+            if (user.getSexo()=='F')
+                sexUsu.setSelection(1);
+            if (user.getSexo()=='O')
+                sexUsu.setSelection(2);
 
             Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
         }
