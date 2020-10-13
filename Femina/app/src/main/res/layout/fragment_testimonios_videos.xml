@@ -23,7 +23,7 @@
     <Spinner
         android:id="@+id/spn_categoria"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="wrap_content"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
