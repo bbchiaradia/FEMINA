@@ -1,7 +1,6 @@
 package com.alejandro.android.femina.Main;
 
 import android.Manifest;
-import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -55,10 +54,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int INTERVALO = 2000;
     private long tiempoPrimerClick;
     private AdapterVideos adapter_video;
+    private static final int REQUEST_CALL = 1;
+    private String phonenbr;
 
 
-     private List<Videos> youtubeVideoList;
-     protected List<Videos> VideoListFull;
+    private List<Videos> youtubeVideoList;
+    protected List<Videos> VideoListFull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,39 +94,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(getApplicationContext(), "Estoy en inicio", Toast.LENGTH_SHORT).show();
                     //textView.setText("Your Calls");
                 } else if (tabId == R.id.tab_call911) {
-                    // change your content accordingly.
-                    String phone_911 = "tel:611";
-                    Intent intent = new Intent(Intent.ACTION_CALL);
-                    intent.setData(Uri.parse(phone_911));
-                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
-                    }
-                    startActivity(intent);
-
+                    phonenbr = "611";
+                    hacerLlamadaTel();
                 } else if (tabId == R.id.tab_call144) {
-                    // change your content accordingly.
-                    String phone_144 = "tel:114";
-                    Intent intent = new Intent(Intent.ACTION_CALL);
-                    intent.setData(Uri.parse(phone_144));
-                    if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
-                    }
-                    startActivity(intent);
-
+                    phonenbr = "114";
+                    hacerLlamadaTel();
                 } else if (tabId == R.id.tab_sms) {
                     // The tab with id R.id.tab_chats was selected,
                     // change your content accordingly.
@@ -134,15 +107,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-
     }
 
+
+    // Devolución de llamada para conocer el resultado de solicitar permisos. Este método se invoca para cada llamada
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CALL){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                hacerLlamadaTel();
+            } else {
+                Toast.makeText(getApplicationContext(), "Permiso RECHAZADO", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+    // Metodo para llamada telefónica
+    private void hacerLlamadaTel() {
+        String number = phonenbr;
+        // solicito el permiso CALL_PHONE en tiempo de ejecución utilizando los métodos checkSelfPermission y requestPermission.
+        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.CALL_PHONE},REQUEST_CALL);
+        } else {
+            String dial = "tel:" + number;
+            Intent intent = new Intent(Intent.ACTION_CALL);
+            intent.setData(Uri.parse(dial));
+            startActivity(intent);
+        }
+    }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-          MenuInflater inflater = getMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         return true;
     }
@@ -177,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onDestroy() {
-       Process.killProcess(Process.myPid());
+        Process.killProcess(Process.myPid());
         super.onDestroy();
     }
 
@@ -235,12 +231,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(currentFragment instanceof ContactosSeleccionFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosAEFragment()).commit();
         }else if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
-                super.onBackPressed();
-                return;
-            } else {
-                Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show();
-            }
-            tiempoPrimerClick = System.currentTimeMillis();
+            super.onBackPressed();
+            return;
+        } else {
+            Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show();
         }
+        tiempoPrimerClick = System.currentTimeMillis();
+    }
 
-        }
+}
