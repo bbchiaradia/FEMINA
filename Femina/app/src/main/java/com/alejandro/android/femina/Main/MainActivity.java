@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
      private List<Videos> youtubeVideoList;
-    //protected List<Videos> VideoListFull;
+     protected List<Videos> VideoListFull;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
