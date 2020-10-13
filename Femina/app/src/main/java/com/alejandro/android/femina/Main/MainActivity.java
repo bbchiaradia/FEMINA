@@ -1,10 +1,12 @@
 package com.alejandro.android.femina.Main;
 
 import android.Manifest;
+import android.app.Application;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Process;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Principal.QueHacerFragment;
 import com.alejandro.android.femina.Fragments.test_violencia.Principal.TestViolenciaFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
+import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
 import com.google.android.material.navigation.NavigationView;
 import com.roughike.bottombar.BottomBar;
@@ -41,6 +44,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 
 import java.util.List;
 
@@ -62,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -153,9 +156,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public boolean onOptionsItemSelected(MenuItem item) {
         //RECUPERA EL ITEM QUE SE ESTA PRESIONANDO
-        int id = item.getItemId();
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.action_cerrarSesion:
+                logOut();
+                return true;
+            case R.id.action_finalizar:
+                finalizarApp();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+
     }
+
+    private void logOut(){
+        Intent intent = new Intent(this, Ingresar.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+       Process.killProcess(Process.myPid());
+        super.onDestroy();
+    }
+
+    private void finalizarApp(){
+        finish();
+        System.runFinalization();
+        MainActivity.this.finish();
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
