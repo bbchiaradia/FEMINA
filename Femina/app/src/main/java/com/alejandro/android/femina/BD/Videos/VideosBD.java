@@ -48,7 +48,7 @@ public class VideosBD extends AsyncTask<String, Void, String> {
 
 
 public VideosBD(Context context, String que, Spinner spn){
-    datosSpinner.clear();
+
     this.context = context;
     this.que_hacer = que;
     this.categoria = spn;
@@ -58,6 +58,7 @@ public VideosBD(Context context, String que, Spinner spn){
 
     public VideosBD(Context context, AdapterVideos adaptervideos, ArrayList<Videos> videosArrayList, TextView tx, String que, SearchView sv,String cat){
     videosArrayList.clear();
+    datosSpinner.clear();
     this.context = context;
     this.adaptervideos = adaptervideos;
     this.videosArrayList = videosArrayList;
