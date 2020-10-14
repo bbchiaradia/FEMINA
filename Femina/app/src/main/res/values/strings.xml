@@ -16,6 +16,8 @@
     <string name="menu_que_hacer">¿Que hacer?</string>
     <string name="menu_contactos_emergencia">Contactos de Emergencia</string>
 
+    <string name="menu_test_violencia_finalizar">Finalizar Test</string>
+
 
     <string name="menu_que_es_femina">Femina es una aplicacion para prevenir la violencia de genero, permite enviar una alerta a tus contactos con tu ubicacion para que puedan ubicarte y ayudarte en caso de riesgo</string>
     <string name="menu_ayuda_testimonio">Testimonio</string>

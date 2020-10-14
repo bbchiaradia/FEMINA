@@ -20,6 +20,13 @@
         app:srcCompat="@drawable/test_inicio"
         tools:ignore="MissingConstraints" />
 
+    <ListView
+        android:id="@+id/lvlPreguntas"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        tools:visibility="invisible" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="123dp"
@@ -43,7 +50,7 @@
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnEmpezarTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"

@@ -1,6 +1,8 @@
 package com.alejandro.android.femina.Entidades;
 
-public class PreguntasTest {
+import java.io.Serializable;
+
+public class PreguntasTest  implements Serializable {
 
     private int id_pregunta;
     private Test id_test;

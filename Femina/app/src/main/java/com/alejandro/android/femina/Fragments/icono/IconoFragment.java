@@ -34,7 +34,7 @@ public class IconoFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 lvIconos = (ListView) root.findViewById(R.id.lvIconos);
-
+                //lvIconos = (ListView) root.findViewById(R.id.lvlPreguntas);
 
                 adaptador = new AdapterIconos(getContext(), GetArrayIconos());
                 lvIconos.setAdapter(adaptador);
