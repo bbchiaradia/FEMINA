@@ -1,50 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/fondo_pantallas"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"><![CDATA[
+
+
+
+    app:layout_constraintBottom_toTopOf="@+id/btn_pregunta_1_anterior"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.501"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/txtPregunta1"
+    app:layout_constraintVertical_bias="0.784" />
+
+
+
+
+
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.512"
+    app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ]]>
 
     <TextView
         android:id="@+id/txtPregunta1"
-        android:layout_width="179dp"
-        android:layout_height="44dp"
+        android:layout_width="379dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="124dp"
+        android:editable="false"
+        android:textColor="#403C3C"
+        android:textSize="15sp"
+        android:textStyle="bold"
         android:visibility="visible"
-        tools:layout_editor_absoluteX="116dp"
-        tools:layout_editor_absoluteY="221dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
         tools:text="¿Te hace sentir inferior, tonta o inutil?"
         tools:visibility="visible" />
 
-    <RadioButton
-        android:id="@+id/rb_pregunta_1_si"
-        android:layout_width="116dp"
-        android:layout_height="37dp"
-        android:text="@string/si"
-        tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="347dp" />
-
-    <RadioButton
-        android:id="@+id/rb_pregunta_1_no"
-        android:layout_width="116dp"
-        android:layout_height="37dp"
-        android:text="@string/no"
-        tools:layout_editor_absoluteX="257dp"
-        tools:layout_editor_absoluteY="347dp" />
-
     <Button
-        android:id="@+id/btn_pregunta_1_proxima"
+        android:id="@+id/btn_proxima_pregunta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:onClick="pulsarProximaPregunta"
         android:text="@string/proxima_pregunta"
-        tools:layout_editor_absoluteX="125dp"
-        tools:layout_editor_absoluteY="424dp" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_pregunta_1_anterior"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPregunta1"
+        app:layout_constraintVertical_bias="1.0"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/btn_pregunta_1_anterior"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="108dp"
         android:text="@string/pregunta_anterior"
-        tools:layout_editor_absoluteX="123dp"
-        tools:layout_editor_absoluteY="499dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupSiNoTest"
+        android:layout_width="383dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_proxima_pregunta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtPregunta1"
+        app:layout_constraintVertical_bias="0.111">
+
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="351dp"
+            android:layout_height="wrap_content"
+            android:text="@string/si" />
+
+        <RadioButton
+            android:id="@+id/rbNo"
+            android:layout_width="355dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no" />
+    </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
