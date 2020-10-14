@@ -81,7 +81,18 @@
     </string-array>
 
     <string name="telefonodospuntos">Telefono: </string>
-
+    <string name="categoria">Categoria</string>
     <string name="nombredospuntos">Nombre: </string>
+    <string name="updateVideo">Video</string>
+    <string name="titulo">Titulo</string>
+
+    <string-array name="gestion_video">
+        <item>Modificar</item>
+        <item>Eliminar</item>
+    </string-array>
+
+    <string name="categoriadospuntos">Categoria: </string>
+    <string name="titulodospuntos">Titulo: </string>
+    <string name="urldospuntos">Url: </string>
 
 </resources>

@@ -106,7 +106,7 @@ public VideosBD(Context context, String que, Spinner spn){
                     vi.setTitulo(rs.getString("Titulo"));
                     cat.setDescripcion(rs.getString("Descripcion"));
                     vi.setIdCategoria(cat);
-                    vi.setUrl_video("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + rs.getString("urlVideo") + "\" frameborder=\"0\" allowfullscreen></iframe>");
+                    vi.setUrl_video(rs.getString("urlVideo"));
                     videosArrayList.add(vi);
                 }
 

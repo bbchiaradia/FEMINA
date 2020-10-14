@@ -47,7 +47,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
         Videos currentItem = youtubeVideoList.get(position);
         holder.titulo.setText(currentItem.getTitulo());
         holder.categoria.setText(currentItem.getIdCategoria().getDescripcion());
-        holder.videoWeb.loadData(currentItem.getUrl_video(), "text/html" , "utf-8");
+        holder.videoWeb.loadUrl(currentItem.getUrl_video());
     }
 
     @Override
@@ -72,6 +72,8 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
 
 
             } );
+
+
         }
     }
 
