@@ -27,11 +27,13 @@ import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
 import com.alejandro.android.femina.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DialogoAEContactos extends AppCompatDialogFragment {
 
     private ContactosEmergencia cont;
+    private static ArrayList<String> arrayList = new ArrayList<>();
 
     public DialogoAEContactos(ContactosEmergencia c) {
 
@@ -89,6 +91,7 @@ public class DialogoAEContactos extends AppCompatDialogFragment {
                         datosAEnviar.putInt("idContacto", cont.getId_contacto_emergencia());
                         datosAEnviar.putString("nombre", cont.getNombre_contacto());
                         datosAEnviar.putString("telefono", cont.getTelefono());
+
 
                         Fragment fragmento = new ContactosAEFragment();
                         fragmento.setArguments(datosAEnviar);

@@ -23,7 +23,9 @@ import com.alejandro.android.femina.Fragments.icono.IconoFragment;
 import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Principal.QueHacerFragment;
 import com.alejandro.android.femina.Fragments.test_violencia.Principal.TestViolenciaFragment;
+import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
+import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
 import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
 import com.google.android.material.navigation.NavigationView;
@@ -227,6 +229,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(currentFragment instanceof ContactosAEFragment){
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosFragment()).commit();
+        }else if(currentFragment instanceof TestimoniosAMVideosFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosVideosFragment()).commit();
         }
         else if(currentFragment instanceof ContactosSeleccionFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosAEFragment()).commit();

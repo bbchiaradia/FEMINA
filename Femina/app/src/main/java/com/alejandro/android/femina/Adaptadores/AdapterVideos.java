@@ -9,11 +9,21 @@ import android.webkit.WebView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.alejandro.android.femina.Dialogos.DialogoAEContactos;
+import com.alejandro.android.femina.Dialogos.DialogoAMVideos;
 import com.alejandro.android.femina.Entidades.Videos;
+import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
 import com.alejandro.android.femina.R;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 // Created by Juan Manuel on 7/10/2020.
 //
@@ -44,10 +54,35 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
 
     @Override
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
-        Videos currentItem = youtubeVideoList.get(position);
+        final Videos currentItem = youtubeVideoList.get(position);
         holder.titulo.setText(currentItem.getTitulo());
         holder.categoria.setText(currentItem.getIdCategoria().getDescripcion());
+        holder.url.setText(currentItem.getUrl_video());
         holder.videoWeb.loadUrl(currentItem.getUrl_video());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mCtx,"Click On: " + currentItem.getTitulo() ,Toast.LENGTH_SHORT).show();
+                Videos video = new Videos();
+
+                TextView titulovi = (TextView) view.findViewById(R.id.txtTituloVideo);
+                TextView urlvi = (TextView) view.findViewById(R.id.txt_url);
+
+                video.setTitulo(titulovi.getText().toString());
+                video.setUrl_video(urlvi.getText().toString());
+
+
+
+                DialogoAMVideos dialogoAMVideos = new DialogoAMVideos(video);
+                FragmentManager fragmentManager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
+                dialogoAMVideos.show(fragmentManager, "");
+
+
+
+            }
+        });
+
     }
 
     @Override
@@ -59,12 +94,13 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
 
         WebView videoWeb;
         TextView titulo;
-        TextView categoria;
+        TextView categoria, url;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
             titulo = itemView.findViewById(R.id.txtTituloVideo);
             categoria = itemView.findViewById(R.id.txtCatVideo);
+            url = itemView.findViewById(R.id.txt_url);
             videoWeb = (WebView) itemView.findViewById(R.id.videoWebView);
 
             videoWeb.getSettings().setJavaScriptEnabled(true);

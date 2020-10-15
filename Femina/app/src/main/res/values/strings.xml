@@ -89,6 +89,7 @@
     <string name="titulo">Titulo</string>
 
     <string-array name="gestion_video">
+        <item>Insertar</item>
         <item>Modificar</item>
         <item>Eliminar</item>
     </string-array>

@@ -34,7 +34,7 @@ public class TestimoniosVideosFragment extends Fragment  {
     ArrayList<Videos> youtubeVideos = new ArrayList<>();
     private TextView no_hay;
     private SearchView buscar;
-    private Spinner spinner;
+    private Spinner spinner,spinner_editar;
     private SearchView sv;
     private boolean spinner_arranco = false;
 
@@ -54,14 +54,17 @@ public class TestimoniosVideosFragment extends Fragment  {
                 //textView.setText(s);
             }
         });
-        recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
+ /*       recyclerView = (RecyclerView) root.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager( new LinearLayoutManager(getContext()));*/
 
         spinner = (Spinner) root.findViewById(R.id.spn_categoria);
+        //spinner_editar = (Spinner) root.findViewById(R.id.spn_categoria_am);
         // llamando a Async Task
         VideosBD vid = new VideosBD(getContext(),"CargarSpinner",spinner);
         vid.execute();
+
+
 
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

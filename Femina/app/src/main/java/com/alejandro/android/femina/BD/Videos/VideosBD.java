@@ -3,6 +3,7 @@ package com.alejandro.android.femina.BD.Videos;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+
 //
 // Created by Juan Manuel on 7/10/2020.
 //
@@ -45,6 +52,8 @@ public class VideosBD extends AsyncTask<String, Void, String> {
     Activity activity;
 
     private static ArrayList<String> datosSpinner = new ArrayList<String>();
+    private Set<String> lista_categorias_set;
+    private String[] lista_categorias;
 
 
 public VideosBD(Context context, String que, Spinner spn){
@@ -131,11 +140,21 @@ public VideosBD(Context context, String que, Spinner spn){
                 ResultSet rs;
                 Statement st = con.createStatement();
 
+                rs = st.executeQuery("Select count(*) from Categorias");
+
+                while(rs.next()){
+                    lista_categorias = new String[rs.getInt(1)];
+                }
+
                 rs = st.executeQuery("SELECT * from Categorias");
+
+                int i = 0;
 
                 while(rs.next()){
 
                     datosSpinner.add(rs.getString("Descripcion"));
+                    lista_categorias[i] = rs.getString("Descripcion");
+                    i++;
 
                 }
                 response = "Conexion exitosa";
@@ -173,11 +192,11 @@ public VideosBD(Context context, String que, Spinner spn){
         if(que_hacer.equals("Listar") || que_hacer.equals("SelCategoria")) {
 
         recyclerView = (RecyclerView) activity.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager( new LinearLayoutManager(context));
-        adaptervideos = new AdapterVideos(activity,videosArrayList);
-        adaptervideos.notifyDataSetChanged();
-        recyclerView.setAdapter(adaptervideos);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager( new LinearLayoutManager(context));
+            adaptervideos = new AdapterVideos(activity,videosArrayList);
+            adaptervideos.notifyDataSetChanged();
+            recyclerView.setAdapter(adaptervideos);
 
           //  buscar.setImeOptions(EditorInfo.IME_ACTION_DONE);
             buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -207,6 +226,15 @@ public VideosBD(Context context, String que, Spinner spn){
 
             categoria.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
             categoria.setSelection(6);
+
+            lista_categorias_set = new HashSet<>(Arrays.asList(lista_categorias));
+
+            SharedPreferences preferencias = context.getSharedPreferences("listita_categorias", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencias.edit();
+
+            editor.putInt("tamaño",lista_categorias.length);
+            editor.putStringSet("categorias",lista_categorias_set);
+            editor.apply();
         }
 
     }
