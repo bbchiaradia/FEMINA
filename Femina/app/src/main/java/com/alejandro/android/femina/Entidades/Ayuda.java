@@ -1,21 +1,33 @@
 package com.alejandro.android.femina.Entidades;
 
+import android.widget.ListView;
+
 public class Ayuda {
 
     private int id_ayuda;
     private String titulo;
     private Categorias id_categoria;
     private String descripcion;
+    private int imgAyuda;
+
 
     public Ayuda() {
     }
 
-    public Ayuda(int id_ayuda, String titulo, Categorias id_categoria, String descripcion) {
+    public Ayuda(int id_ayuda, String titulo, int imgAyuda, String descripcion) {
         this.id_ayuda = id_ayuda;
         this.titulo = titulo;
-        this.id_categoria = id_categoria;
         this.descripcion = descripcion;
+        this.imgAyuda = imgAyuda;
     }
+
+    public Ayuda(int imgAyuda, String titulo, String descripcion) {
+        this.id_ayuda = id_ayuda;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.imgAyuda = imgAyuda;
+    }
+
 
     public int getId_ayuda() {
         return id_ayuda;
@@ -33,13 +45,6 @@ public class Ayuda {
         this.titulo = titulo;
     }
 
-    public Categorias getId_categoria() {
-        return id_categoria;
-    }
-
-    public void setId_categoria(Categorias id_categoria) {
-        this.id_categoria = id_categoria;
-    }
 
     public String getDescripcion() {
         return descripcion;
@@ -48,4 +53,10 @@ public class Ayuda {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+
+    public  int getImgAyuda(){return  imgAyuda; }
+
+    private ListView lvAyuda;
+
 }

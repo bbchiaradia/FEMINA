@@ -5,172 +5,24 @@
     android:layout_height="match_parent"
     android:background="@color/fondo_pantallas">
 
+
     <ScrollView
-        android:layout_width="414dp"
-        android:layout_height="509dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.309">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TableRow
+            <ListView
+                android:id="@+id/lvAyuda"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/textView5"
-                            android:layout_width="141dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="¿Que es Femina?" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="99dp"
-                            android:layout_height="match_parent"
-                            app:srcCompat="@drawable/ayuda_pantalla" />
-
-                        <TextView
-                            android:id="@+id/textView4"
-                            android:layout_width="284dp"
-                            android:layout_height="92dp"
-                            android:gravity="center"
-                            android:text="Femina es una aplicacion para prevenir la violencia de genero, permite enviar una alerta a tus contactos con tu ubicacion para que puedan ubicarte y ayudarte en caso de riesgo" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView8"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/textView7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/menu_Testimonios" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imageView5"
-                            android:layout_width="99dp"
-                            android:layout_height="94dp"
-                            app:srcCompat="@drawable/testimonio" />
-
-                        <TextView
-                            android:id="@+id/textView9"
-                            android:layout_width="302dp"
-                            android:layout_height="70dp"
-                            android:gravity="center"
-                            android:text="@string/menu_ayuda_testimonio_descripcion" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="390dp"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/textView11"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/menu_ayuda_contactos_emergencia" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imageView6"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/contactos" />
-
-                        <TextView
-                            android:id="@+id/textView10"
-                            android:layout_width="282dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="@string/menu_ayuda_contactos_emergencia_descripcion"
-                            android:visibility="visible" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/textView13"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <TextView
-                            android:id="@+id/textView14"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:text="@string/menu_ayuda_test_violencia" />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <ImageView
-                            android:id="@+id/imageView7"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/test" />
-
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="306dp"
-                            android:layout_height="106dp"
-                            android:gravity="center"
-                            android:text="@string/menu_ayuda_test_violencia_descripcion" />
-                    </TableRow>
-                </TableLayout>
-            </TableRow>
+                android:layout_height="match_parent" />
 
         </LinearLayout>
+
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
