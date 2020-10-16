@@ -1,8 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/fondo_pantallas"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/fondo_pantallas"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageButton
+        android:id="@+id/editar_foto"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/nodisponible" />
+
+    <EditText
+        android:id="@+id/txt_titulo_articulo_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:ems="10"
+        android:hint="@string/titulo"
+        android:inputType="textPersonName"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "/>
+
+    <Spinner
+        android:id="@+id/spn_cat_articulos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        />
+
+
+
+    <EditText
+        android:id="@+id/txt_descrip_articulo_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="center"
+        android:hint="@string/descripcion"
+        android:ems="10"
+        android:gravity="start|top"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "
+        android:inputType="textMultiLine"
+        android:layout_marginLeft="20dp" />
+
+
+    <Button
+        android:id="@+id/btn_guardar_articulo"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/boton_celeste"
+        android:text="@string/guardar_cambios" />
+
+    <Button
+        android:id="@+id/btn_borrar_articulo"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/boton_rojo"
+        android:text="@string/borrar_Articulo" />
+
+
+
+</LinearLayout>

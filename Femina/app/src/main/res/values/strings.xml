@@ -65,9 +65,15 @@
 
     <string name="no_hay_contactos">No tienes contactos aun</string>
 
+    <string name="no_hay_articulos">No existen articulos aun</string>
+
     <string name="agregar_contacto">Agregar contacto</string>
 
+    <string name="agregar_articulo">Agregar articulo</string>
+
     <string name="guardar_cambios">Guardar cambios</string>
+
+    <string name="borrar_Articulo">Borrar articulo</string>
 
     <string name="existente">Agregar existente</string>
 
@@ -97,5 +103,17 @@
     <string name="categoriadospuntos">Categoria: </string>
     <string name="titulodospuntos">Titulo: </string>
     <string name="urldospuntos">Url: </string>
+
+    <string name="descripcion">Descripcion</string>
+
+    <string-array name="gestion_foto">
+        <item>Eliminar foto</item>
+        <item>Cambiar foto</item>
+    </string-array>
+
+    <string-array name="SINO">
+        <item>Si</item>
+        <item>No</item>
+    </string-array>
 
 </resources>

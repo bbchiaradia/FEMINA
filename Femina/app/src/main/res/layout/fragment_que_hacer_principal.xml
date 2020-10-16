@@ -1,25 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/fondo_pantallas"
-    android:backgroundTint="#EFE6E6">
+    android:orientation="vertical"
+    android:background="@color/fondo_pantallas">
+
 
     <TextView
-        android:id="@+id/txt_que_hacer"
-        android:layout_width="match_parent"
+        android:id="@+id/no_hay_articulos"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/menu_que_hacer"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="12dp"
+        android:text="@string/no_hay_contactos"
+        android:textSize="16dp"
+        android:textStyle="italic"
+        android:visibility="gone" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_articulos"></ListView>
+
+    <Button
+        android:id="@+id/btn_agregar_articulo"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/boton_celeste"
+        android:text="@string/agregar_articulo" />
+
+
+
+</LinearLayout>
