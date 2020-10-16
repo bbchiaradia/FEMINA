@@ -79,8 +79,6 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
 
 
 
-
-
     @Override
     protected String doInBackground(String... urls) {
         String response = "";

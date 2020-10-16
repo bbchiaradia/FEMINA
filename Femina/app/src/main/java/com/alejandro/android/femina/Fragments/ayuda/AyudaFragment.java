@@ -13,6 +13,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.Adaptadores.AdapterAyuda;
+import com.alejandro.android.femina.BD.Ayuda.AyudaDB;
+import com.alejandro.android.femina.BD.Contactos.ContactosBD;
 import com.alejandro.android.femina.Entidades.Ayuda;
 import com.alejandro.android.femina.R;
 
@@ -33,12 +35,12 @@ public class AyudaFragment extends Fragment {
         ayudaViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
-                //textView.setText(s);
 
-                lvAyuda = (ListView) root.findViewById(R.id.lvAyuda);
+                lvAyuda = root.findViewById(R.id.lvAyuda);
 
-                adaptador = new AdapterAyuda(getContext(), GetArrayIconosAyuda());
-                lvAyuda.setAdapter(adaptador);
+                AyudaDB cont = new AyudaDB(getContext(),lvAyuda,"Listar");
+                cont.execute();
+
 
             }
         });
@@ -46,20 +48,5 @@ public class AyudaFragment extends Fragment {
     }
 
 
-
-    private ArrayList<Ayuda> GetArrayIconosAyuda(){
-        ArrayList<Ayuda> listAyuda = new ArrayList<>();
-
-        listAyuda.add(new Ayuda(R.drawable.testimonio, "HOROSCOPO","sadsadsds"));
-        listAyuda.add(new Ayuda(R.drawable.testimonio ,"MODA","sadsadsds"));
-        listAyuda.add(new Ayuda(R.drawable.testimonio, "RECETAS","sadsadsds"));
-        listAyuda.add(new Ayuda(R.drawable.testimonio, "PELUQUERIA","sadsadsds"));
-        listAyuda.add(new Ayuda(R.drawable.testimonio, "PELUQUERIA","sadsadsds"));
-        listAyuda.add(new Ayuda(R.drawable.testimonio, "PELUQUERIA","sadsadsds"));
-        listAyuda.add(new Ayuda(R.drawable.testimonio, "PELUQUERIA","sadsadsds"));
-        listAyuda.add(new Ayuda(R.drawable.testimonio, "PELUQUERIA","sadsadsds"));
-
-        return listAyuda;
-    }
 
 }

@@ -22,7 +22,6 @@ public class Ayuda {
     }
 
     public Ayuda(int imgAyuda, String titulo, String descripcion) {
-        this.id_ayuda = id_ayuda;
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.imgAyuda = imgAyuda;
