@@ -22,6 +22,8 @@ import com.alejandro.android.femina.BD.Test.TestGrabarResultado;
 import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.Pantallas_exteriores.Registrarse;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.Session.Session;
+
 import java.io.Serializable;
 
 
@@ -29,6 +31,7 @@ public class TestViolenciaResultadoFragment extends Fragment {
 
     private TestViolenciaResultadoViewModel violenciaResultadoViewModel;
     private int score;
+    private Session ses;
     private TextView txt_consejos_resultado_test;
     private TextView txt_titulo_resultado_test;
     private Button finalizarTest;
@@ -39,7 +42,9 @@ public class TestViolenciaResultadoFragment extends Fragment {
                 ViewModelProviders.of(this).get(TestViolenciaResultadoViewModel.class);
         View root = inflater.inflate(R.layout.fragment_test_violencia_resultado, container, false);
         //final TextView textView = root.findViewById(R.id.txt_test_violencia);
-
+        ses = new Session();
+        ses.setCt(getContext());
+        ses.cargar_session();
         finalizarTest = (Button) root.findViewById(R.id.btnFinalizarTest);
         txt_titulo_resultado_test = (TextView) root.findViewById(R.id.txt_titulo_resultado_test);
         txt_consejos_resultado_test = (TextView) root.findViewById(R.id.txt_consejos_resultado_test);
@@ -47,16 +52,18 @@ public class TestViolenciaResultadoFragment extends Fragment {
         if(getArguments()!=null){
             score= getArguments().getInt("SCORE", 0);
             if(score ==2) {
+
                 txt_consejos_resultado_test.setText("Si bien en apariencia tu relación no presenta señales de alerta, puedes usar estas preguntas como guía no solo para vos sino también para prestar atención a las relaciones de parejas que te rodean (tus amigas , tus papas , etc.");
                 txt_titulo_resultado_test.setText("Tu relacion no presenta señales de violencia.¡Disfruta tu noviazgo!");
-                TestGrabarResultado test = new TestGrabarResultado(1,1,0);
+                TestGrabarResultado test = new TestGrabarResultado(ses.getId_usuario(),1,0);
                 test.execute();
             }
             if(score == 1){
                 txt_consejos_resultado_test.setText("Es muy probable que te encuentres en una relación de noviazgo violento.Los actos de violencia se dan en cualquier contexto y son cada vez mas frecuentes e intensos. Muy probablemente despues de cada agresión te pida perdón y te promete que no volverá a pasar.Esta etapa es difícil porque podes sentir miedo y vergüenza pero mas peligroso es continuar con esa relación");
                 txt_titulo_resultado_test.setText("¡Pedi ayuda! Estas viviendo una relacion violenta");
-                TestGrabarResultado test = new TestGrabarResultado(1,1,1);
+                TestGrabarResultado test = new TestGrabarResultado(ses.getId_usuario(),1,1);
                 test.execute();
+
             }
         }
 

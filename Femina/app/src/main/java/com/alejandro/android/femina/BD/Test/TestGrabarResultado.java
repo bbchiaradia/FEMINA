@@ -30,10 +30,19 @@ public class TestGrabarResultado extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
             Statement st = con.createStatement();
-            ResultSet rs;
-            st.executeUpdate("INSERT INTO `ResultadosTest` (`idUsuario`, `idTest`, `sufreViolencia`) VALUES ( '"+ idUsuario +"', '"+ idTest +"', '"+ sufreViolencia +"')"); //
+            ResultSet rs = st.executeQuery("SELECT * FROM `ResultadosTest` WHERE idUsuario = "+ idUsuario); //
+            boolean band = rs.next();
+            if (band == true) {
+                System.out.println("ENTRO TRUE" + rs.next());
+                st.executeUpdate(" UPDATE `ResultadosTest` SET `sufreViolencia` = '"+ sufreViolencia +"' WHERE `idUsuario` = '"+ idUsuario +"'"); //
+
+            }else if(band == false){
+                System.out.println("ENTRO false" + rs.next() );
+                st.executeUpdate("INSERT INTO `ResultadosTest` (`idUsuario`, `idTest`, `sufreViolencia`) VALUES ( '"+ idUsuario +"', '"+ idTest +"', '"+ sufreViolencia +"')"); //
+            }
             response = "Conexion exitosa";
             con.close();
+
         }catch(Exception e){
             e.printStackTrace();
             response = "Conexion no exitosa";
