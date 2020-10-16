@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alejandro.android.femina.Dialogos.DialogoAEContactos;
 import com.alejandro.android.femina.Dialogos.DialogoAMVideos;
+import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
 import com.alejandro.android.femina.R;
@@ -57,6 +58,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
         final Videos currentItem = youtubeVideoList.get(position);
         holder.titulo.setText(currentItem.getTitulo());
         holder.categoria.setText(currentItem.getIdCategoria().getDescripcion());
+        holder.idcategoria.setText(currentItem.getIdCategoria().toString());
         holder.url.setText(currentItem.getUrl_video());
         holder.videoWeb.loadUrl(currentItem.getUrl_video());
 
@@ -68,9 +70,13 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
 
                 TextView titulovi = (TextView) view.findViewById(R.id.txtTituloVideo);
                 TextView urlvi = (TextView) view.findViewById(R.id.txt_url);
+                TextView inicategory = (TextView) view.findViewById(R.id.txt_idCategoria);
+                TextView categoria = (TextView) view.findViewById(R.id.txtCatVideo);
 
                 video.setTitulo(titulovi.getText().toString());
                 video.setUrl_video(urlvi.getText().toString());
+                video.setIdCategoria(currentItem.getIdCategoria());
+
 
 
 
@@ -94,7 +100,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
 
         WebView videoWeb;
         TextView titulo;
-        TextView categoria, url;
+        TextView categoria, url,idcategoria;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
@@ -102,6 +108,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
             categoria = itemView.findViewById(R.id.txtCatVideo);
             url = itemView.findViewById(R.id.txt_url);
             videoWeb = (WebView) itemView.findViewById(R.id.videoWebView);
+            idcategoria = (TextView) itemView.findViewById(R.id.txt_idCategoria);
 
             videoWeb.getSettings().setJavaScriptEnabled(true);
             videoWeb.setWebChromeClient(new WebChromeClient() {
