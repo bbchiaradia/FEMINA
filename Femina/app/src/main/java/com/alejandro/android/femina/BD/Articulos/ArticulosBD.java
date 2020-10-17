@@ -27,12 +27,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.alejandro.android.femina.Adaptadores.AdaptadorArticulos;
 import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
+import com.alejandro.android.femina.Adaptadores.AdapterVideos;
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.Articulos;
+import com.alejandro.android.femina.Entidades.ArticulosExtra;
 import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Entidades.Usuarios;
+import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion.QueHacerAMFragment;
 import com.alejandro.android.femina.GestionImagen.GestionarImagen;
@@ -60,21 +64,23 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
 
     private Articulos art,art_;
     private Categorias cat;
+    private ArticulosExtra art_ext;
     private String que_hacer;
     private Context context;
     private ProgressDialog dialog;
     private String mensaje_devuelto;
     private Session ses;
-    private ListView lcontactos;
+    private ListView larticulos;
     private TextView no_hay;
-    private Boolean modifico,imagen_nula;
+    private Boolean modifico,imagen_nula,no_hay_art;
     private int max_articulo;
     private Bitmap image = null;
     private EditText titulo,descripcion;
     private ImageButton img;
     private Spinner spn_cat;
+    private SearchView buscar;
 
-    private static ArrayList<ContactosEmergencia> listaContactos = new ArrayList<ContactosEmergencia>();
+    private static ArrayList<ArticulosExtra> listaArticulos = new ArrayList<ArticulosExtra>();
 
     private static ArrayList<String> datosSpinner = new ArrayList<String>();
 
@@ -126,6 +132,18 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         this.cat = new Categorias();
     }
 
+    public ArticulosBD(Context context, ListView list, TextView no,Spinner cat,SearchView sv, String que){
+        datosSpinner.clear();
+        listaArticulos.clear();
+        this.context = context;
+        this.larticulos = list;
+        this.que_hacer = que;
+        this.buscar = sv;
+        dialog = new ProgressDialog(context);
+        no_hay = no;
+        no_hay_art = true;
+        this.spn_cat = cat;
+    }
 
 
 
@@ -136,6 +154,72 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         mensaje_devuelto = "";
         PreparedStatement ps;
 
+
+        if (que_hacer.equals("Listar")) {
+
+            response = "";
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                Statement st = con.createStatement();
+                Statement st_aux = con.createStatement();
+                ResultSet rs;
+                ResultSet rs_aux;
+
+                rs = st.executeQuery("SELECT * from Categorias");
+
+                while(rs.next()){
+                    datosSpinner.add(rs.getString("Descripcion"));
+                }
+
+                rs = st.executeQuery("SELECT * FROM Articulos");
+
+                while (rs.next()) {
+                    no_hay_art = false;
+                    art = new Articulos();
+                    art_ext = new ArticulosExtra();
+
+                    art.setId_articulo(rs.getInt("idArticulo"));
+                    art.setTitulo(rs.getString("Titulo"));
+                    art.setDescripcion(rs.getString("Descripcion"));
+                    art.setFecha_carga(rs.getDate("fechaCarga"));
+                    art.setVistas(rs.getInt("vistas"));
+
+                    String add = "http://femina.webcindario.com/getImage.php?id="+rs.getInt("idArticulo");
+                    URL url = null;
+                    try {
+                        url = new URL(add);
+                        image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    rs_aux = st_aux.executeQuery("SELECT imagen from Articulos where idArticulo =" + rs.getInt("idArticulo"));
+
+                    if (rs_aux.next()) {
+
+                        if(rs_aux.getBlob(1)==null)
+                            image = BitmapFactory.decodeResource(context.getResources(), R.drawable.nodisponible);
+                    }
+
+                    art_ext.setArticulo(art);
+                    art_ext.setImagen_articulo(image);
+
+                    listaArticulos.add(art_ext);
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch(Exception e){
+                e.printStackTrace();
+                response = "Conexion no exitosa";
+            }
+
+
+        }
 
         if (que_hacer.equals("CargarArticulo")) {
 
@@ -210,7 +294,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
 
-                ps = con.prepareStatement("UPDATE Articulos SET image=NULL where idArticulo=?");
+                ps = con.prepareStatement("UPDATE Articulos SET imagen=NULL where idArticulo=?");
 
                 ps.setInt(1, art.getId_articulo());
 
@@ -273,7 +357,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             } catch (Exception e) {
                 e.printStackTrace();
                 //result2 = "Conexion no exitosa";
-                mensaje_devuelto = "Error al registrar contacto!!";
+                mensaje_devuelto = "Error al registrar articulo!!";
             }
         }
 
@@ -326,8 +410,35 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             dialog.dismiss();
         }
 
+        if(que_hacer.equals("Listar")) {
+            final AdaptadorArticulos adapter = new AdaptadorArticulos(context, listaArticulos);
+            larticulos.setAdapter(adapter);
 
+            buscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    adapter.getFilter().filter(newText);
+                    return true;
+                }
+            });
 
+            if(no_hay_art) {
+                no_hay.setVisibility(View.VISIBLE);
+                larticulos.setVisibility(View.GONE);
+            }
+            else {
+                no_hay.setVisibility(View.GONE);
+                larticulos.setVisibility(View.VISIBLE);
+            }
+
+            spn_cat.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
+            spn_cat.setSelection(6);
+
+        }
 
         if(que_hacer.equals("EliminarFoto")) {
             Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_SHORT).show();

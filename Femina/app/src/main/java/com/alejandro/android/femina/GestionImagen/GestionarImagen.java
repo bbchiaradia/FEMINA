@@ -1,5 +1,6 @@
 package com.alejandro.android.femina.GestionImagen;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion.QueHacerAMFragment;
+import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.R;
 
 import java.io.ByteArrayOutputStream;
@@ -86,7 +88,7 @@ public class GestionarImagen extends AppCompatActivity implements View.OnClickLi
     }
 
     public String getStringImage(Bitmap bmp){
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bmp, 350 /*Ancho*/, 300 /*Alto*/, false /* filter*/);
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bmp, 325 /*Ancho*/, 285 /*Alto*/, false /* filter*/);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] imageBytes = baos.toByteArray();
@@ -117,10 +119,9 @@ public class GestionarImagen extends AppCompatActivity implements View.OnClickLi
 
                 datosAEnviar.putInt("id_articulo", id_articulo);
 
-                Fragment fragmento = new QueHacerAMFragment();
-                fragmento.setArguments(datosAEnviar);
-                FragmentManager fragmentManager = (GestionarImagen.this.getSupportFragmentManager());
-                fragmentManager.beginTransaction().replace(R.id.content_main, fragmento).commit();
+                Intent intent = new Intent(GestionarImagen.this, MainActivity.class);
+                intent.putExtra("id_articulo",id_articulo);
+                GestionarImagen.this.startActivity(intent);
 
             }
 

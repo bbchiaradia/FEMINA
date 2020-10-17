@@ -9,16 +9,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.BD.Articulos.ArticulosBD;
 import com.alejandro.android.femina.BD.Contactos.ContactosBD;
 import com.alejandro.android.femina.BD.Videos.VideosBD;
+import com.alejandro.android.femina.Dialogos.DialogoEditarFoto;
 import com.alejandro.android.femina.Entidades.Articulos;
 import com.alejandro.android.femina.R;
 
@@ -60,7 +64,6 @@ public class QueHacerAMFragment extends Fragment {
         btn_borrar_articulo = (Button) root.findViewById(R.id.btn_borrar_articulo);
         spn_cat = (Spinner) root.findViewById(R.id.spn_cat_articulos);
 
-
         if(id_articulo != -1){
 
             Log.d("ID_ARTICULO","ENTRA");
@@ -74,6 +77,21 @@ public class QueHacerAMFragment extends Fragment {
 
 
         }
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(id_articulo !=-1) {
+                    Articulos art = new Articulos();
+                    art.setId_articulo(id_articulo);
+                    DialogoEditarFoto dialog = new DialogoEditarFoto(art);
+                    FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                    dialog.show(fragmentManager, "");
+                }
+                else
+                    Toast.makeText(getContext(),"Error al recuperar idArticulo",Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         return root;

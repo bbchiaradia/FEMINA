@@ -1,11 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/fondo_pantallas">
 
+
+    <SearchView
+        android:id="@+id/buscar_articulo"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Spinner
+        android:id="@+id/spn_categoria_articulos"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <RadioGroup
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_fecha_articulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="75dp"
+            android:text="@string/fecha"
+            android:checked="true"
+            android:layout_marginLeft="75dp" />
+
+        <RadioButton
+            android:id="@+id/radio_relevancia_articulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="75dp"
+            android:text="@string/relevancia"
+            android:layout_marginLeft="75dp">
+        </RadioButton>
+
+
+        </LinearLayout>
+
+    </RadioGroup>
 
     <TextView
         android:id="@+id/no_hay_articulos"
@@ -22,7 +68,8 @@
 
 
     <ListView
-        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_articulos"></ListView>
 

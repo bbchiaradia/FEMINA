@@ -1,6 +1,7 @@
 package com.alejandro.android.femina.Entidades;
 
 import java.sql.Blob;
+import java.sql.Date;
 
 public class Articulos {
 
@@ -9,16 +10,20 @@ public class Articulos {
     private Categorias id_categoria;
     private String descripcion;
     private Blob imagen;
+    private java.sql.Date fecha_carga;
+    private int vistas;
 
     public Articulos() {
     }
 
-    public Articulos(int id_articulo, String titulo, Categorias id_categoria, String descripcion, Blob imagen) {
+    public Articulos(int id_articulo, String titulo, Categorias id_categoria, String descripcion, Blob imagen, Date fecha_carga, int vistas) {
         this.id_articulo = id_articulo;
         this.titulo = titulo;
         this.id_categoria = id_categoria;
         this.descripcion = descripcion;
         this.imagen = imagen;
+        this.fecha_carga = fecha_carga;
+        this.vistas = vistas;
     }
 
     public int getId_articulo() {
@@ -59,5 +64,21 @@ public class Articulos {
 
     public void setImagen(Blob imagen) {
         this.imagen = imagen;
+    }
+
+    public Date getFecha_carga() {
+        return fecha_carga;
+    }
+
+    public void setFecha_carga(Date fecha_carga) {
+        this.fecha_carga = fecha_carga;
+    }
+
+    public int getVistas() {
+        return vistas;
+    }
+
+    public void setVistas(int vistas) {
+        this.vistas = vistas;
     }
 }

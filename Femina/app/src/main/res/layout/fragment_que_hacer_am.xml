@@ -9,11 +9,12 @@
 
     <ImageButton
         android:id="@+id/editar_foto"
-        android:layout_width="95dp"
-        android:layout_height="95dp"
+        android:layout_width="125dp"
+        android:layout_height="110dp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center"
         android:layout_marginLeft="10dp"
+        android:background="@drawable/marco_rosa"
         android:src="@drawable/nodisponible" />
 
     <EditText

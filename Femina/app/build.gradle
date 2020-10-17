@@ -40,4 +40,6 @@ dependencies {
     implementation "androidx.cardview:cardview:1.0.0"
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
+
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
 }

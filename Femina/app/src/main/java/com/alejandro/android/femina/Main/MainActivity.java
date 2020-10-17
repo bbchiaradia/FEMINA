@@ -21,6 +21,7 @@ import com.alejandro.android.femina.Fragments.contactos.Seleccion.ContactosSelec
 import com.alejandro.android.femina.Fragments.home.HomeFragment;
 import com.alejandro.android.femina.Fragments.icono.IconoFragment;
 import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
+import com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion.QueHacerAMFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Principal.QueHacerFragment;
 import com.alejandro.android.femina.Fragments.test_violencia.Principal.TestViolenciaFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AdapterVideos adapter_video;
     private static final int REQUEST_CALL = 1;
     private String phonenbr;
+    private int ID_ARTICULO;
 
 
     private List<Videos> youtubeVideoList;
@@ -70,14 +72,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ID_ARTICULO = -1;
+
+        Bundle parametros = this.getIntent().getExtras();
+        if(parametros !=null){
+            ID_ARTICULO = getIntent().getExtras().getInt("id_articulo");
+        }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        Fragment fragment = new HomeFragment();
+        Fragment fragment;
 
+        if(ID_ARTICULO == -1)
+         fragment = new HomeFragment();
+        else {
+            fragment = new QueHacerAMFragment();
+            Bundle datosAEnviar = new Bundle();
+            datosAEnviar.putInt("id_articulo", ID_ARTICULO);
+            fragment.setArguments(datosAEnviar);
+        }
         getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).commit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
