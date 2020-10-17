@@ -10,21 +10,14 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.alejandro.android.femina.Dialogos.DialogoAEContactos;
 import com.alejandro.android.femina.Dialogos.DialogoAMVideos;
-import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.Videos;
-import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
 import com.alejandro.android.femina.R;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 // Created by Juan Manuel on 7/10/2020.
 //
@@ -34,10 +27,6 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
     protected List<Videos> VideoListFull;
     private Context mCtx;
 
-/*    public AdapterVideos(List<Videos> youtubeVideoList) {
-        this.youtubeVideoList = youtubeVideoList;
-        VideoListFull = new ArrayList<>(youtubeVideoList);
-    }*/
     public AdapterVideos(Context mCtx,List<Videos> youtubeVideoList) {
         this.mCtx = mCtx;
         this.youtubeVideoList = youtubeVideoList;
@@ -61,6 +50,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
         holder.idcategoria.setText(currentItem.getIdCategoria().toString());
         holder.url.setText(currentItem.getUrl_video());
         holder.videoWeb.loadUrl(currentItem.getUrl_video());
+        holder.idvideo.setInputType(currentItem.getId_video());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +66,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
                 video.setTitulo(titulovi.getText().toString());
                 video.setUrl_video(urlvi.getText().toString());
                 video.setIdCategoria(currentItem.getIdCategoria());
+                video.setId_video(currentItem.getId_video());
 
 
 
@@ -99,7 +90,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
     public class VideoViewHolder extends RecyclerView.ViewHolder{
 
         WebView videoWeb;
-        TextView titulo;
+        TextView titulo, idvideo;
         TextView categoria, url,idcategoria;
 
         public VideoViewHolder(View itemView) {
@@ -109,6 +100,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
             url = itemView.findViewById(R.id.txt_url);
             videoWeb = (WebView) itemView.findViewById(R.id.videoWebView);
             idcategoria = (TextView) itemView.findViewById(R.id.txt_idCategoria);
+            idvideo = (TextView) itemView.findViewById(R.id.txt_idvideo);
 
             videoWeb.getSettings().setJavaScriptEnabled(true);
             videoWeb.setWebChromeClient(new WebChromeClient() {

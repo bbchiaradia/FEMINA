@@ -12,12 +12,17 @@ import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.Videos;
+import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
 import com.alejandro.android.femina.R;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -80,7 +85,12 @@ public VideosBD(Context context, String que, Spinner spn){
     Log.d("Categoria","" + cat);
 }
 
-
+    public VideosBD(Videos vi, Context context, String que){
+        this.context = context;
+        this.que_hacer = que;
+        dialog = new ProgressDialog(context);
+        this.vi = vi;
+    }
 
 
     @Override
@@ -149,7 +159,7 @@ public VideosBD(Context context, String que, Spinner spn){
                 rs = st.executeQuery("SELECT * from Categorias");
 
                 int i = 0;
-
+                datosSpinner.add("Todas");
                 while(rs.next()){
 
                     datosSpinner.add(rs.getString("Descripcion"));
@@ -165,6 +175,53 @@ public VideosBD(Context context, String que, Spinner spn){
                 mensaje_devuelto = "Error al buscar categorias!";
             }
         }
+
+
+        if (que_hacer.equals("Modificar")) {
+
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("UPDATE Videos SET Titulo=?, idCategoria=?, urlVideo=? WHERE idVideo=?");
+
+               // Statement st = con.createStatement();
+               // ResultSet rs;
+
+                ps.setString(1,vi.getTitulo());
+                ps.setInt(2,vi.getIdCategoria().getId_categoria());
+                ps.setString(3,vi.getUrl_video());
+                ps.setInt(4,vi.getId_video());
+
+
+               /* rs = st.executeQuery("SELECT 1 FROM Videos WHERE urlVideo = " + vi.getUrl_video());
+
+                if (rs.next()) {
+                    insertamos = false;
+                    mensaje_devuelto = "Este url ya se encuentra registrada";
+                }*/
+
+                if (insertamos) {
+
+                    int filas = ps.executeUpdate();
+
+                    if (filas > 0) {
+                        mensaje_devuelto = "Video actualizado!";
+                    } else
+                        mensaje_devuelto = "Error al actualizar el video!";
+
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al actualizar el video!!";
+            }
+        }
+
 
         return response;
 
@@ -225,9 +282,10 @@ public VideosBD(Context context, String que, Spinner spn){
         if(que_hacer.equals("CargarSpinner")) {
 
             categoria.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
-            categoria.setSelection(6);
+            categoria.setSelection(0);
 
             lista_categorias_set = new HashSet<>(Arrays.asList(lista_categorias));
+            lista_categorias_set.remove("Todas");
 
             SharedPreferences preferencias = context.getSharedPreferences("listita_categorias", Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferencias.edit();
@@ -235,6 +293,13 @@ public VideosBD(Context context, String que, Spinner spn){
             editor.putInt("tamaño",lista_categorias.length);
             editor.putStringSet("categorias",lista_categorias_set);
             editor.apply();
+        }
+
+        if(que_hacer.equals("Modificar") || que_hacer.equals("Eliminar")){
+            Toast.makeText(context,mensaje_devuelto, Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosVideosFragment()).commit();
+
         }
 
     }

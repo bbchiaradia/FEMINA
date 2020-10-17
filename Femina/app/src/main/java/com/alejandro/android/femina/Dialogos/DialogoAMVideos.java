@@ -53,6 +53,7 @@ public class DialogoAMVideos extends AppCompatDialogFragment {
                         datosAEnviar.putString("titulo", videos.getTitulo());
                         datosAEnviar.putString("url",videos.getUrl_video());
                         datosAEnviar.putString("catDesc", videos.getIdCategoria().getDescripcion());
+                        datosAEnviar.putInt("idvideo",videos.getId_video());
 
                         Fragment fragmento = new TestimoniosAMVideosFragment();
                         fragmento.setArguments(datosAEnviar);

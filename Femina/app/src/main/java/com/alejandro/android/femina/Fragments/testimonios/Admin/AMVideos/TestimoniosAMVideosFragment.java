@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,9 +19,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.alejandro.android.femina.BD.Videos.VideosBD;
+import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.R;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 public class TestimoniosAMVideosFragment extends Fragment {
@@ -35,7 +40,7 @@ public class TestimoniosAMVideosFragment extends Fragment {
     private Button guardar_cambios_videos;
     private int id_video;
     private TestimoniosAMVideosViewModel amVideosViewModel;
-    private String initializeItem;
+    private TextView idvideo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,18 +58,20 @@ public class TestimoniosAMVideosFragment extends Fragment {
         urlam = (EditText) root.findViewById(R.id.txt_url_am);
         spn = (Spinner) root.findViewById(R.id.spn_categoria_am);
         guardar_cambios_videos = (Button) root.findViewById(R.id.btn_update_video);
+        idvideo = (TextView) root.findViewById(R.id.txt_idvideo_am);
 
         id_video = -1;
 
-        SharedPreferences preferences = getContext().getSharedPreferences("listita_categorias", Context.MODE_PRIVATE);
+        final SharedPreferences preferences = getContext().getSharedPreferences("listita_categorias", Context.MODE_PRIVATE);
         categorias = preferences.getStringSet("categorias",null);
         lista_Categorias = new String[preferences.getInt("tamaño",0)];
 
-        int i = 0;
+        int i = categorias.size()-1;
         for(String s : categorias){
-            lista_Categorias[i] = s;
-            i++;
+                lista_Categorias[i] = s;
+            i--;
         }
+
         spn.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, lista_Categorias));
 
         final Bundle recoveredVideoData = getArguments();
@@ -72,7 +79,34 @@ public class TestimoniosAMVideosFragment extends Fragment {
             tituloam.setText(recoveredVideoData.getString("titulo"));
             urlam.setText(recoveredVideoData.getString("url").replaceAll("/embed",""));
             spn.setSelection(obtenerPosicionItem(spn,recoveredVideoData.getString("catDesc")));
+            idvideo.setInputType(recoveredVideoData.getInt("idvideo"));
         }
+
+        guardar_cambios_videos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!tituloam.getText().toString().isEmpty() && !urlam.getText().toString().isEmpty()){
+                   video = new Videos();
+                   video.setId_video(idvideo.getInputType());
+                   video.setTitulo(tituloam.getText().toString());
+                   Categorias idc = new Categorias();
+                   idc.setId_categoria(spn.getSelectedItemPosition()+1);
+                   video.setIdCategoria(idc);
+                   video.setUrl_video(formateoUrlYoutube(urlam.getText().toString()));
+
+
+                    SharedPreferences preferences = getContext().getSharedPreferences("accion_videos", Context.MODE_PRIVATE);
+
+                    if(preferences.getString("accion","").equals("Modificar")) {
+                        VideosBD videosBD = new VideosBD(video,getContext(),"Modificar");
+                        videosBD.execute();
+                    }
+
+                } else {
+                    Toast.makeText(getContext(),"Completa todos los campos!",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
 
@@ -94,5 +128,14 @@ public class TestimoniosAMVideosFragment extends Fragment {
         //Devuelve un valor entero (si encontro una coincidencia devuelve la
         // posición 0 o N, de lo contrario devuelve 0 = posición inicial)
         return posicion;
+    }
+
+    public static String formateoUrlYoutube (String myurl){
+        int pos = myurl.indexOf("&");
+        if(pos > -1) {
+            myurl = myurl.substring(0, pos);
+        }
+        myurl = myurl.replaceFirst(".com/",".com/embed/").replace("watch?v=","");
+       return myurl;
     }
 }
