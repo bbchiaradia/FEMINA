@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:radius="50dp"
     android:visibility="visible"
     tools:visibility="visible">
 
@@ -11,31 +12,42 @@
     <ImageView
         android:id="@+id/imgIcono"
         android:layout_width="match_parent"
-        android:layout_height="85dp"
-        android:layout_marginLeft="10dp"
+        android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="10dp"
-        android:background="@color/fondo_pantallas" />
+        android:background="@color/fondo_pantallas"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:orientation="vertical">
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:radius="10dp">
+
+        <TextView
+            android:id="@+id/txt_prueba2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:textStyle="italic"
+            android:visibility="invisible" />
 
 
         <TextView
             android:id="@+id/iconoTitulo"
-            android:layout_width="356dp"
-            android:layout_height="match_parent"
-            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_vertical"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="6dp"
             android:background="@color/fondo_pantallas"
-            android:paddingBottom="5dp"
-            android:textAllCaps="false"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:gravity="center_horizontal"
+            android:paddingBottom="15dp"
+            android:textAlignment="center"
+            android:textColor="#A39FAA"
+            android:textSize="20sp"
+            android:visibility="visible"
+            tools:visibility="visible" />
 
     </LinearLayout>
 
