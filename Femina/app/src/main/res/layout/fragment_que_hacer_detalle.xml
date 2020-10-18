@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/fondo_pantallas"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/fondo_pantallas"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="95dp"
+        android:layout_height="95dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/imagen_articulo_detalle"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_alignParentTop = "true"
+        android:layout_centerHorizontal = "true"
+        app:civ_border_color="@color/rosa"
+        app:civ_border_width="2dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_titulo_articulo_detalle"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:fontFamily="cursive"
+        android:textColor="#403C3C"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txt_descrip_articulo_detalle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="start|top" />
+
+
+</LinearLayout>

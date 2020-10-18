@@ -67,6 +67,14 @@
             android:visibility="invisible"
             android:textStyle="italic" />
 
+        <TextView
+            android:id="@+id/txt_descrip_articulo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:inputType="textMultiLine"
+            android:visibility="invisible"
+            android:textStyle="italic" />
+
 
     </LinearLayout>
     

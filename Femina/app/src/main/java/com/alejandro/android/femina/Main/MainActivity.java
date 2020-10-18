@@ -23,6 +23,7 @@ import com.alejandro.android.femina.Fragments.icono.IconoFragment;
 import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion.QueHacerAMFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Principal.QueHacerFragment;
+import com.alejandro.android.femina.Fragments.que_hacer.User.Detalle.QueHacerDetalleFragment;
 import com.alejandro.android.femina.Fragments.test_violencia.Principal.TestViolenciaFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
@@ -248,6 +249,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosFragment()).commit();
         }else if(currentFragment instanceof TestimoniosAMVideosFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosVideosFragment()).commit();
+        }else if(currentFragment instanceof QueHacerAMFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new QueHacerFragment()).commit();
+        }else if(currentFragment instanceof QueHacerDetalleFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new QueHacerFragment()).commit();
         }
         else if(currentFragment instanceof ContactosSeleccionFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosAEFragment()).commit();

@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -62,21 +63,22 @@ import java.util.HashSet;
 public class ArticulosBD extends AsyncTask<String, Void, String> {
 
 
-    private Articulos art,art_;
+    private Articulos art, art_;
     private Categorias cat;
     private ArticulosExtra art_ext;
     private String que_hacer;
     private Context context;
     private ProgressDialog dialog;
-    private String mensaje_devuelto;
+    private String mensaje_devuelto, categoria;
     private Session ses;
     private ListView larticulos;
-    private TextView no_hay;
-    private Boolean modifico,imagen_nula,no_hay_art;
-    private int max_articulo;
+    private TextView no_hay,txt_titulo,txt_descripcion;
+    private Boolean modifico, imagen_nula, no_hay_art,radio_rel,radio_fec;
+    private int max_articulo,position;
     private Bitmap image = null;
-    private EditText titulo,descripcion;
+    private EditText titulo, descripcion;
     private ImageButton img;
+    private ImageView img_det;
     private Spinner spn_cat;
     private SearchView buscar;
 
@@ -84,7 +86,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
 
     private static ArrayList<String> datosSpinner = new ArrayList<String>();
 
-    public ArticulosBD(Context ct, Articulos art, String que){
+    public ArticulosBD(Context ct, Articulos art, String que) {
 
         this.ses = new Session();
         dialog = new ProgressDialog(ct);
@@ -95,7 +97,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         this.art = art;
     }
 
-    public ArticulosBD(Context ct, String que){
+    public ArticulosBD(Context ct, String que) {
         this.ses = new Session();
         dialog = new ProgressDialog(ct);
         this.context = ct;
@@ -105,17 +107,22 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         this.max_articulo = 0;
     }
 
-    public ArticulosBD(Context context, String que, Spinner spn){
-        datosSpinner.clear();
+    public ArticulosBD(Context context, Articulos art, ImageView img, TextView tit, TextView des, String que) {
         this.context = context;
         this.que_hacer = que;
-        this.spn_cat = spn;
+        this.ses = new Session();
+        ses.setCt(context);
+        ses.cargar_session();
         dialog = new ProgressDialog(context);
+        this.txt_descripcion = des;
+        this.txt_titulo = tit;
+        this.img_det = img;
+        this.art = art;
+        art_ = new Articulos();
     }
 
-
     public ArticulosBD(Context ct, Articulos art, ImageButton img, EditText tit, EditText desc,
-                       Spinner sp, String que){
+                       Spinner sp, String que) {
         datosSpinner.clear();
         this.ses = new Session();
         dialog = new ProgressDialog(ct);
@@ -132,7 +139,8 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         this.cat = new Categorias();
     }
 
-    public ArticulosBD(Context context, ListView list, TextView no,Spinner cat,SearchView sv, String que){
+    public ArticulosBD(Context context, ListView list, TextView no, SearchView sv, String catt, Spinner sp,Boolean radio_fecha,
+                       Boolean radio_relevancia, String que) {
         datosSpinner.clear();
         listaArticulos.clear();
         this.context = context;
@@ -142,10 +150,11 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         dialog = new ProgressDialog(context);
         no_hay = no;
         no_hay_art = true;
-        this.spn_cat = cat;
+        spn_cat = sp;
+        this.categoria = catt;
+        this.radio_fec = radio_fecha;
+        this.radio_rel = radio_relevancia;
     }
-
-
 
 
     @Override
@@ -155,7 +164,8 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         PreparedStatement ps;
 
 
-        if (que_hacer.equals("Listar")) {
+        if (que_hacer.equals("Listar") || que_hacer.equals("Fecha") ||
+                que_hacer.equals("Relevancia") || que_hacer.equals("ListarSegunCategoria")){
 
             response = "";
 
@@ -167,53 +177,84 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 ResultSet rs;
                 ResultSet rs_aux;
 
-                rs = st.executeQuery("SELECT * from Categorias");
+                    datosSpinner.add("Todas");
 
-                while(rs.next()){
-                    datosSpinner.add(rs.getString("Descripcion"));
-                }
+                    rs = st.executeQuery("SELECT * from Categorias");
 
-                rs = st.executeQuery("SELECT * FROM Articulos");
-
-                while (rs.next()) {
-                    no_hay_art = false;
-                    art = new Articulos();
-                    art_ext = new ArticulosExtra();
-
-                    art.setId_articulo(rs.getInt("idArticulo"));
-                    art.setTitulo(rs.getString("Titulo"));
-                    art.setDescripcion(rs.getString("Descripcion"));
-                    art.setFecha_carga(rs.getDate("fechaCarga"));
-                    art.setVistas(rs.getInt("vistas"));
-
-                    String add = "http://femina.webcindario.com/getImage.php?id="+rs.getInt("idArticulo");
-                    URL url = null;
-                    try {
-                        url = new URL(add);
-                        image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    while (rs.next()) {
+                        datosSpinner.add(rs.getString("Descripcion"));
                     }
 
-                    rs_aux = st_aux.executeQuery("SELECT imagen from Articulos where idArticulo =" + rs.getInt("idArticulo"));
+                if (que_hacer.equals("Listar"))
+                    rs = st.executeQuery("SELECT * FROM Articulos order by fechaCarga asc");
+                else if (que_hacer.equals("Fecha"))
+                    if (!categoria.equals("Todas"))
+                        rs = st.executeQuery("SELECT a.idArticulo,a.Titulo,a.Descripcion,a.fechaCarga," +
+                                " a.vistas from Articulos a inner join Categorias c " +
+                                "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by fechaCarga asc");
+                    else
+                        rs = st.executeQuery("SELECT * FROM Articulos order by fechaCarga asc");
+                else if (que_hacer.equals("Relevancia"))
+                    if (!categoria.equals("Todas"))
+                        rs = st.executeQuery("SELECT a.idArticulo,a.Titulo,a.Descripcion,a.fechaCarga," +
+                                " a.vistas from Articulos a inner join Categorias c " +
+                                "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by vistas asc");
+                    else
+                        rs = st.executeQuery("SELECT * FROM Articulos order by vistas asc");
+                else
+                    if(categoria.equals("Todas"))
+                        if(radio_rel)
+                            rs = st.executeQuery("SELECT * FROM Articulos order by vistas asc");
+                        else
+                            rs = st.executeQuery("SELECT * FROM Articulos order by fechaCarga asc");
+                        else if(radio_rel)
+                        rs = st.executeQuery("SELECT a.idArticulo,a.Titulo,a.Descripcion,a.fechaCarga," +
+                                " a.vistas from Articulos a inner join Categorias c " +
+                                "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by vistas asc");
+                        else
+                        rs = st.executeQuery("SELECT a.idArticulo,a.Titulo,a.Descripcion,a.fechaCarga," +
+                                " a.vistas from Articulos a inner join Categorias c " +
+                                "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by fechaCarga asc");
 
-                    if (rs_aux.next()) {
+                    while (rs.next()) {
+                        no_hay_art = false;
+                        art = new Articulos();
+                        art_ext = new ArticulosExtra();
 
-                        if(rs_aux.getBlob(1)==null)
-                            image = BitmapFactory.decodeResource(context.getResources(), R.drawable.nodisponible);
+                        art.setId_articulo(rs.getInt("idArticulo"));
+                        art.setTitulo(rs.getString("Titulo"));
+                        art.setDescripcion(rs.getString("Descripcion"));
+                        art.setFecha_carga(rs.getDate("fechaCarga"));
+                        art.setVistas(rs.getInt("vistas"));
+
+                        String add = "http://femina.webcindario.com/getImage.php?id=" + rs.getInt("idArticulo");
+                        URL url = null;
+                        try {
+                            url = new URL(add);
+                            image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        rs_aux = st_aux.executeQuery("SELECT imagen from Articulos where idArticulo =" + rs.getInt("idArticulo"));
+
+                        if (rs_aux.next()) {
+
+                            if (rs_aux.getBlob(1) == null)
+                                image = BitmapFactory.decodeResource(context.getResources(), R.drawable.nodisponible);
+                        }
+
+                        art_ext.setArticulo(art);
+                        art_ext.setImagen_articulo(image);
+
+                        listaArticulos.add(art_ext);
                     }
-
-                    art_ext.setArticulo(art);
-                    art_ext.setImagen_articulo(image);
-
-                    listaArticulos.add(art_ext);
-                }
 
                 response = "Conexion exitosa";
                 con.close();
-            } catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 response = "Conexion no exitosa";
             }
@@ -232,11 +273,13 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                rs = st.executeQuery("SELECT * from Categorias");
+                    datosSpinner.add("Todas");
 
-                while(rs.next()){
-                    datosSpinner.add(rs.getString("Descripcion"));
-                }
+                    rs = st.executeQuery("SELECT * from Categorias");
+
+                    while (rs.next()) {
+                        datosSpinner.add(rs.getString("Descripcion"));
+                    }
 
 
                 rs = st.executeQuery("SELECT a.Descripcion,a.Titulo,c.Descripcion,c.idCategoria from Articulos a" +
@@ -252,7 +295,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                     //art_.setImagen(rs.getBlob(4));
 
                     //String id = urls[0];
-                    String add = "http://femina.webcindario.com/getImage.php?id="+art.getId_articulo();
+                    String add = "http://femina.webcindario.com/getImage.php?id=" + art.getId_articulo();
                     URL url = null;
                     //Bitmap image = null;
                     try {
@@ -268,7 +311,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
 
                     if (rs.next()) {
 
-                        if(rs.getBlob(1)==null)
+                        if (rs.getBlob(1) == null)
                             image = BitmapFactory.decodeResource(context.getResources(), R.drawable.nodisponible);
                     }
 
@@ -286,7 +329,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             }
         }
 
-        if(que_hacer.equals("EliminarFoto")) {
+        if (que_hacer.equals("EliminarFoto")) {
 
             modifico = false;
 
@@ -303,8 +346,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 if (filas > 0) {
                     mensaje_devuelto = "Imagen eliminada!";
                     modifico = true;
-                }
-                else
+                } else
                     mensaje_devuelto = "Error al eliminar imagen!";
 
 
@@ -341,7 +383,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 ps = con.prepareStatement("INSERT INTO Articulos (idArticulo, Titulo, idCategoria, Descripcion,imagen,fechaCarga,vistas) " +
                         "VALUES (?,NULL,1,NULL,NULL,CURRENT_DATE(),0)");
 
-                ps.setInt(1,id);
+                ps.setInt(1, id);
 
                 int filas = ps.executeUpdate();
 
@@ -349,7 +391,6 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                     max_articulo = id;
                 } else
                     max_articulo = -1;
-
 
 
                 response = "Conexion exitosa";
@@ -361,7 +402,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             }
         }
 
-        if(que_hacer.equals("CargarSpinner")) {
+        if (que_hacer.equals("CargarSpinner")) {
 
             boolean insertamos = true;
 
@@ -375,7 +416,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 rs = st.executeQuery("SELECT * from Categorias");
 
 
-                while(rs.next()){
+                while (rs.next()) {
                     datosSpinner.add(rs.getString("Descripcion"));
                 }
 
@@ -388,6 +429,81 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             }
         }
 
+        if (que_hacer.equals("CargarDetalle")) {
+
+            imagen_nula = false;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+
+                ps = con.prepareStatement("UPDATE Articulos set " +
+                        "vistas=? where idArticulo=?");
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                if(!ses.getEs_admin()) {
+
+                    rs = st.executeQuery("SELECT vistas from Articulos where idArticulo =" + art.getId_articulo());
+
+                    int vistas = -1;
+
+                    if (rs.next()) {
+
+                        vistas = rs.getInt("vistas");
+
+                    }
+
+                    if (vistas != -1) {
+                        ps.setInt(1, vistas + 1);
+                        ps.setInt(2, art.getId_articulo());
+                        ps.executeUpdate();
+                    }
+                }
+
+                rs = st.executeQuery("SELECT Titulo,Descripcion from Articulos where idArticulo =" + art.getId_articulo());
+
+                if (rs.next()) {
+
+                    art_.setTitulo(rs.getString(1));
+                    art_.setDescripcion(rs.getString(2));
+
+                    //String id = urls[0];
+                    String add = "http://femina.webcindario.com/getImage.php?id=" + art.getId_articulo();
+                    URL url = null;
+                    //Bitmap image = null;
+                    try {
+                        url = new URL(add);
+                        image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    rs = st.executeQuery("SELECT imagen from Articulos where idArticulo =" + art.getId_articulo());
+
+                    if (rs.next()) {
+
+                        if (rs.getBlob(1) == null)
+                            image = BitmapFactory.decodeResource(context.getResources(), R.drawable.nodisponible);
+                    }
+
+
+                } else
+                    mensaje_devuelto = "Error al cargar articulo!";
+
+                response = "ok";
+
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al cargar articulo!";
+            }
+        }
+
         return response;
 
 
@@ -397,7 +513,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
     @Override
     protected void onPreExecute() {
 
-        if(!que_hacer.equals("InsertNull") || !que_hacer.equals("CargarSpinner")) {
+        if (!que_hacer.equals("InsertNull") || !que_hacer.equals("CargarSpinner")) {
             dialog.setMessage("Procesando...");
             dialog.show();
         }
@@ -410,7 +526,8 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             dialog.dismiss();
         }
 
-        if(que_hacer.equals("Listar")) {
+        if (que_hacer.equals("Listar") || que_hacer.equals("Fecha") || que_hacer.equals("Relevancia")
+        || que_hacer.equals("ListarSegunCategoria")) {
             final AdaptadorArticulos adapter = new AdaptadorArticulos(context, listaArticulos);
             larticulos.setAdapter(adapter);
 
@@ -419,6 +536,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 public boolean onQueryTextSubmit(String query) {
                     return false;
                 }
+
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     adapter.getFilter().filter(newText);
@@ -426,23 +544,30 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 }
             });
 
-            if(no_hay_art) {
+            if (no_hay_art) {
                 no_hay.setVisibility(View.VISIBLE);
                 larticulos.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 no_hay.setVisibility(View.GONE);
                 larticulos.setVisibility(View.VISIBLE);
             }
 
+            if(que_hacer.equals("Listar"))
             spn_cat.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
-            spn_cat.setSelection(6);
 
+                if (categoria.equals("Todas") || categoria.equals(""))
+                    spn_cat.setSelection(0);
+                else {
+                    for (int j = 0; j < datosSpinner.size(); j++) {
+                        if (datosSpinner.get(j).toString().equals(categoria))
+                            spn_cat.setSelection(j);
+                    }
+                }
         }
 
-        if(que_hacer.equals("EliminarFoto")) {
+        if (que_hacer.equals("EliminarFoto")) {
             Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_SHORT).show();
-            if(modifico){
+            if (modifico) {
 
                 Bundle datosAEnviar = new Bundle();
 
@@ -450,24 +575,24 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
 
                 Fragment fragmento = new QueHacerAMFragment();
                 fragmento.setArguments(datosAEnviar);
-                FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+                FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_main, fragmento).commit();
             }
         }
 
-        if(que_hacer.equals("InsertNull")) {
+        if (que_hacer.equals("InsertNull")) {
 
-                Bundle datosAEnviar = new Bundle();
+            Bundle datosAEnviar = new Bundle();
 
-                datosAEnviar.putInt("id_articulo", max_articulo);
+            datosAEnviar.putInt("id_articulo", max_articulo);
 
-                Fragment fragmento = new QueHacerAMFragment();
-                fragmento.setArguments(datosAEnviar);
-                FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_main, fragmento).commit();
+            Fragment fragmento = new QueHacerAMFragment();
+            fragmento.setArguments(datosAEnviar);
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, fragmento).commit();
         }
 
-        if(que_hacer.equals("CargarSpinner")) {
+        if (que_hacer.equals("CargarSpinner")) {
 
             spn_cat.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
             //categoria.setSelection(6);
@@ -482,8 +607,18 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             descripcion.setText(art_.getDescripcion());
             img.setImageBitmap(image);
 
-            spn_cat.setSelection(art_.getId_categoria().getId_categoria() - 1);
+            for (int j = 0; j < datosSpinner.size(); j++) {
+                if (datosSpinner.get(j).toString().equals(art_.getId_categoria().getDescripcion()))
+                    spn_cat.setSelection(j);
+            }
 
+
+        }
+
+        if (que_hacer.equals("CargarDetalle")) {
+            txt_titulo.setText(art_.getTitulo());
+            txt_descripcion.setText(art_.getDescripcion());
+            img_det.setImageBitmap(image);
         }
 
 

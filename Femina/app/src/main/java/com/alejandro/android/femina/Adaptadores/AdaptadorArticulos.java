@@ -60,12 +60,14 @@ public class AdaptadorArticulos extends ArrayAdapter<ArticulosExtra> implements 
         TextView fecha = (TextView) item.findViewById(R.id.txt_articulo_fecha);
         TextView vistas = (TextView) item.findViewById(R.id.txt_articulo_visualizaciones);
         TextView id_articulo = (TextView) item.findViewById(R.id.txt_id_articulo);
+        TextView descrip = (TextView)item.findViewById(R.id.txt_descrip_articulo);
 
         titulo.setText(getItem(position).getArticulo().getTitulo());
         fecha.setText("" + getItem(position).getArticulo().getFecha_carga());
         vistas.setText(getItem(position).getArticulo().getVistas() + " Visualizaciones");
         id_articulo.setText("" + getItem(position).getArticulo().getId_articulo());
         imagen_articulo.setImageBitmap(getItem(position).getImagen_articulo());
+        descrip.setText(getItem(position).getArticulo().getDescripcion());
 
 
         return item;

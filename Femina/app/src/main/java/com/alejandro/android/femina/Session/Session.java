@@ -125,7 +125,7 @@ public class Session {
         this.telefono = telefono;
     }
 
-    public boolean isEs_admin() {
+    public boolean getEs_admin() {
         return es_admin;
     }
 

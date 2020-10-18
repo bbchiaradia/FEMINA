@@ -11,17 +11,31 @@
     <SearchView
         android:id="@+id/buscar_articulo"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <Spinner
-        android:id="@+id/spn_categoria_articulos"
-        android:layout_marginTop="15dp"
+    <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/marco_redondo">
+
+        <Spinner
+            android:id="@+id/spn_categoria_articulos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:dropDownWidth="match_parent"
+            android:popupBackground="@color/fondo_pantallas"
+            android:spinnerMode="dropdown" />
+
+    </LinearLayout>
 
     <RadioGroup
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -36,7 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="75dp"
             android:text="@string/fecha"
-            android:checked="true"
             android:layout_marginLeft="75dp" />
 
         <RadioButton
@@ -60,7 +73,7 @@
         android:layout_marginLeft="9dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="12dp"
-        android:text="@string/no_hay_contactos"
+        android:text="@string/no_hay_articulos"
         android:textSize="16dp"
         android:textStyle="italic"
         android:visibility="gone" />
@@ -71,6 +84,8 @@
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
         android:id="@+id/list_articulos"></ListView>
 
     <Button

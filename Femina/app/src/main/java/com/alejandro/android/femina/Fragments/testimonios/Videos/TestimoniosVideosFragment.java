@@ -65,8 +65,6 @@ public class TestimoniosVideosFragment extends Fragment  {
         vid.execute();
 
 
-
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
