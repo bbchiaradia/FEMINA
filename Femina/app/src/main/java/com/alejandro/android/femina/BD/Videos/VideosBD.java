@@ -22,6 +22,7 @@ import com.alejandro.android.femina.Adaptadores.AdapterVideos;
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.Videos;
+import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
 import com.alejandro.android.femina.R;
 import java.sql.Connection;
@@ -194,14 +195,6 @@ public VideosBD(Context context, String que, Spinner spn){
                 ps.setString(3,vi.getUrl_video());
                 ps.setInt(4,vi.getId_video());
 
-
-               /* rs = st.executeQuery("SELECT 1 FROM Videos WHERE urlVideo = " + vi.getUrl_video());
-
-                if (rs.next()) {
-                    insertamos = false;
-                    mensaje_devuelto = "Este url ya se encuentra registrada";
-                }*/
-
                 if (insertamos) {
 
                     int filas = ps.executeUpdate();
@@ -210,7 +203,6 @@ public VideosBD(Context context, String que, Spinner spn){
                         mensaje_devuelto = "Video actualizado!";
                     } else
                         mensaje_devuelto = "Error al actualizar el video!";
-
                 }
 
                 response = "Conexion exitosa";
@@ -219,6 +211,74 @@ public VideosBD(Context context, String que, Spinner spn){
                 e.printStackTrace();
                 //result2 = "Conexion no exitosa";
                 mensaje_devuelto = "Error al actualizar el video!!";
+            }
+        }
+
+
+        if (que_hacer.equals("Insertar")) {
+
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("INSERT INTO Videos (Titulo, idCategoria, urlVideo) VALUES( ? , ? , ? )");
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                ps.setString(1, vi.getTitulo());
+                ps.setInt(2, vi.getIdCategoria().getId_categoria());
+                ps.setString(3, vi.getUrl_video());
+
+                rs = st.executeQuery("SELECT 1 FROM Videos where urlVideo ='" + vi.getUrl_video() + "'");
+
+                if (rs.next()) {
+                    insertamos = false;
+                    mensaje_devuelto = "La URL ya esta registrada";
+                }
+
+                if (insertamos) {
+
+                    int filas = ps.executeUpdate();
+
+                    if (filas > 0) {
+                        mensaje_devuelto = "Video registrado!";
+                    } else
+                        mensaje_devuelto = "Error al registrar el Video!";
+
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mensaje_devuelto = "Error al registrar el Video!";
+            }
+        }
+
+        if (que_hacer.equals("Eliminar")) {
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("Delete from Videos where idVideo=?");
+
+                ps.setInt(1, vi.getId_video());
+
+                int filas = ps.executeUpdate();
+
+                if (filas > 0) {
+                    mensaje_devuelto = "Video eliminado!";
+                } else
+                    mensaje_devuelto = "Error al eliminar el Video!";
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al eliminar el Video!!";
             }
         }
 
@@ -295,12 +355,19 @@ public VideosBD(Context context, String que, Spinner spn){
             editor.apply();
         }
 
+        if(que_hacer.equals("Insertar")) {
+            Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosVideosFragment()).commit();
+        }
+
         if(que_hacer.equals("Modificar") || que_hacer.equals("Eliminar")){
             Toast.makeText(context,mensaje_devuelto, Toast.LENGTH_SHORT).show();
             FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosVideosFragment()).commit();
 
         }
+
 
     }
 

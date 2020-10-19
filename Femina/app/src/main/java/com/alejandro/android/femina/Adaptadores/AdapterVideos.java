@@ -1,21 +1,31 @@
 package com.alejandro.android.femina.Adaptadores;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alejandro.android.femina.Dialogos.DialogoAMVideos;
 import com.alejandro.android.femina.Entidades.Videos;
+import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
+import com.alejandro.android.femina.Fragments.testimonios.VdeosFullScreen.TestimoniosVideosFullScreenFragment;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.Session.Session;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +54,11 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
 
     @Override
     public void onBindViewHolder(final VideoViewHolder holder, int position) {
+        // cargo la sesion de usuario
+        final Session ses = new Session();
+        ses.setCt(mCtx.getApplicationContext());
+        ses.cargar_session();
+
         final Videos currentItem = youtubeVideoList.get(position);
         holder.titulo.setText(currentItem.getTitulo());
         holder.categoria.setText(currentItem.getIdCategoria().getDescripcion());
@@ -52,34 +67,54 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
         holder.videoWeb.loadUrl(currentItem.getUrl_video());
         holder.idvideo.setInputType(currentItem.getId_video());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        // Solo es visible para el admin
+        if (ses.getEs_admin()){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(mCtx, "Click On: " + currentItem.getTitulo(), Toast.LENGTH_SHORT).show();
+                    Videos video = new Videos();
+
+                    TextView titulovi = (TextView) view.findViewById(R.id.txtTituloVideo);
+                    TextView urlvi = (TextView) view.findViewById(R.id.txt_url);
+                    TextView inicategory = (TextView) view.findViewById(R.id.txt_idCategoria);
+                    TextView categoria = (TextView) view.findViewById(R.id.txtCatVideo);
+
+                    video.setTitulo(titulovi.getText().toString());
+                    video.setUrl_video(urlvi.getText().toString());
+                    video.setIdCategoria(currentItem.getIdCategoria());
+                    video.setId_video(currentItem.getId_video());
+
+
+                    DialogoAMVideos dialogoAMVideos = new DialogoAMVideos(video);
+                    FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+                    dialogoAMVideos.show(fragmentManager, "");
+
+
+                }
+            });
+        }
+
+        holder.btnfs.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(mCtx,"Click On: " + currentItem.getTitulo() ,Toast.LENGTH_SHORT).show();
-                Videos video = new Videos();
-
-                TextView titulovi = (TextView) view.findViewById(R.id.txtTituloVideo);
-                TextView urlvi = (TextView) view.findViewById(R.id.txt_url);
-                TextView inicategory = (TextView) view.findViewById(R.id.txt_idCategoria);
-                TextView categoria = (TextView) view.findViewById(R.id.txtCatVideo);
-
-                video.setTitulo(titulovi.getText().toString());
-                video.setUrl_video(urlvi.getText().toString());
-                video.setIdCategoria(currentItem.getIdCategoria());
-                video.setId_video(currentItem.getId_video());
-
-
-
-
-                DialogoAMVideos dialogoAMVideos = new DialogoAMVideos(video);
-                FragmentManager fragmentManager = ((AppCompatActivity)view.getContext()).getSupportFragmentManager();
-                dialogoAMVideos.show(fragmentManager, "");
-
-
+            public void onClick(View v) {
+                //Crear bundle, que son los datos que pasaremos
+                Bundle datosAEnviar = new Bundle();
+                // Aquí pon todos los datos que quieras en formato clave, valor
+                datosAEnviar.putString("urlfs",currentItem.getUrl_video());
+                // Preparar el fragmento
+                Fragment fragment = new TestimoniosVideosFullScreenFragment();
+                // ¡Importante! darle argumentos
+                fragment.setArguments(datosAEnviar);
+                FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.content_main, fragment);
+                fragmentTransaction.addToBackStack(null);
+                // Terminar transición y nos vemos en el fragmento de destino
+                fragmentTransaction.commit();
 
             }
         });
-
     }
 
     @Override
@@ -92,6 +127,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
         WebView videoWeb;
         TextView titulo, idvideo;
         TextView categoria, url,idcategoria;
+        Button btnfs;
 
         public VideoViewHolder(View itemView) {
             super(itemView);
@@ -101,6 +137,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
             videoWeb = (WebView) itemView.findViewById(R.id.videoWebView);
             idcategoria = (TextView) itemView.findViewById(R.id.txt_idCategoria);
             idvideo = (TextView) itemView.findViewById(R.id.txt_idvideo);
+            btnfs = (Button) itemView.findViewById(R.id.fullscreen);
 
             videoWeb.getSettings().setJavaScriptEnabled(true);
             videoWeb.setWebChromeClient(new WebChromeClient() {

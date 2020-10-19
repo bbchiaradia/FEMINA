@@ -34,6 +34,14 @@
         app:showAsAction="ifRoom"
         app:actionViewClass="android.widget.Button" />
 
+    <item
+        android:id="@+id/add_video"
+        android:layout_width="15dp"
+        android:layout_height="90dp"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Add video"
+        android:visible="false"
+        app:showAsAction="ifRoom" />
 
 
 </menu>

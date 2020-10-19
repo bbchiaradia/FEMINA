@@ -3,6 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#FF5722</color>
+    <color name="colorTransparente">@android:color/transparent</color>
 
     <color name="fondo_pantallas">#EFE6E6</color>
 

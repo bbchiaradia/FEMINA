@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import com.alejandro.android.femina.BD.Videos.VideosBD;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
 import com.alejandro.android.femina.R;
@@ -35,15 +37,10 @@ public class DialogoAMVideos extends AppCompatDialogFragment {
         builder.setItems(R.array.gestion_video, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
 
+                VideosBD videosE;
                 Bundle datosAEnviar = new Bundle();
                 switch (which) {
-
                     case 0:
-
-                        Toast.makeText(cntxt,"Click On Insertar" ,Toast.LENGTH_SHORT).show();
-                        break;
-
-                    case 1:
 
                         SharedPreferences preferencias = getContext().getSharedPreferences("accion_videos", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = preferencias.edit();
@@ -62,9 +59,9 @@ public class DialogoAMVideos extends AppCompatDialogFragment {
 
                         break;
 
-                    case 2:
-                        Toast.makeText(cntxt,"Click On Eliminar" ,Toast.LENGTH_SHORT).show();
-
+                    case 1:
+                         videosE = new VideosBD(videos,getContext(),"Eliminar");
+                         videosE.execute();
                         break;
                 }
             }

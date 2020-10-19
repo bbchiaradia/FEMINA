@@ -3,6 +3,7 @@ package com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,20 +13,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-
 import com.alejandro.android.femina.BD.Videos.VideosBD;
 import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.R;
-
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Set;
 
 public class TestimoniosAMVideosFragment extends Fragment {
@@ -79,27 +75,40 @@ public class TestimoniosAMVideosFragment extends Fragment {
             tituloam.setText(recoveredVideoData.getString("titulo"));
             urlam.setText(recoveredVideoData.getString("url").replaceAll("/embed",""));
             spn.setSelection(obtenerPosicionItem(spn,recoveredVideoData.getString("catDesc")));
-            idvideo.setInputType(recoveredVideoData.getInt("idvideo"));
+            //idvideo.setInputType(recoveredVideoData.getInt("idvideo"));
+            id_video =recoveredVideoData.getInt("idvideo");
+            Log.d("id_video","" + id_video);
         }
 
         guardar_cambios_videos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(!tituloam.getText().toString().isEmpty() && !urlam.getText().toString().isEmpty()){
-                   video = new Videos();
-                   video.setId_video(idvideo.getInputType());
-                   video.setTitulo(tituloam.getText().toString());
-                   Categorias idc = new Categorias();
-                   idc.setId_categoria(spn.getSelectedItemPosition()+1);
-                   video.setIdCategoria(idc);
-                   video.setUrl_video(formateoUrlYoutube(urlam.getText().toString()));
+                    if(esUrlYoutube(urlam.getText().toString())) {
+                        video = new Videos();
+                        //video.setId_video(idvideo.getInputType());
+                        video.setTitulo(tituloam.getText().toString());
+                        Categorias idc = new Categorias();
+                        idc.setId_categoria(spn.getSelectedItemPosition() + 1);
+                        video.setIdCategoria(idc);
+                        video.setUrl_video(formateoUrlYoutube(urlam.getText().toString()));
+                        if (id_video != -1)
+                            video.setId_video(id_video);
 
+                        SharedPreferences preferences = getContext().getSharedPreferences("accion_videos", Context.MODE_PRIVATE);
 
-                    SharedPreferences preferences = getContext().getSharedPreferences("accion_videos", Context.MODE_PRIVATE);
+                        if (preferences.getString("accion", "").equals("Modificar")) {
+                            VideosBD videosBD = new VideosBD(video, getContext(), "Modificar");
+                            videosBD.execute();
+                        }
 
-                    if(preferences.getString("accion","").equals("Modificar")) {
-                        VideosBD videosBD = new VideosBD(video,getContext(),"Modificar");
-                        videosBD.execute();
+                        if (preferences.getString("accion", "").equals("Insertar")) {
+                            VideosBD videosBD = new VideosBD(video, getContext(), "Insertar");
+                            videosBD.execute();
+                        }
+                    } else {
+                        Toast.makeText(getContext(),"La Url no pertenece a Youtube!",Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
@@ -135,7 +144,30 @@ public class TestimoniosAMVideosFragment extends Fragment {
         if(pos > -1) {
             myurl = myurl.substring(0, pos);
         }
-        myurl = myurl.replaceFirst(".com/",".com/embed/").replace("watch?v=","");
+        if(myurl.contains("youtu.be")) {
+            myurl = myurl.replace(".com/", ".com/embed/").replace("youtu.be/", "www.youtube.com/");
+            myurl = myurl.replace(".com/", ".com/embed/");
+        } else {
+            if (myurl.contains("watch")) {
+                myurl = myurl.replaceFirst(".com/", ".com/embed/").replace("watch?v=", "");
+            } else {
+                myurl = myurl.replaceFirst(".com/", ".com/embed/");
+            }
+        }
        return myurl;
     }
+
+    public static boolean esUrlYoutube(String youTubeURl)
+    {
+        boolean success;
+        String pattern = "^(http(s)?:\\/\\/)?((w){3}.)?youtu(be|.be)?(\\.com)?\\/.+";
+        if (!youTubeURl.isEmpty() && youTubeURl.matches(pattern)){
+            success = true;
+        } else {
+            // No es valida youtube URL
+            success = false;
+        }
+        return success;
+    }
+
 }
