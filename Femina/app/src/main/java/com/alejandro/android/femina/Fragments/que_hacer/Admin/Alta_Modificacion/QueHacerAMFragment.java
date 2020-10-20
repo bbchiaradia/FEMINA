@@ -23,7 +23,9 @@ import com.alejandro.android.femina.BD.Articulos.ArticulosBD;
 import com.alejandro.android.femina.BD.Contactos.ContactosBD;
 import com.alejandro.android.femina.BD.Videos.VideosBD;
 import com.alejandro.android.femina.Dialogos.DialogoEditarFoto;
+import com.alejandro.android.femina.Dialogos.DialogoSINOBajaArticulos;
 import com.alejandro.android.femina.Entidades.Articulos;
+import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.R;
 
 public class QueHacerAMFragment extends Fragment {
@@ -64,6 +66,8 @@ public class QueHacerAMFragment extends Fragment {
         btn_borrar_articulo = (Button) root.findViewById(R.id.btn_borrar_articulo);
         spn_cat = (Spinner) root.findViewById(R.id.spn_cat_articulos);
 
+
+
         if(id_articulo != -1){
 
             Log.d("ID_ARTICULO","ENTRA");
@@ -77,6 +81,51 @@ public class QueHacerAMFragment extends Fragment {
 
 
         }
+
+
+        btn_guardar_cambios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(id_articulo!=-1){
+
+                    if(!txt_titulo.getText().toString().isEmpty() && !descripcion.getText().toString().isEmpty()){
+
+                        Articulos art_ = new Articulos();
+                        Categorias cat = new Categorias();
+
+                        cat.setDescripcion(spn_cat.getSelectedItem().toString());
+                        art_.setId_articulo(id_articulo);
+                        art_.setDescripcion(descripcion.getText().toString());
+                        art_.setTitulo(txt_titulo.getText().toString());
+                        art_.setId_categoria(cat);
+
+                        ArticulosBD art = new ArticulosBD(getContext(),art_,"Modificar");
+                        art.execute();
+
+                    }else
+                        Toast.makeText(getContext(),"Complete todos los campos!",Toast.LENGTH_SHORT).show();
+
+                }else
+                    Toast.makeText(getContext(),"Error al buscar id articulo",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btn_borrar_articulo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(id_articulo!=-1){
+
+                    Articulos art_ = new Articulos();
+                    art_.setId_articulo(id_articulo);
+
+                    DialogoSINOBajaArticulos dialogoSINOBajaArticulos = new DialogoSINOBajaArticulos(art_);
+                    FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                    dialogoSINOBajaArticulos.show(fragmentManager,"");
+
+                }else
+                    Toast.makeText(getContext(),"Error al buscar id articulo",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

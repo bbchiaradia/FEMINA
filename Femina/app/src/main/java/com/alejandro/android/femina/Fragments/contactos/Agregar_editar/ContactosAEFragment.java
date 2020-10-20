@@ -136,12 +136,12 @@ public class ContactosAEFragment extends Fragment {
         inflater.inflate(R.menu.main, menu);
         MenuItem item = menu.findItem(R.id.btn_agregar_existente);
         item.setVisible(true);
-        //item.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         //item.setShowAsAction(SHOW_AS_ACTION_WITH_TEXT);
 
 
-        Button button = (Button) item.getActionView();
+       /* Button button = (Button) item.getActionView();
         //button.setImeOptions(EditorInfo.IME_ACTION_NONE);
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -171,9 +171,43 @@ public class ContactosAEFragment extends Fragment {
                 }
 
             }
-        });
+        });*/
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.btn_agregar_existente:
 
+                Fragment fragment = new ContactosSeleccionFragment();
+                Bundle datosAEnviar = new Bundle();
+
+                SharedPreferences preferences = getContext().getSharedPreferences("accion_contactos", Context.MODE_PRIVATE);
+
+                Log.d("Accion",preferences.getString("accion",""));
+
+                if(preferences.getString("accion","").equals("Insertar")) {
+
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fm.beginTransaction().replace(R.id.content_main, fragment).commit();
+                }
+
+                if(preferences.getString("accion","").equals("Modificar")) {
+                    datosAEnviar.putInt("idContacto", id_contacto);
+                    fragment.setArguments(datosAEnviar);
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fm.beginTransaction().replace(R.id.content_main, fragment).commit();
+                }
+
+                return true;
+
+
+        }
+
+        return false;
+
+    }
 }

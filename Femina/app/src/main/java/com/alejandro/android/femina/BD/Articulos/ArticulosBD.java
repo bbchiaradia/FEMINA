@@ -40,6 +40,7 @@ import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion.QueHacerAMFragment;
+import com.alejandro.android.femina.Fragments.que_hacer.Principal.QueHacerFragment;
 import com.alejandro.android.femina.GestionImagen.GestionarImagen;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
@@ -72,9 +73,9 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
     private String mensaje_devuelto, categoria;
     private Session ses;
     private ListView larticulos;
-    private TextView no_hay,txt_titulo,txt_descripcion;
-    private Boolean modifico, imagen_nula, no_hay_art,radio_rel,radio_fec;
-    private int max_articulo,position;
+    private TextView no_hay, txt_titulo, txt_descripcion;
+    private Boolean modifico, imagen_nula, no_hay_art, radio_rel, radio_fec;
+    private int max_articulo, position;
     private Bitmap image = null;
     private EditText titulo, descripcion;
     private ImageButton img;
@@ -139,7 +140,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         this.cat = new Categorias();
     }
 
-    public ArticulosBD(Context context, ListView list, TextView no, SearchView sv, String catt, Spinner sp,Boolean radio_fecha,
+    public ArticulosBD(Context context, ListView list, TextView no, SearchView sv, String catt, Spinner sp, Boolean radio_fecha,
                        Boolean radio_relevancia, String que) {
         datosSpinner.clear();
         listaArticulos.clear();
@@ -165,7 +166,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
 
 
         if (que_hacer.equals("Listar") || que_hacer.equals("Fecha") ||
-                que_hacer.equals("Relevancia") || que_hacer.equals("ListarSegunCategoria")){
+                que_hacer.equals("Relevancia") || que_hacer.equals("ListarSegunCategoria")) {
 
             response = "";
 
@@ -177,13 +178,13 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 ResultSet rs;
                 ResultSet rs_aux;
 
-                    datosSpinner.add("Todas");
+                datosSpinner.add("Todas");
 
-                    rs = st.executeQuery("SELECT * from Categorias");
+                rs = st.executeQuery("SELECT * from Categorias");
 
-                    while (rs.next()) {
-                        datosSpinner.add(rs.getString("Descripcion"));
-                    }
+                while (rs.next()) {
+                    datosSpinner.add(rs.getString("Descripcion"));
+                }
 
                 if (que_hacer.equals("Listar"))
                     rs = st.executeQuery("SELECT * FROM Articulos order by fechaCarga asc");
@@ -201,56 +202,55 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                                 "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by vistas asc");
                     else
                         rs = st.executeQuery("SELECT * FROM Articulos order by vistas asc");
+                else if (categoria.equals("Todas"))
+                    if (radio_rel)
+                        rs = st.executeQuery("SELECT * FROM Articulos order by vistas asc");
+                    else
+                        rs = st.executeQuery("SELECT * FROM Articulos order by fechaCarga asc");
+                else if (radio_rel)
+                    rs = st.executeQuery("SELECT a.idArticulo,a.Titulo,a.Descripcion,a.fechaCarga," +
+                            " a.vistas from Articulos a inner join Categorias c " +
+                            "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by vistas asc");
                 else
-                    if(categoria.equals("Todas"))
-                        if(radio_rel)
-                            rs = st.executeQuery("SELECT * FROM Articulos order by vistas asc");
-                        else
-                            rs = st.executeQuery("SELECT * FROM Articulos order by fechaCarga asc");
-                        else if(radio_rel)
-                        rs = st.executeQuery("SELECT a.idArticulo,a.Titulo,a.Descripcion,a.fechaCarga," +
-                                " a.vistas from Articulos a inner join Categorias c " +
-                                "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by vistas asc");
-                        else
-                        rs = st.executeQuery("SELECT a.idArticulo,a.Titulo,a.Descripcion,a.fechaCarga," +
-                                " a.vistas from Articulos a inner join Categorias c " +
-                                "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by fechaCarga asc");
+                    rs = st.executeQuery("SELECT a.idArticulo,a.Titulo,a.Descripcion,a.fechaCarga," +
+                            " a.vistas from Articulos a inner join Categorias c " +
+                            "on a.idCategoria = c.idCategoria where c.Descripcion = '" + categoria + "' order by fechaCarga asc");
 
-                    while (rs.next()) {
-                        no_hay_art = false;
-                        art = new Articulos();
-                        art_ext = new ArticulosExtra();
+                while (rs.next()) {
+                    no_hay_art = false;
+                    art = new Articulos();
+                    art_ext = new ArticulosExtra();
 
-                        art.setId_articulo(rs.getInt("idArticulo"));
-                        art.setTitulo(rs.getString("Titulo"));
-                        art.setDescripcion(rs.getString("Descripcion"));
-                        art.setFecha_carga(rs.getDate("fechaCarga"));
-                        art.setVistas(rs.getInt("vistas"));
+                    art.setId_articulo(rs.getInt("idArticulo"));
+                    art.setTitulo(rs.getString("Titulo"));
+                    art.setDescripcion(rs.getString("Descripcion"));
+                    art.setFecha_carga(rs.getDate("fechaCarga"));
+                    art.setVistas(rs.getInt("vistas"));
 
-                        String add = "http://femina.webcindario.com/getImage.php?id=" + rs.getInt("idArticulo");
-                        URL url = null;
-                        try {
-                            url = new URL(add);
-                            image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        rs_aux = st_aux.executeQuery("SELECT imagen from Articulos where idArticulo =" + rs.getInt("idArticulo"));
-
-                        if (rs_aux.next()) {
-
-                            if (rs_aux.getBlob(1) == null)
-                                image = BitmapFactory.decodeResource(context.getResources(), R.drawable.nodisponible);
-                        }
-
-                        art_ext.setArticulo(art);
-                        art_ext.setImagen_articulo(image);
-
-                        listaArticulos.add(art_ext);
+                    String add = "http://femina.webcindario.com/getImage.php?id=" + rs.getInt("idArticulo");
+                    URL url = null;
+                    try {
+                        url = new URL(add);
+                        image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
+                    rs_aux = st_aux.executeQuery("SELECT imagen from Articulos where idArticulo =" + rs.getInt("idArticulo"));
+
+                    if (rs_aux.next()) {
+
+                        if (rs_aux.getBlob(1) == null)
+                            image = BitmapFactory.decodeResource(context.getResources(), R.drawable.nodisponible);
+                    }
+
+                    art_ext.setArticulo(art);
+                    art_ext.setImagen_articulo(image);
+
+                    listaArticulos.add(art_ext);
+                }
 
                 response = "Conexion exitosa";
                 con.close();
@@ -273,13 +273,13 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                    datosSpinner.add("Todas");
+                datosSpinner.add("Todas");
 
-                    rs = st.executeQuery("SELECT * from Categorias");
+                rs = st.executeQuery("SELECT * from Categorias");
 
-                    while (rs.next()) {
-                        datosSpinner.add(rs.getString("Descripcion"));
-                    }
+                while (rs.next()) {
+                    datosSpinner.add(rs.getString("Descripcion"));
+                }
 
 
                 rs = st.executeQuery("SELECT a.Descripcion,a.Titulo,c.Descripcion,c.idCategoria from Articulos a" +
@@ -443,7 +443,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                if(!ses.getEs_admin()) {
+                if (!ses.getEs_admin()) {
 
                     rs = st.executeQuery("SELECT vistas from Articulos where idArticulo =" + art.getId_articulo());
 
@@ -504,6 +504,79 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             }
         }
 
+        if (que_hacer.equals("Eliminar")) {
+
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("Delete from Articulos where idArticulo=?");
+
+
+                ps.setInt(1, art.getId_articulo());
+
+
+                int filas = ps.executeUpdate();
+
+                if (filas > 0) {
+                    mensaje_devuelto = "Articulo eliminado!";
+                } else
+                    mensaje_devuelto = "Error al eliminar articulo!";
+
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al eliminar articulo!!";
+            }
+        }
+
+        if (que_hacer.equals("Modificar")) {
+
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("UPDATE Articulos set Titulo=?, Descripcion=?, idCategoria=? where idArticulo=?");
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("Select idCategoria from Categorias where Descripcion='"
+                        + art.getId_categoria().getDescripcion() + "'");
+
+                if (rs.next())
+                    ps.setInt(3, rs.getInt(1));
+                else
+                    insertamos = false;
+
+                ps.setString(1, art.getTitulo());
+                ps.setString(2, art.getDescripcion());
+                ps.setInt(4, art.getId_articulo());
+
+                if (insertamos) {
+
+                    int filas = ps.executeUpdate();
+
+                    if (filas > 0) {
+                        mensaje_devuelto = "Articulo actualizado!";
+                    } else
+                        mensaje_devuelto = "Error al actualizar articulo!";
+
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al actualizar articulo!!";
+            }
+        }
+
         return response;
 
 
@@ -527,7 +600,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         }
 
         if (que_hacer.equals("Listar") || que_hacer.equals("Fecha") || que_hacer.equals("Relevancia")
-        || que_hacer.equals("ListarSegunCategoria")) {
+                || que_hacer.equals("ListarSegunCategoria")) {
             final AdaptadorArticulos adapter = new AdaptadorArticulos(context, listaArticulos);
             larticulos.setAdapter(adapter);
 
@@ -552,17 +625,17 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 larticulos.setVisibility(View.VISIBLE);
             }
 
-            if(que_hacer.equals("Listar"))
-            spn_cat.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
+            if (que_hacer.equals("Listar"))
+                spn_cat.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
 
-                if (categoria.equals("Todas") || categoria.equals(""))
-                    spn_cat.setSelection(0);
-                else {
-                    for (int j = 0; j < datosSpinner.size(); j++) {
-                        if (datosSpinner.get(j).toString().equals(categoria))
-                            spn_cat.setSelection(j);
-                    }
+            if (categoria.equals("Todas") || categoria.equals(""))
+                spn_cat.setSelection(0);
+            else {
+                for (int j = 0; j < datosSpinner.size(); j++) {
+                    if (datosSpinner.get(j).toString().equals(categoria))
+                        spn_cat.setSelection(j);
                 }
+            }
         }
 
         if (que_hacer.equals("EliminarFoto")) {
@@ -619,6 +692,13 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             txt_titulo.setText(art_.getTitulo());
             txt_descripcion.setText(art_.getDescripcion());
             img_det.setImageBitmap(image);
+        }
+
+        if (que_hacer.equals("Modificar") || que_hacer.equals("Eliminar")) {
+            Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, new QueHacerFragment()).commit();
+
         }
 
 

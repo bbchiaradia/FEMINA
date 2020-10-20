@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.alejandro.android.femina.BD.Articulos.ArticulosBD;
 import com.alejandro.android.femina.Entidades.Articulos;
+import com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion.QueHacerAMFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.User.Detalle.QueHacerDetalleFragment;
 import com.alejandro.android.femina.R;
 
@@ -32,11 +33,11 @@ public class DialogoArticulos extends AppCompatDialogFragment {
                 .setItems(R.array.Dialogo_articulos, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
+                        Bundle datosAEnviar = new Bundle();
+
                         switch (which){
 
                             case 0:
-
-                                Bundle datosAEnviar = new Bundle();
 
                                 datosAEnviar.putInt("id_articulo", art.getId_articulo());
 
@@ -47,9 +48,20 @@ public class DialogoArticulos extends AppCompatDialogFragment {
                                 break;
 
                             case 1:
+                                datosAEnviar.putInt("id_articulo", art.getId_articulo());
+
+                                Fragment fragmento_am = new QueHacerAMFragment();
+                                fragmento_am.setArguments(datosAEnviar);
+                                FragmentManager fragmentManager_am = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                                fragmentManager_am.beginTransaction().replace(R.id.content_main, fragmento_am).commit();
                                 break;
 
                             case 2:
+
+                                DialogoSINOBajaArticulos dialogoSINOBajaArticulos = new DialogoSINOBajaArticulos(art);
+                                FragmentManager fragmentManager1 = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                                dialogoSINOBajaArticulos.show(fragmentManager1,"");
+
                                 break;
                         }
                     }
