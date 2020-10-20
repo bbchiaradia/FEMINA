@@ -94,7 +94,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
                 }
             });
         }
-
+        // boton fullScreen
         holder.btnfs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
