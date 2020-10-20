@@ -29,6 +29,7 @@
         android:layout_gravity="bottom"
         android:background="#f8f8f8"
         app:bb_tabXmlResource="@xml/navigation_bar_menu"
+        app:bb_behavior="shy"
         />
 
     <include layout="@layout/content_main" />
