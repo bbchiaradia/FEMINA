@@ -30,6 +30,9 @@ import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosF
 import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
 import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int REQUEST_CALL = 1;
     private String phonenbr;
     private int ID_ARTICULO;
+    private int Inicio;
 
 
     private List<Videos> youtubeVideoList;
@@ -72,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        hideFlotante();
 
         ID_ARTICULO = -1;
 
@@ -103,16 +109,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         navigationView.setItemIconTintList(null);
+
         // barra con los botones de inicio , llamadas de emergencia , sms de ayuda
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
                 if (tabId == R.id.tab_ini) {
-                    // The tab with id R.id.tab_calls was selected,
-                    // change your content accordingly.
-                    Toast.makeText(getApplicationContext(), "Estoy en inicio", Toast.LENGTH_SHORT).show();
-                    //textView.setText("Your Calls");
+                    if(Inicio != 0) {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_main, new HomeFragment()).commit();
+                    }else
+                        Inicio = 1;
                 } else if (tabId == R.id.tab_call911) {
                     phonenbr = "611";
                     hacerLlamadaTel();
@@ -123,9 +131,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     // The tab with id R.id.tab_chats was selected,
                     // change your content accordingly.
                     Toast.makeText(getApplicationContext(),"envio sms",Toast.LENGTH_SHORT).show();
+                } else if(tabId == R.id.tab_ocultar){
+                    bottomBar.setVisibility(View.INVISIBLE);
+                    showFlotante();
+                    Inicio = 0;
+
                 }
             }
         });
+
+
+    }
+
+    public void hideFlotante() {
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_mostrar);
+        fab.hide(false);
+    }
+
+    public void showFlotante() {
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_mostrar);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomBar.setVisibility(View.VISIBLE);
+                hideFlotante();
+                bottomBar.setDefaultTab(R.id.tab_ini);
+            }
+        });
+
+        fab.show(true);
 
     }
 

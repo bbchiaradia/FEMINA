@@ -23,4 +23,13 @@
     title="SMS de Ayuda"
     activeColor="@color/colorAccent"
     />
+
+    <tab
+        id="@+id/tab_ocultar"
+        icon="@drawable/ic_abajo"
+        title="Ocultar"
+        activeColor="@color/colorAccent"
+        />
+
+
 </tabs>

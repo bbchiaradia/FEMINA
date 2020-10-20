@@ -78,6 +78,15 @@
         android:textStyle="italic"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/btn_agregar_articulo"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/boton_celeste"
+        android:text="@string/agregar_articulo" />
 
 
     <ListView
@@ -88,15 +97,7 @@
         android:headerDividersEnabled="true"
         android:id="@+id/list_articulos"></ListView>
 
-    <Button
-        android:id="@+id/btn_agregar_articulo"
-        android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/boton_celeste"
-        android:text="@string/agregar_articulo" />
+
 
 
 

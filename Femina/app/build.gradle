@@ -42,4 +42,5 @@ dependencies {
     implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
 
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.github.clans:fab:1.6.4'
 }
