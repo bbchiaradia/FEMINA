@@ -31,6 +31,17 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/txt_fecha_articulo_detalle"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="cursive"
+        android:textColor="#403C3C"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/txt_descrip_articulo_detalle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

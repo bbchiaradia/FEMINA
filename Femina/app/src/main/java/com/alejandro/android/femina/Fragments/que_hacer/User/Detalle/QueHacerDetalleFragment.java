@@ -21,7 +21,7 @@ public class QueHacerDetalleFragment extends Fragment {
 
     private QueHacerDetalleViewModel queHacerDetalleViewModel;
     private ImageView img;
-    private TextView titulo,descripcion;
+    private TextView titulo,descripcion,fecha;
     private int id_articulo;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -42,6 +42,7 @@ public class QueHacerDetalleFragment extends Fragment {
         img = (ImageView) root.findViewById(R.id.imagen_articulo_detalle);
         titulo = (TextView) root.findViewById(R.id.txt_titulo_articulo_detalle);
         descripcion = (TextView) root.findViewById(R.id.txt_descrip_articulo_detalle);
+        fecha = (TextView) root.findViewById(R.id.txt_fecha_articulo_detalle);
 
         if(getArguments()!=null)
             id_articulo = getArguments().getInt("id_articulo");
@@ -50,7 +51,7 @@ public class QueHacerDetalleFragment extends Fragment {
         if(id_articulo!=-1){
             Articulos art = new Articulos();
             art.setId_articulo(id_articulo);
-            ArticulosBD articulosBD = new ArticulosBD(getContext(),art,img,titulo,descripcion,"CargarDetalle");
+            ArticulosBD articulosBD = new ArticulosBD(getContext(),art,img,titulo,descripcion,fecha,"CargarDetalle");
             articulosBD.execute();
 
         }

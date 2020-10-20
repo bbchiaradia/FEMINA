@@ -73,7 +73,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
     private String mensaje_devuelto, categoria;
     private Session ses;
     private ListView larticulos;
-    private TextView no_hay, txt_titulo, txt_descripcion;
+    private TextView no_hay, txt_titulo, txt_descripcion,txt_fecha;
     private Boolean modifico, imagen_nula, no_hay_art, radio_rel, radio_fec;
     private int max_articulo, position;
     private Bitmap image = null;
@@ -108,7 +108,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         this.max_articulo = 0;
     }
 
-    public ArticulosBD(Context context, Articulos art, ImageView img, TextView tit, TextView des, String que) {
+    public ArticulosBD(Context context, Articulos art, ImageView img, TextView tit, TextView des,TextView fecha, String que) {
         this.context = context;
         this.que_hacer = que;
         this.ses = new Session();
@@ -119,6 +119,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         this.txt_titulo = tit;
         this.img_det = img;
         this.art = art;
+        this.txt_fecha = fecha;
         art_ = new Articulos();
     }
 
@@ -273,7 +274,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                datosSpinner.add("Todas");
+                //datosSpinner.add("Todas");
 
                 rs = st.executeQuery("SELECT * from Categorias");
 
@@ -292,6 +293,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                     cat.setDescripcion(rs.getString(3));
                     cat.setId_categoria(rs.getInt(4));
                     art_.setId_categoria(cat);
+
                     //art_.setImagen(rs.getBlob(4));
 
                     //String id = urls[0];
@@ -462,12 +464,13 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                     }
                 }
 
-                rs = st.executeQuery("SELECT Titulo,Descripcion from Articulos where idArticulo =" + art.getId_articulo());
+                rs = st.executeQuery("SELECT Titulo,Descripcion, fechaCarga from Articulos where idArticulo =" + art.getId_articulo());
 
                 if (rs.next()) {
 
                     art_.setTitulo(rs.getString(1));
                     art_.setDescripcion(rs.getString(2));
+                    art_.setFecha_carga(rs.getDate(3));
 
                     //String id = urls[0];
                     String add = "http://femina.webcindario.com/getImage.php?id=" + art.getId_articulo();
@@ -691,6 +694,7 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         if (que_hacer.equals("CargarDetalle")) {
             txt_titulo.setText(art_.getTitulo());
             txt_descripcion.setText(art_.getDescripcion());
+            txt_fecha.setText("" + art_.getFecha_carga());
             img_det.setImageBitmap(image);
         }
 
