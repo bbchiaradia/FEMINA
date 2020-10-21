@@ -15,12 +15,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.alejandro.android.femina.Fragments.testimonios.Audios.TestimoniosAudiosFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
 import com.alejandro.android.femina.R;
 
 public class TestimoniosFragment extends Fragment {
 
-    CardView cardVideo;
+    CardView cardVideo, cardAudio;
 
     private TestimoniosViewModel testimoniosViewModel;
 
@@ -54,6 +55,25 @@ public class TestimoniosFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+
+        cardAudio = root.findViewById(R.id.cardVoz);
+        cardAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear fragmento de tu clase
+                Fragment fragment = new TestimoniosAudiosFragment();
+                // Obtener el administrador de fragmentos a través de la actividad
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                // Definir una transacción
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                // Remplazar el contenido principal por el fragmento
+                fragmentTransaction.replace(R.id.content_main, fragment);
+                fragmentTransaction.addToBackStack(null);
+                // Cambiar
+                fragmentTransaction.commit();
+            }
+        });
+
 
 
         return root;
