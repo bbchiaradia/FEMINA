@@ -1,5 +1,8 @@
 package com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
@@ -131,11 +135,21 @@ public class QueHacerAMFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(id_articulo !=-1) {
-                    Articulos art = new Articulos();
-                    art.setId_articulo(id_articulo);
-                    DialogoEditarFoto dialog = new DialogoEditarFoto(art);
-                    FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-                    dialog.show(fragmentManager, "");
+
+
+                    if((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) &&
+                            (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_MEDIA_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED)){
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION},1);
+                    }else
+                    {
+                        Articulos art = new Articulos();
+                        art.setId_articulo(id_articulo);
+                        DialogoEditarFoto dialog = new DialogoEditarFoto(art);
+                        FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                        dialog.show(fragmentManager, "");
+                    }
+
                 }
                 else
                     Toast.makeText(getContext(),"Error al recuperar idArticulo",Toast.LENGTH_SHORT).show();

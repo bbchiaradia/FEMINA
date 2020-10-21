@@ -7,6 +7,16 @@
     android:background="@color/fondo_pantallas"
     android:orientation="vertical">
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
     <ImageButton
         android:id="@+id/editar_foto"
         android:layout_width="125dp"
@@ -28,13 +38,25 @@
         android:inputType="textPersonName"
         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/marco_redondo"
+        android:orientation="vertical">
+
     <Spinner
         android:id="@+id/spn_cat_articulos"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:popupBackground="@color/fondo_pantallas"
         android:layout_gravity="center"
         />
+
+    </LinearLayout>
 
 
 
@@ -74,6 +96,8 @@
         android:background="@drawable/boton_rojo"
         android:text="@string/borrar_Articulo" />
 
+</LinearLayout>
 
+    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

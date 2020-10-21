@@ -74,7 +74,20 @@ public class ContactosAEFragment extends Fragment {
             //if(id_contacto!=-1)
             id_contacto = (datosRecuperados.getInt("idContacto"));
 
-            Log.d("id_contacto","" + id_contacto);
+            SharedPreferences preferencias = getContext().getSharedPreferences("contactos_vuelta", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencias.edit();
+            editor.putString("nombre",datosRecuperados.getString("nombre"));
+            editor.putString("telefono",datosRecuperados.getString("telefono"));
+            editor.putInt("idContacto",datosRecuperados.getInt("idContacto"));
+            editor.apply();
+        }else{
+
+            SharedPreferences preferencias = getContext().getSharedPreferences("contactos_vuelta", Context.MODE_PRIVATE);
+
+            telefono.setText(preferencias.getString("telefono",""));
+            nombre.setText(preferencias.getString("nombre",""));
+            id_contacto = preferencias.getInt("idContacto",-1);
+
         }
 
         guardar_cambios_contacto.setOnClickListener(new View.OnClickListener() {
