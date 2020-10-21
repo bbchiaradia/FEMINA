@@ -187,11 +187,18 @@ public VideosBD(Context context, String que, Spinner spn){
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
                 ps = con.prepareStatement("UPDATE Videos SET Titulo=?, idCategoria=?, urlVideo=? WHERE idVideo=?");
 
-               // Statement st = con.createStatement();
-               // ResultSet rs;
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("Select idCategoria from Categorias where Descripcion='"
+                        + vi.getIdCategoria().getDescripcion() + "'");
+
+                if (rs.next())
+                    ps.setInt(2, rs.getInt(1));
+                else
+                    insertamos = false;
 
                 ps.setString(1,vi.getTitulo());
-                ps.setInt(2,vi.getIdCategoria().getId_categoria());
                 ps.setString(3,vi.getUrl_video());
                 ps.setInt(4,vi.getId_video());
 
@@ -224,16 +231,29 @@ public VideosBD(Context context, String que, Spinner spn){
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
                 ps = con.prepareStatement("INSERT INTO Videos (Titulo, idCategoria, urlVideo) VALUES( ? , ? , ? )");
 
+
                 Statement st = con.createStatement();
                 ResultSet rs;
 
+                rs = st.executeQuery("Select idCategoria from Categorias where Descripcion='"
+                        + vi.getIdCategoria().getDescripcion() + "'");
+
+                if (rs.next())
+                    ps.setInt(2, rs.getInt(1));
+                else
+                    insertamos = false;
+
+
+
+                Statement st_ = con.createStatement();
+                ResultSet rs_;
+
                 ps.setString(1, vi.getTitulo());
-                ps.setInt(2, vi.getIdCategoria().getId_categoria());
                 ps.setString(3, vi.getUrl_video());
 
-                rs = st.executeQuery("SELECT 1 FROM Videos where urlVideo ='" + vi.getUrl_video() + "'");
+                rs_ = st_.executeQuery("SELECT 1 FROM Videos where urlVideo ='" + vi.getUrl_video() + "'");
 
-                if (rs.next()) {
+                if (rs_.next()) {
                     insertamos = false;
                     mensaje_devuelto = "La URL ya esta registrada";
                 }

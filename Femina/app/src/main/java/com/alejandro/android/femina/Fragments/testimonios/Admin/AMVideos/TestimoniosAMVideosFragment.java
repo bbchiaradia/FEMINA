@@ -90,7 +90,8 @@ public class TestimoniosAMVideosFragment extends Fragment {
                         //video.setId_video(idvideo.getInputType());
                         video.setTitulo(tituloam.getText().toString());
                         Categorias idc = new Categorias();
-                        idc.setId_categoria(spn.getSelectedItemPosition() + 1);
+                        //idc.setId_categoria(spn.getSelectedItemPosition() + 1);
+                        idc.setDescripcion(spn.getSelectedItem().toString());
                         video.setIdCategoria(idc);
                         video.setUrl_video(formateoUrlYoutube(urlam.getText().toString()));
                         if (id_video != -1)

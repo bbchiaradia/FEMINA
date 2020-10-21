@@ -81,12 +81,14 @@ android:layout_height="200dp">
 
     <Button
         android:id="@+id/fullscreen"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:text="FullScreen"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="0dp"
         android:background="@color/colorTransparente"
-        android:textColor="#acacac"
-        />
+        android:text="[    ]"
+        android:textColor="#acacac" />
 </RelativeLayout>
     </androidx.cardview.widget.CardView>
