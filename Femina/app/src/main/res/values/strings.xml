@@ -103,6 +103,10 @@
         <item>Eliminar</item>
     </string-array>
 
+    <string-array name="gestion_icono">
+        <item>Seleccionar</item>
+    </string-array>
+
     <string name="categoriadospuntos">Categoria: </string>
     <string name="titulodospuntos">Titulo: </string>
     <string name="urldospuntos">Url: </string>

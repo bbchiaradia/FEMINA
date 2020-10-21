@@ -1,20 +1,36 @@
 package com.alejandro.android.femina.Fragments.icono;
 
+import android.content.ComponentName;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.Adaptadores.AdapterIconos;
+import com.alejandro.android.femina.BuildConfig;
+import com.alejandro.android.femina.Dialogos.DialogoArticulos;
+import com.alejandro.android.femina.Dialogos.DialogoIconos;
+import com.alejandro.android.femina.Entidades.Articulos;
 import com.alejandro.android.femina.Entidades.EntidadIcono;
+import com.alejandro.android.femina.Fragments.que_hacer.User.Detalle.QueHacerDetalleFragment;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.Session.Session;
 
 import java.util.ArrayList;
 
@@ -30,6 +46,9 @@ public class IconoFragment extends Fragment {
                 ViewModelProviders.of(this).get(IconoViewModel.class);
         final View root = inflater.inflate(R.layout.fragment_icono, container, false);
         //final TextView textView = root.findViewById(R.id.txt_icono);
+
+
+
         iconoViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -37,9 +56,109 @@ public class IconoFragment extends Fragment {
 
                 adaptador = new AdapterIconos(getContext(), GetArrayIconos());
                 lvIconos.setAdapter(adaptador);
+
+                final Session ses = new Session();
+                ses.setCt(getContext());
+                ses.cargar_session();
+
+
+
+                lvIconos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        Bundle datosAEnviar = new Bundle();
+
+                        TextView id_icono = (TextView) view.findViewById(R.id.txt_id_icono);
+
+                           final TextView tituloIcono = (TextView) view.findViewById(R.id.iconoTitulo);
+                           System.out.println("AAAAAAAAAACAAAAAAA" + tituloIcono.getText().toString() + "   pos  " + i);
+
+
+
+
+                        AlertDialog.Builder dialogoIcono = new AlertDialog.Builder(getContext());
+                        dialogoIcono.setTitle("¿Desea confirmar la selección de este Icono?");
+                        dialogoIcono.setCancelable(false);
+                        dialogoIcono.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogo1, int id) {
+                               // aceptar();
+                                if (tituloIcono.getText().toString() == "MODA"){
+                                    Toast t= Toast.makeText(getContext(),"MODAAAA", Toast.LENGTH_SHORT);
+                                    t.show();
+
+
+/*
+                                    public enum ICON_COLOUR {
+                                        RED,
+                                        GREEN,
+                                        BLUE;
+                                    }
+
+                                    ICON_COLOUR[] iconColour = ICON_COLOUR.values();
+                                    for (int i = 0; i < iconColour.length ; ++i) {
+                                        int setting;
+                                        if (iconColour[i] == ICON_COLOUR.RED) {
+                                            setting = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+                                        } else {
+                                            setting = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+                                        }
+                                        ComponentName componentName = new ComponentName(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID + "." + ICON_COLOUR.RED);
+                                        getContext().getPackageManager().setComponentEnabledSetting(componentName,
+                                                setting,
+                                                PackageManager.DONT_KILL_APP);
+                                        Toast.makeText(getContext(), componentName.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+
+ */
+
+                                } else if (tituloIcono.getText().toString() == "HOROSCOPO"){
+                                    Toast t= Toast.makeText(getContext(),"HOROSCOPOOOO", Toast.LENGTH_SHORT);
+                                    t.show();
+
+                                }else if (tituloIcono.getText().toString() == "PELUQUERIA"){
+                                    Toast t= Toast.makeText(getContext(),"PELUQUERIAAAAA", Toast.LENGTH_SHORT);
+                                    t.show();
+
+                                }else if (tituloIcono.getText().toString() == "RECETAS"){
+                                    Toast t= Toast.makeText(getContext(),"RECETASSSSSSS", Toast.LENGTH_SHORT);
+                                    t.show();
+
+                                }
+
+
+
+                            }
+                        });
+                        dialogoIcono.setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogo1, int id) {
+                               // cancelar();
+                            }
+                        });
+                        dialogoIcono.show();
+
+
+
+
+                    }
+                });
+
+
+
             }
         });
         return root;
+    }
+
+
+    public void aceptar() {
+        Toast t= Toast.makeText(getContext(),"ACEPTA", Toast.LENGTH_SHORT);
+        t.show();
+    }
+
+    public void cancelar() {
+        Toast t= Toast.makeText(getContext(),"Accion Cancelada", Toast.LENGTH_SHORT);
+        t.show();
     }
 
     private ArrayList<EntidadIcono> GetArrayIconos(){
