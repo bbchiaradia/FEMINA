@@ -1,12 +1,16 @@
 package com.alejandro.android.femina.Fragments.test_violencia.Principal;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -22,6 +26,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.BD.Preguntas.PreguntasBD;
+import com.alejandro.android.femina.Dialogos.DialogoAEContactos;
 import com.alejandro.android.femina.Entidades.PreguntasTest;
 import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
 import com.alejandro.android.femina.Fragments.test_violencia.Preguntas.TestViolenciaPreguntasFragment;
@@ -54,11 +59,15 @@ public class TestViolenciaFragment extends Fragment {
                 lvlPreguntas = (ListView) root.findViewById(R.id.lvlPreguntas);
                 PreguntasBD cont = new PreguntasBD(getContext(), arrayPreguntas , lvlPreguntas);
                 cont.execute();
+                /*
                 try {
                     Thread.sleep(4*1000);
                 } catch (Exception e) {
                     System.out.println(e);
-                }
+                }*/
+
+
+
                 btnIniciarTest = (Button) root.findViewById(R.id.btnEmpezarTest);
                 btnIniciarTest.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -79,6 +88,12 @@ public class TestViolenciaFragment extends Fragment {
                             FragmentTransaction fragmentTransaction = fm.beginTransaction();
                             //TestViolenciaPreguntasFragment fragment = new TestViolenciaPreguntasFragment();
                             fragmentTransaction.add(R.id.content_main, frgmnt).commit();
+                            ProgressDialog progressDialog = new ProgressDialog(getContext());
+                            progressDialog.setTitle("Progreso");
+                            progressDialog.setMessage("Estamos progresando....");
+                            progressDialog.setMax(100);
+                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+
 
                     }
                 });

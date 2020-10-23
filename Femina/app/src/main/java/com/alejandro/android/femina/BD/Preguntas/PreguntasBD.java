@@ -1,13 +1,17 @@
 package com.alejandro.android.femina.BD.Preguntas;
 
         import android.app.Activity;
+        import android.app.ProgressDialog;
         import android.content.Context;
+        import android.content.DialogInterface;
         import android.content.Intent;
         import android.os.AsyncTask;
         import android.widget.ArrayAdapter;
         import android.widget.ListView;
+        import android.widget.ProgressBar;
         import android.widget.TextView;
 
+        import androidx.appcompat.app.AlertDialog;
         import androidx.recyclerview.widget.LinearLayoutManager;
         import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +47,7 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
     private TextView txtPregunta;
     private RecyclerView recyclerView;
     Activity activity;
+    private ProgressDialog dialog;
 
     private AdapterIPreguntas adaptador;
     public ListView lvlPreguntas;
@@ -58,6 +63,7 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
         test = new Test();
         this.context = ct;
         this.lvlPreguntas = lvlPregunta;
+        dialog = new ProgressDialog(ct);
     }
 
 
@@ -106,8 +112,32 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
         return response;
     }
 
+    protected void onPreExecute() {
+        dialog.setMessage("Cargando Test...");
+        dialog.setMax(100);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.show();
+    }
+
     @Override
     protected void onPostExecute(String response) {//Aqui vamos a tener lo que vamos a visualizar en la pantalla
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while(dialog.getProgress() <= dialog.getMax()){
+                        Thread.sleep(100);
+                        dialog.incrementProgressBy(10);
+                        if(dialog.getProgress() == dialog.getMax()){
+                            dialog.dismiss();
+                        }
+                    }
+                }catch (Exception e){
+
+                }
+            }
+        }).start();
         adaptador = new AdapterIPreguntas(context, arrP);
         lvlPreguntas.setAdapter(adaptador);
         //System.out.println( "EL VALOR ES BASE DE DATOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS : " + lvlPreguntas.getItemAtPosition(1).);
