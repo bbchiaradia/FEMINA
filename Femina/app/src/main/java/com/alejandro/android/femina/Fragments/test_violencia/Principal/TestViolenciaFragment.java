@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.BD.Preguntas.PreguntasBD;
+import com.alejandro.android.femina.BD.Test.TestDB;
 import com.alejandro.android.femina.Dialogos.DialogoAEContactos;
 import com.alejandro.android.femina.Entidades.PreguntasTest;
 import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
@@ -42,7 +44,7 @@ public class TestViolenciaFragment extends Fragment {
     Button btnIniciarTest;
     private ListView lvlPreguntas;
     ArrayList<PreguntasTest> arrayPreguntas = new ArrayList<PreguntasTest>(); //declaro para ver las preguntas
-
+    private Spinner spinner_test;
 
 
 
@@ -57,15 +59,12 @@ public class TestViolenciaFragment extends Fragment {
             public void onChanged(@Nullable String s) {
             //    textView.setText(s);
                 lvlPreguntas = (ListView) root.findViewById(R.id.lvlPreguntas);
+                spinner_test = (Spinner) root.findViewById(R.id.sp_test);
+
+                TestDB testDB = new TestDB(getContext(),spinner_test);
+                testDB.execute();
                 PreguntasBD cont = new PreguntasBD(getContext(), arrayPreguntas , lvlPreguntas);
                 cont.execute();
-                /*
-                try {
-                    Thread.sleep(4*1000);
-                } catch (Exception e) {
-                    System.out.println(e);
-                }*/
-
 
 
                 btnIniciarTest = (Button) root.findViewById(R.id.btnEmpezarTest);

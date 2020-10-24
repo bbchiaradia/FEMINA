@@ -30,4 +30,9 @@ public class Test   implements Serializable {
     public void setNombre_test(String nombre_test) {
         this.nombre_test = nombre_test;
     }
+
+    @Override
+    public String toString() {
+        return nombre_test;
+    }
 }

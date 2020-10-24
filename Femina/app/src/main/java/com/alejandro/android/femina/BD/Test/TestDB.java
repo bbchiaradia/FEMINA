@@ -2,10 +2,13 @@ package com.alejandro.android.femina.BD.Test;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.PreguntasTest;
 import com.alejandro.android.femina.Entidades.Test;
+import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 
 import java.sql.Connection;
@@ -23,27 +26,30 @@ public class TestDB extends AsyncTask<String, Void, String> {
     private Context context;
     private ArrayList<Test> arrayTest = new ArrayList<Test>();
     private Session ses;
+    private Spinner spinnerTest;
 
-    public TestDB(Context ct){
+    public TestDB(Context ct , Spinner sp){
       this.context = ct;
-      ses.setCt(ct);
-      ses.cargar_session();
+      //ses.setCt(ct);
+      //ses.cargar_session();
+      this.spinnerTest = sp;
     }
 
     @Override
     protected String doInBackground(String... strings) {
         String response = "";
         PreparedStatement ps;
+
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
                 Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM `Test` " + idUsuario); //
-                boolean band = rs.next();
+                ResultSet rs = st.executeQuery("SELECT * FROM `Test` " ); //
                 while (rs.next()) {
                    Test test = new Test();
                    test.setId_test(rs.getInt("idTest"));
                    test.setNombre_test(rs.getString("nombreTest"));
+                   System.out.println("NOMBRE TEST " + rs.getString("nombreTest"));
                    arrayTest.add(test);
                 }
                 response = "Conexion exitosa";
@@ -57,6 +63,8 @@ public class TestDB extends AsyncTask<String, Void, String> {
     }
     @Override
     protected void onPostExecute(String response) {
+        ArrayAdapter<Test> adapter = new ArrayAdapter<>(this.context,android.R.layout.simple_spinner_dropdown_item,arrayTest);
+        spinnerTest.setAdapter(adapter);
 
     }
 }
