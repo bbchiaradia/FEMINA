@@ -1,6 +1,7 @@
 package com.alejandro.android.femina.Main;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.widget.Toast;
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
+import com.alejandro.android.femina.BuildConfig;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.ayuda.AyudaFragment;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
@@ -30,9 +32,9 @@ import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosF
 import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
 import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.gestionicono.gestionicono;
+
 import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int Inicio;
 
 
+
     private List<Videos> youtubeVideoList;
     protected List<Videos> VideoListFull;
 
@@ -74,10 +77,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         hideFlotante();
+
+
+
 
         ID_ARTICULO = -1;
 
@@ -300,6 +309,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         tiempoPrimerClick = System.currentTimeMillis();
     }
+
+
+
 
 
 

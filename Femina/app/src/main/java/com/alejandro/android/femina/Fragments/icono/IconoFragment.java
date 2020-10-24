@@ -31,6 +31,7 @@ import com.alejandro.android.femina.Entidades.EntidadIcono;
 import com.alejandro.android.femina.Fragments.que_hacer.User.Detalle.QueHacerDetalleFragment;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
+import com.alejandro.android.femina.gestionicono.gestionicono;
 
 import java.util.ArrayList;
 
@@ -72,9 +73,6 @@ public class IconoFragment extends Fragment {
                         TextView id_icono = (TextView) view.findViewById(R.id.txt_id_icono);
 
                            final TextView tituloIcono = (TextView) view.findViewById(R.id.iconoTitulo);
-                           System.out.println("AAAAAAAAAACAAAAAAA" + tituloIcono.getText().toString() + "   pos  " + i);
-
-
 
 
                         AlertDialog.Builder dialogoIcono = new AlertDialog.Builder(getContext());
@@ -82,47 +80,18 @@ public class IconoFragment extends Fragment {
                         dialogoIcono.setCancelable(false);
                         dialogoIcono.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogo1, int id) {
-                               // aceptar();
+
                                 if (tituloIcono.getText().toString() == "MODA"){
-                                    Toast t= Toast.makeText(getContext(),"MODAAAA", Toast.LENGTH_SHORT);
-                                    t.show();
-
-
-/*
-                                    public enum ICON_COLOUR {
-                                        RED,
-                                        GREEN,
-                                        BLUE;
-                                    }
-
-                                    ICON_COLOUR[] iconColour = ICON_COLOUR.values();
-                                    for (int i = 0; i < iconColour.length ; ++i) {
-                                        int setting;
-                                        if (iconColour[i] == ICON_COLOUR.RED) {
-                                            setting = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-                                        } else {
-                                            setting = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
-                                        }
-                                        ComponentName componentName = new ComponentName(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID + "." + ICON_COLOUR.RED);
-                                        getContext().getPackageManager().setComponentEnabledSetting(componentName,
-                                                setting,
-                                                PackageManager.DONT_KILL_APP);
-                                        Toast.makeText(getContext(), componentName.toString(), Toast.LENGTH_SHORT).show();
-                                    }
-
- */
+                                    setIcon(gestionicono.ICON_COLOUR.MODA);
 
                                 } else if (tituloIcono.getText().toString() == "HOROSCOPO"){
-                                    Toast t= Toast.makeText(getContext(),"HOROSCOPOOOO", Toast.LENGTH_SHORT);
-                                    t.show();
+                                    setIcon(gestionicono.ICON_COLOUR.HOROSCOPO);
 
                                 }else if (tituloIcono.getText().toString() == "PELUQUERIA"){
-                                    Toast t= Toast.makeText(getContext(),"PELUQUERIAAAAA", Toast.LENGTH_SHORT);
-                                    t.show();
+                                    setIcon(gestionicono.ICON_COLOUR.PELUQUERIA);
 
                                 }else if (tituloIcono.getText().toString() == "RECETAS"){
-                                    Toast t= Toast.makeText(getContext(),"RECETASSSSSSS", Toast.LENGTH_SHORT);
-                                    t.show();
+                                    setIcon(gestionicono.ICON_COLOUR.RECETAS);
 
                                 }
 
@@ -173,5 +142,28 @@ public class IconoFragment extends Fragment {
 
         return listIconos;
     }
+
+    public void setIcon(gestionicono.ICON_COLOUR tgt) {
+
+        gestionicono.ICON_COLOUR[] iconColour = gestionicono.ICON_COLOUR.values();
+
+        for (int i = 0; i < iconColour.length ; ++i) {
+            int setting;
+            if (iconColour[i] == tgt) {
+                setting = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+            } else {
+                setting = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+            }
+
+
+            ComponentName componentName = new ComponentName(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID + "." + iconColour[i].name());
+            getContext().getPackageManager().setComponentEnabledSetting(componentName,
+                    setting,
+                    PackageManager.DONT_KILL_APP);
+         //   Toast.makeText(getContext(), componentName.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Icono " +tgt +" actualizado con EXITO!!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
 }
