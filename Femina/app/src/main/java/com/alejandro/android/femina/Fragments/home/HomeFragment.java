@@ -1,6 +1,7 @@
 package com.alejandro.android.femina.Fragments.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.alejandro.android.femina.Fragments.que_hacer.Principal.QueHacerFragme
 import com.alejandro.android.femina.Fragments.test_violencia.Principal.TestViolenciaFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.Session.SessionContactos;
 
 public class HomeFragment extends Fragment {
 
@@ -44,6 +46,22 @@ public class HomeFragment extends Fragment {
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
+
+                SessionContactos sessionContactos = new SessionContactos();
+                sessionContactos.setContext(getContext());
+                sessionContactos.cargar_session();
+
+                String[] contactos;
+                contactos = sessionContactos.getContactos();
+
+                int i = 1;
+
+                for(String x : contactos){
+                    Log.d("Contacto" , x );
+                    i++;
+                }
+
+
 
                 btn_misDatos_inicio = (ImageButton) root.findViewById(R.id.btn_misdatos_inicio);
                 btn_misDatos_inicio.setOnClickListener(new View.OnClickListener() {

@@ -1,20 +1,41 @@
 package com.alejandro.android.femina.Main;
 
 import android.Manifest;
+
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.ComponentName;
+
+import android.content.Context;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.Process;
+import android.provider.Settings;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
+
 import com.alejandro.android.femina.BuildConfig;
+
+import com.alejandro.android.femina.BD.Contactos.ContactosBD;
+
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.ayuda.AyudaFragment;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
@@ -32,16 +53,25 @@ import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosF
 import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
 import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.Servicio.CerrarNoti;
+import com.alejandro.android.femina.Servicio.Servicio;
 import com.alejandro.android.femina.gestionicono.gestionicono;
 
+import com.alejandro.android.femina.Session.Session;
+import com.alejandro.android.femina.Session.SessionContactos;
 import com.github.clans.fab.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -54,7 +84,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+
+import static com.alejandro.android.femina.Servicio.App.CHANNEL_ID;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -64,9 +98,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private long tiempoPrimerClick;
     private AdapterVideos adapter_video;
     private static final int REQUEST_CALL = 1;
-    private String phonenbr;
+    private String phonenbr, direccion,latitud,longitud;
     private int ID_ARTICULO;
     private int Inicio;
+    private boolean corto_gps;
 
 
 
@@ -79,19 +114,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        ContactosBD contactosBD = new ContactosBD(getApplicationContext(), "TraerContactos");
+        contactosBD.execute();
+
         hideFlotante();
 
-
-
+        corto_gps = false;
 
         ID_ARTICULO = -1;
 
         Bundle parametros = this.getIntent().getExtras();
-        if(parametros !=null){
+        if (parametros != null) {
             ID_ARTICULO = getIntent().getExtras().getInt("id_articulo");
         }
 
@@ -103,8 +139,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Fragment fragment;
 
-        if(ID_ARTICULO == -1)
-         fragment = new HomeFragment();
+        if (ID_ARTICULO == -1)
+            fragment = new HomeFragment();
         else {
             fragment = new QueHacerAMFragment();
             Bundle datosAEnviar = new Bundle();
@@ -121,26 +157,83 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // barra con los botones de inicio , llamadas de emergencia , sms de ayuda
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+
+
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
-            public void onTabSelected(@IdRes int tabId) {
+            public void onTabReSelected(int tabId) {
                 if (tabId == R.id.tab_ini) {
-                    if(Inicio != 0) {
+                    if (Inicio != 0) {
                         FragmentManager fragmentManager = getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.content_main, new HomeFragment()).commit();
-                    }else
+                    } else
                         Inicio = 1;
                 } else if (tabId == R.id.tab_call911) {
                     phonenbr = "611";
                     hacerLlamadaTel();
                 } else if (tabId == R.id.tab_call144) {
-                    phonenbr = "114";
-                    hacerLlamadaTel();
+                    //locationManager.removeUpdates(local);
                 } else if (tabId == R.id.tab_sms) {
-                    // The tab with id R.id.tab_chats was selected,
-                    // change your content accordingly.
-                    Toast.makeText(getApplicationContext(),"envio sms",Toast.LENGTH_SHORT).show();
-                } else if(tabId == R.id.tab_ocultar){
+                    SessionContactos sessionContactos = new SessionContactos();
+                    sessionContactos.setContext(MainActivity.this);
+                    sessionContactos.cargar_session();
+                    if(sessionContactos.getCant_contactos()>0) {
+                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+                            return;
+                        }
+                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS,}, 1000);
+                            return;
+                        }
+                        Intent serviceIntent = new Intent(getApplicationContext(), Servicio.class);
+                        startService(serviceIntent);
+                    }
+                    else
+                        Toast.makeText(MainActivity.this,"NO TIENES CONTACTOS REGISTRADOS!",Toast.LENGTH_SHORT).show();
+                } else if (tabId == R.id.tab_ocultar) {
+                    bottomBar.setVisibility(View.INVISIBLE);
+                    showFlotante();
+                    Inicio = 0;
+
+                }
+            }
+        });
+
+
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                if (tabId == R.id.tab_ini) {
+                    if (Inicio != 0) {
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().replace(R.id.content_main, new HomeFragment()).commit();
+                    } else
+                        Inicio = 1;
+                } else if (tabId == R.id.tab_call911) {
+                    phonenbr = "611";
+                    hacerLlamadaTel();
+                } else if (tabId == R.id.tab_call144) {
+                    //locationManager.removeUpdates(local);
+                } else if (tabId == R.id.tab_sms) {
+                    SessionContactos sessionContactos = new SessionContactos();
+                    sessionContactos.setContext(MainActivity.this);
+                    sessionContactos.cargar_session();
+                    if(sessionContactos.getCant_contactos()>0) {
+                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+                            return;
+                        }
+                        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS,}, 1000);
+                            return;
+                        }
+                        Intent serviceIntent = new Intent(getApplicationContext(), Servicio.class);
+                        startService(serviceIntent);
+                    }
+                    else
+                        Toast.makeText(MainActivity.this,"NO TIENES CONTACTOS REGISTRADOS!",Toast.LENGTH_SHORT).show();
+                } else if (tabId == R.id.tab_ocultar) {
                     bottomBar.setVisibility(View.INVISIBLE);
                     showFlotante();
                     Inicio = 0;
@@ -151,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
 
     public void hideFlotante() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_mostrar);
@@ -174,11 +268,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-
     // Devolución de llamada para conocer el resultado de solicitar permisos. Este método se invoca para cada llamada
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CALL){
+        if (requestCode == REQUEST_CALL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 hacerLlamadaTel();
             } else {
@@ -186,12 +279,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
     // Metodo para llamada telefónica
     private void hacerLlamadaTel() {
         String number = phonenbr;
         // solicito el permiso CALL_PHONE en tiempo de ejecución utilizando los métodos checkSelfPermission y requestPermission.
         if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.CALL_PHONE},REQUEST_CALL);
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
         } else {
             String dial = "tel:" + number;
             Intent intent = new Intent(Intent.ACTION_CALL);
@@ -217,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public boolean onOptionsItemSelected(MenuItem item) {
         //RECUPERA EL ITEM QUE SE ESTA PRESIONANDO
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_cerrarSesion:
                 logOut();
                 return true;
@@ -231,9 +325,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void logOut(){
+    private void logOut() {
         Intent intent = new Intent(this, Ingresar.class);
         startActivity(intent);
+        Session ses = new Session();
+        ses.setCt(getApplicationContext());
+        ses.cerrar_session();
+        SessionContactos ses_cont = new SessionContactos();
+        ses_cont.setContext(getApplicationContext());
+        ses_cont.cerrar_session();
     }
 
     @Override
@@ -242,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onDestroy();
     }
 
-    private void finalizarApp(){
+    private void finalizarApp() {
         finish();
         System.runFinalization();
         MainActivity.this.finish();
@@ -257,11 +357,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_mis_datos) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new PerfilFragment()).commit();
-        }else if (id == R.id.nav_home) {
+        } else if (id == R.id.nav_home) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new HomeFragment()).commit();
-        }else if (id == R.id.nav_ayuda) {
+        } else if (id == R.id.nav_ayuda) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new AyudaFragment()).commit();
-        }else if (id == R.id.nav_contactos_emergencia) {
+        } else if (id == R.id.nav_contactos_emergencia) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosFragment()).commit();
         } else if (id == R.id.nav_crear_icono) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new IconoFragment()).commit();
@@ -285,23 +385,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_main);
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        if(currentFragment instanceof ContactosAEFragment){
+        if (currentFragment instanceof ContactosAEFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosFragment()).commit();
-        }else if(currentFragment instanceof TestimoniosAMVideosFragment) {
+        } else if (currentFragment instanceof TestimoniosAMVideosFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosVideosFragment()).commit();
-        }else if(currentFragment instanceof QueHacerAMFragment) {
+        } else if (currentFragment instanceof QueHacerAMFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new QueHacerFragment()).commit();
-        }else if(currentFragment instanceof QueHacerDetalleFragment) {
+        } else if (currentFragment instanceof QueHacerDetalleFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new QueHacerFragment()).commit();
-        }
-        else if(currentFragment instanceof ContactosSeleccionFragment) {
+        } else if (currentFragment instanceof ContactosSeleccionFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosAEFragment()).commit();
-        }else if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
+        } else if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
             super.onBackPressed();
             return;
         } else {
@@ -309,10 +408,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         tiempoPrimerClick = System.currentTimeMillis();
     }
-
-
-
-
-
 
 }

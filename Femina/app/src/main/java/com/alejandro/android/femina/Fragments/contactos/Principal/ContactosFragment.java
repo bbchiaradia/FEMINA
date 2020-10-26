@@ -28,6 +28,7 @@ import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.Contactos
 import com.alejandro.android.femina.Fragments.icono.IconoFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.Session.SessionContactos;
 
 public class ContactosFragment extends Fragment {
 
@@ -47,13 +48,26 @@ public class ContactosFragment extends Fragment {
         no_hay = root.findViewById(R.id.no_hay_contactos);
         btn_agregar_contacto = root.findViewById(R.id.bnt_agregar_contacto);
 
-        ContactosBD cont = new ContactosBD(getContext(),lcontactos,no_hay,"Listar");
+        ContactosBD cont = new ContactosBD(getContext(), lcontactos, no_hay, "Listar");
         cont.execute();
 
         SharedPreferences pref = getContext().getSharedPreferences("accion_contactos", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.clear();
         editor.apply();
+
+        SharedPreferences pref_ = getContext().getSharedPreferences("contactos_vuelta", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor_ = pref_.edit();
+        editor_.clear();
+        editor_.apply();
+
+        SessionContactos sessionContactos = new SessionContactos();
+        sessionContactos.setContext(getContext());
+        sessionContactos.cerrar_session();
+
+        ContactosBD contactosBD = new ContactosBD(getContext(),"TraerContactos");
+        contactosBD.execute();
+
 
         btn_agregar_contacto.setOnClickListener(new View.OnClickListener() {
             @Override

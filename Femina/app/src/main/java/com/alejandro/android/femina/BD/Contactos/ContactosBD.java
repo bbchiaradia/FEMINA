@@ -25,6 +25,7 @@ import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
+import com.alejandro.android.femina.Session.SessionContactos;
 
 
 import java.sql.Connection;
@@ -49,6 +50,8 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
     private ListView lcontactos;
     private TextView no_hay;
     private Boolean no_hay_cont;
+    private int cant_contactos;
+    private String[] contactos;
 
     private static ArrayList<ContactosEmergencia> listaContactos = new ArrayList<ContactosEmergencia>();
 
@@ -61,6 +64,17 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
         this.context = ct;
         this.que_hacer = que;
         dialog = new ProgressDialog(ct);
+    }
+
+    public ContactosBD(Context ct, String que) {
+        ses = new Session();
+        ses.setCt(ct);
+        ses.cargar_session();
+        cont = new ContactosEmergencia();
+        this.context = ct;
+        this.que_hacer = que;
+        dialog = new ProgressDialog(ct);
+        cant_contactos = 0;
     }
 
     public ContactosBD(Context ct, ListView lv, TextView tx, String que) {
@@ -106,6 +120,45 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
                     cont.setNombre_contacto(rs.getString("nombreContacto"));
                     cont.setTelefono(rs.getString("nroTelefono"));
                     listaContactos.add(cont);
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch(Exception e){
+                e.printStackTrace();
+                response = "Conexion no exitosa";
+            }
+
+
+        }
+
+        if (que_hacer.equals("TraerContactos")) {
+
+            Log.d("TraerContactos","Actualizando");
+
+            response = "";
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("SELECT count(*) FROM ContactosEmergencia where idUsuario=" + ses.getId_usuario());
+
+                if(rs.next()){
+                    cant_contactos = rs.getInt(1);
+                }
+
+                contactos = new String[cant_contactos];
+
+                rs = st.executeQuery("SELECT * FROM ContactosEmergencia where idUsuario=" + ses.getId_usuario());
+
+                int i = 0;
+
+                while (rs.next()) {
+                    contactos[i] = rs.getString("nroTelefono");
+                    i++;
                 }
 
                 response = "Conexion exitosa";
@@ -258,8 +311,10 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
-        dialog.setMessage("Procesando...");
-        dialog.show();
+        if(!que_hacer.equals("TraerContactos")) {
+            dialog.setMessage("Procesando...");
+            dialog.show();
+        }
     }
 
     @Override
@@ -281,6 +336,16 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
                 no_hay.setVisibility(View.GONE);
                 lcontactos.setVisibility(View.VISIBLE);
             }
+        }
+
+        if(que_hacer.equals("TraerContactos")) {
+
+            SessionContactos sessionContactos = new SessionContactos();
+            sessionContactos.setContext(context);
+            sessionContactos.setCant_contactos(cant_contactos);
+            sessionContactos.setContactos(contactos);
+            sessionContactos.nueva_session();
+
         }
 
         if(que_hacer.equals("Insertar")) {
