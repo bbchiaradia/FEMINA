@@ -143,8 +143,11 @@ public class Servicio extends android.app.Service {
                         e.printStackTrace();
                     }
                 }
+                if(stopHilo)
+                    return;
                     Log.d("ENVIANDO", "MENSAJE");
                     EnviarMensaje();
+
 
             }
 
