@@ -1,5 +1,7 @@
 package com.alejandro.android.femina.Entidades;
 
+import android.util.Log;
+
 public class ContactosEmergencia {
 
     private int id_contacto_emergencia;
@@ -59,6 +61,18 @@ public class ContactosEmergencia {
         if(this.telefono.length()< 10 || this.telefono.length() > 15 )
             mensaje_devuelto = "El telefono debe contar con un mínimo y máximo de 10 y 15 caracteres respectivamente";
 
+        boolean is_digit = false;
+
+        for(int i = 0; i < telefono.length(); i ++){
+
+            if(!Character.isDigit(telefono.charAt(i)))
+                is_digit = true;
+
+        }
+
+        if(is_digit)
+            mensaje_devuelto = "Ingrese solo valores numericos";
+        
         return mensaje_devuelto;
 
     }
