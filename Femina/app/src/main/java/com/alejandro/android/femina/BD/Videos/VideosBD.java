@@ -311,8 +311,9 @@ public VideosBD(Context context, String que, Spinner spn){
     protected void onPreExecute() {
 
     if(!que_hacer.equals("CargarSpinner")) {
-        dialog.setMessage("Procesando...");
         dialog.show();
+        dialog.setContentView(R.layout.progress_dialog);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
     }
 
 
