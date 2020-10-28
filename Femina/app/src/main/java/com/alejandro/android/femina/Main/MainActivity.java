@@ -1,41 +1,19 @@
 package com.alejandro.android.femina.Main;
 
 import android.Manifest;
-
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.content.ComponentName;
-
-import android.content.Context;
-
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.os.Process;
-import android.provider.Settings;
-import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
-
-import com.alejandro.android.femina.BuildConfig;
-
 import com.alejandro.android.femina.BD.Contactos.ContactosBD;
-
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.ayuda.AyudaFragment;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
@@ -53,10 +31,7 @@ import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosF
 import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
 import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
-import com.alejandro.android.femina.Servicio.CerrarNoti;
 import com.alejandro.android.femina.Servicio.Servicio;
-import com.alejandro.android.femina.gestionicono.gestionicono;
-
 import com.alejandro.android.femina.Session.Session;
 import com.alejandro.android.femina.Session.SessionContactos;
 import com.github.clans.fab.FloatingActionButton;
@@ -64,14 +39,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
-
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -82,13 +53,7 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-
-import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
-
-import static com.alejandro.android.femina.Servicio.App.CHANNEL_ID;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -104,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private boolean corto_gps;
 
 
-
     private List<Videos> youtubeVideoList;
     protected List<Videos> VideoListFull;
 
@@ -113,12 +77,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         ContactosBD contactosBD = new ContactosBD(getApplicationContext(), "TraerContactos");
         contactosBD.execute();
+
 
         hideFlotante();
 
@@ -408,5 +371,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         tiempoPrimerClick = System.currentTimeMillis();
     }
+
 
 }

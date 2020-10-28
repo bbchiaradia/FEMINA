@@ -1,4 +1,4 @@
-package com.alejandro.android.femina.Fragments.testimonios.VdeosFullScreen;
+package com.alejandro.android.femina.Fragments.testimonios.VideosFullScreen;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,7 +20,7 @@ import com.alejandro.android.femina.R;
 public class TestimoniosVideosFullScreenFragment extends Fragment {
     private WebView webView_fs;
 
-    private TestimoniosVideosFullScreenViewModel mViewModel;
+    private com.alejandro.android.femina.Fragments.testimonios.VdeosFullScreen.TestimoniosVideosFullScreenViewModel mViewModel;
 
     public static TestimoniosVideosFullScreenFragment newInstance() {
         return new TestimoniosVideosFullScreenFragment();
@@ -48,12 +48,12 @@ public class TestimoniosVideosFullScreenFragment extends Fragment {
     }
 
 
-    @Override
+ /*   @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(TestimoniosVideosFullScreenViewModel.class);
         // TODO: Use the ViewModel
-    }
+    }*/
 
     @Override
     public void onPause() {

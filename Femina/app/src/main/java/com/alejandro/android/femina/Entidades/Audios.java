@@ -1,10 +1,9 @@
 package com.alejandro.android.femina.Entidades;
 
 public class Audios {
-
+    private Categorias id_categoria;
     private int id_audio;
     private String titulo;
-    private Categorias id_categoria;
     private String url_audio;
 
     public Audios() {
