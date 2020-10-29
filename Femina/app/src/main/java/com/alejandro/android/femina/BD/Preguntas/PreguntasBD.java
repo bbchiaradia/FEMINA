@@ -1,38 +1,28 @@
 package com.alejandro.android.femina.BD.Preguntas;
 
         import android.app.Activity;
-        import android.app.ProgressDialog;
-        import android.content.Context;
-        import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.os.AsyncTask;
-        import android.widget.ArrayAdapter;
-        import android.widget.ListView;
-        import android.widget.ProgressBar;
-        import android.widget.TextView;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
+import android.widget.ListView;
+import android.widget.TextView;
+        import android.widget.Toast;
 
-        import androidx.appcompat.app.AlertDialog;
-        import androidx.recyclerview.widget.LinearLayoutManager;
         import androidx.recyclerview.widget.RecyclerView;
 
-        import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
-        import com.alejandro.android.femina.Adaptadores.AdapterIPreguntas;
-        import com.alejandro.android.femina.Adaptadores.AdapterIconos;
-        import com.alejandro.android.femina.BD.Data.DatosBD;
-        import com.alejandro.android.femina.Entidades.ContactosEmergencia;
-        import com.alejandro.android.femina.Entidades.PreguntasTest;
-        import com.alejandro.android.femina.Entidades.Test;
-        import com.alejandro.android.femina.Fragments.test_violencia.Preguntas.TestViolenciaPreguntasFragment;
-        import com.alejandro.android.femina.R;
-        import com.alejandro.android.femina.Session.Session;
+import com.alejandro.android.femina.Adaptadores.AdapterIPreguntas;
+import com.alejandro.android.femina.BD.Data.DatosBD;
+import com.alejandro.android.femina.Entidades.PreguntasTest;
+import com.alejandro.android.femina.Entidades.Test;
+import com.alejandro.android.femina.Session.Session;
 
-        import java.sql.Connection;
-        import java.sql.DriverManager;
-        import java.sql.PreparedStatement;
-        import java.sql.ResultSet;
-        import java.sql.Statement;
-        import java.util.ArrayList;
-        import java.util.Iterator;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 //Permite tener metodos adicionales
 //Cuando vamos a ejecutar un proceso en segundo plano utilizamos asyncTask
@@ -48,6 +38,7 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
     private RecyclerView recyclerView;
     Activity activity;
     private ProgressDialog dialog;
+    private int idTest;
 
     private AdapterIPreguntas adaptador;
     public ListView lvlPreguntas;
@@ -55,7 +46,7 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
     private ArrayList<PreguntasTest> arrP = new ArrayList<PreguntasTest>();
     //private AdapterPreguntas adapterPreg ;
 
-    public PreguntasBD(Context ct , ArrayList<PreguntasTest> arrayPreguntas , ListView lvlPregunta){// , Test tes){ //PreguntasDB
+    public PreguntasBD(Context ct , ArrayList<PreguntasTest> arrayPreguntas , ListView lvlPregunta, int idTest){// , Test tes){ //PreguntasDB
         ses = new Session();
         this.arrP = arrayPreguntas;
         ses.setCt(ct);
@@ -64,6 +55,7 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
         this.context = ct;
         this.lvlPreguntas = lvlPregunta;
         dialog = new ProgressDialog(ct);
+        this.idTest = idTest;
     }
 
 
@@ -81,14 +73,11 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
             Statement st = con.createStatement();
             ResultSet rs;
 
-            rs = st.executeQuery("SELECT * FROM PreguntasTest");
+            rs = st.executeQuery("SELECT * FROM PreguntasTest where idTest = " + this.idTest);
 
             Test test = new Test();
             test.setId_test(1);
             test.setNombre_test("Test1");
-
-
-
             while (rs.next()) {
                 //txtPregunta.setText(rs.getString("textoPregunta"));
                 PreguntasTest preg = new PreguntasTest();
@@ -113,7 +102,7 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
     }
 
     protected void onPreExecute() {
-        dialog.setMessage("Cargando Test...");
+        dialog.setMessage("Cargando Preguntas...");
         dialog.setMax(100);
         dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.show();
@@ -138,9 +127,13 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
                 }
             }
         }).start();
-        adaptador = new AdapterIPreguntas(context, arrP);
-        lvlPreguntas.setAdapter(adaptador);
-        //System.out.println( "EL VALOR ES BASE DE DATOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS : " + lvlPreguntas.getItemAtPosition(1).);
+        if(arrP.size()==0){
+            Toast.makeText(context,"El Test no presenta preguntas cargadas ",Toast.LENGTH_SHORT).show();
+        }else {
+            adaptador = new AdapterIPreguntas(context, arrP);
+            lvlPreguntas.setAdapter(adaptador);
+            //System.out.println( "EL VALOR ES BASE DE DATOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS : " + lvlPreguntas.getItemAtPosition(1).);
+        }
     }
 
 }

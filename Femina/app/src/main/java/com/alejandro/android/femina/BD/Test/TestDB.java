@@ -1,14 +1,13 @@
 package com.alejandro.android.femina.BD.Test;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.alejandro.android.femina.BD.Data.DatosBD;
-import com.alejandro.android.femina.Entidades.PreguntasTest;
 import com.alejandro.android.femina.Entidades.Test;
-import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 
 import java.sql.Connection;
@@ -17,13 +16,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class TestDB extends AsyncTask<String, Void, String> {
 
     private int IdResultado, idUsuario, idTest, sufreViolencia ;
     private String que_hacer;
     private Context context;
+    private ProgressDialog dialog;
     private ArrayList<Test> arrayTest = new ArrayList<Test>();
     private Session ses;
     private Spinner spinnerTest;
@@ -33,7 +32,10 @@ public class TestDB extends AsyncTask<String, Void, String> {
       //ses.setCt(ct);
       //ses.cargar_session();
       this.spinnerTest = sp;
+      dialog = new ProgressDialog(ct);
     }
+
+
 
     @Override
     protected String doInBackground(String... strings) {
@@ -61,8 +63,31 @@ public class TestDB extends AsyncTask<String, Void, String> {
             }
         return null;
     }
+
+    protected void onPreExecute() {
+        dialog.setMessage("Cargando Test...");
+        dialog.setMax(100);
+        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.show();
+    }
     @Override
     protected void onPostExecute(String response) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while(dialog.getProgress() <= dialog.getMax()){
+                        Thread.sleep(100);
+                        dialog.incrementProgressBy(10);
+                        if(dialog.getProgress() == dialog.getMax()){
+                            dialog.dismiss();
+                        }
+                    }
+                }catch (Exception e){
+
+                }
+            }
+        }).start();
         ArrayAdapter<Test> adapter = new ArrayAdapter<>(this.context,android.R.layout.simple_spinner_dropdown_item,arrayTest);
         spinnerTest.setAdapter(adapter);
 
