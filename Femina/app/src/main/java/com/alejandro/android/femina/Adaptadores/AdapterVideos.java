@@ -22,7 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alejandro.android.femina.Dialogos.DialogoAMVideos;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
-import com.alejandro.android.femina.Fragments.testimonios.VdeosFullScreen.TestimoniosVideosFullScreenFragment;
+import com.alejandro.android.femina.Fragments.testimonios.VideosFullScreen.TestimoniosVideosFullScreenFragment;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 
