@@ -20,7 +20,7 @@ import com.alejandro.android.femina.R;
 public class TestimoniosVideosFullScreenFragment extends Fragment {
     private WebView webView_fs;
 
-    private com.alejandro.android.femina.Fragments.testimonios.VdeosFullScreen.TestimoniosVideosFullScreenViewModel mViewModel;
+    private com.alejandro.android.femina.Fragments.testimonios.VideosFullScreen.TestimoniosVideosFullScreenViewModel mViewModel;
 
     public static TestimoniosVideosFullScreenFragment newInstance() {
         return new TestimoniosVideosFullScreenFragment();

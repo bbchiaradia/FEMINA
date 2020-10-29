@@ -1,4 +1,4 @@
-package com.alejandro.android.femina.Fragments.testimonios.VdeosFullScreen;
+package com.alejandro.android.femina.Fragments.testimonios.VideosFullScreen;
 
 import androidx.lifecycle.ViewModel;
 
