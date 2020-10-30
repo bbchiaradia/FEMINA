@@ -9,6 +9,7 @@ public class gestionicono extends AppCompatActivity {
         HOROSCOPO,
         MODA,
         RECETAS,
-        PELUQUERIA;
+        PELUQUERIA,
+        FEMINA;
     }
 }

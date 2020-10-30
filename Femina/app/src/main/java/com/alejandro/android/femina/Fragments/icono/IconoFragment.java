@@ -93,6 +93,9 @@ public class IconoFragment extends Fragment {
                                 }else if (tituloIcono.getText().toString() == "RECETAS"){
                                     setIcon(gestionicono.ICON_COLOUR.RECETAS);
 
+                                }else if (tituloIcono.getText().toString() == "FEMINA"){
+                                    setIcon(gestionicono.ICON_COLOUR.FEMINA);
+
                                 }
 
 
@@ -137,8 +140,7 @@ public class IconoFragment extends Fragment {
         listIconos.add(new EntidadIcono(R.drawable.icono_moda, "MODA"));
         listIconos.add(new EntidadIcono(R.drawable.icono_recetas, "RECETAS"));
         listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "PELUQUERIA"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "PELUQUERIA"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "PELUQUERIA"));
+        listIconos.add(new EntidadIcono(R.drawable.icono_femina, "FEMINA"));
 
         return listIconos;
     }
