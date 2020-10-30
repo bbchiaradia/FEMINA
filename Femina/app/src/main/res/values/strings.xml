@@ -138,5 +138,9 @@
     <string name="play">Play</string>
     <string name="pause">Pause</string>
 
+    <string name="ingrese_usuario">Ingrese el usuario a recuperar</string>
+
+    <string name="aceptar">Aceptar</string>
+
 
 </resources>

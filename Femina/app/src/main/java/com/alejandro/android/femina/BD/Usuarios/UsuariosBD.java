@@ -1,9 +1,11 @@
 package com.alejandro.android.femina.BD.Usuarios;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.View;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
@@ -25,6 +29,7 @@ import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Main.MainActivity;
+import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 
@@ -38,6 +43,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class UsuariosBD extends AsyncTask<String, Void, String> {
 
@@ -46,8 +52,8 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     private String que_hacer;
     private Context context;
     private ProgressDialog dialog;
-    private String mensaje_devuelto;
-    private boolean dejo_loguear,insertamos,me_voy_pantalla,modificamos;
+    private String mensaje_devuelto,telefono;
+    private boolean dejo_loguear,insertamos,me_voy_pantalla,modificamos,guardo_contra,envio_mensaje;
     private Session session_usuario;
     private int filas;
     private Session ses;
@@ -57,6 +63,7 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     private TextView telUsu;
     private TextView Usu;
     private Spinner sexUsu;
+    private int nueva_contra;
 
 
 
@@ -89,6 +96,22 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     }
 
 
+    public UsuariosBD(Context ct, String que, Usuarios usu) {
+        ses = new Session();
+        ses.setCt(ct);
+        ses.cargar_session();
+        this.user = new Usuarios();
+        this.user = usu;
+        this.context = ct;
+        this.que_hacer = que;
+        dialog = new ProgressDialog(ct);
+        this.nueva_contra = 0;
+        this.telefono = "";
+        this.guardo_contra = false;
+
+    }
+
+
     public UsuariosBD(Context ct, Usuarios us, String que) {
         ses = new Session();
         ses.setCt(ct);
@@ -110,6 +133,57 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
         mensaje_devuelto = "";
         PreparedStatement ps;
         PreparedStatement ps_aux = null;
+
+        if(que_hacer.equals("EnviarMensaje")) {
+
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+
+                Random r = new Random();
+                nueva_contra = 1000 + r.nextInt(9999 - 1000 + 1);
+
+                ps = con.prepareStatement("Update Usuarios set Contraseña=? where Usuario=?");
+
+                ps.setString(1, "" + nueva_contra);
+                ps.setString(2, user.getUsuario());
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+
+                rs = st.executeQuery("SELECT * FROM Usuarios where Usuario ='" + user.getUsuario()+"'");
+
+                if (!rs.next()) {
+                    insertamos = false;
+                    mensaje_devuelto = "El usuario no existe";
+                }
+
+                rs = st.executeQuery("SELECT Telefono FROM Usuarios where Usuario ='" + user.getUsuario()+"'");
+
+                if (rs.next()) {
+                    telefono = rs.getString(1);
+                    user.setTelefono(telefono);
+                }
+
+                if(insertamos)
+                    filas = ps.executeUpdate();
+
+
+                if (filas > 0) {
+                    user.setContrasena("" + nueva_contra);
+                guardo_contra = true;
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mensaje_devuelto = "Error al guardar nueva contraseña!!";
+            }
+        }
 
        if(que_hacer.equals("Insertar")) {
 
@@ -226,9 +300,6 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
             }
         }
 
-
-
-
         if (que_hacer.equals("Listar")) {
 
             response = "";
@@ -271,8 +342,6 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
 
         }
-
-
 
         if(que_hacer.equals("Modificar")) {
 
@@ -325,6 +394,13 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
         if (dialog.isShowing()) {
             dialog.dismiss();
+        }
+
+        if(que_hacer.equals("EnviarMensaje")) {
+                if(guardo_contra)
+                ((Ingresar) context).enviar_datos(user.getTelefono(), user.getContrasena(), user.getUsuario());
+                else
+                Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_SHORT).show();
         }
 
 
