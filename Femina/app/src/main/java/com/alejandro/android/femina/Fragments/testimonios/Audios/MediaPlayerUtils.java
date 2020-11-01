@@ -2,6 +2,8 @@ package com.alejandro.android.femina.Fragments.testimonios.Audios;
 
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.util.Log;
+
 import java.io.IOException;
 
 public class MediaPlayerUtils {
@@ -64,6 +66,7 @@ public class MediaPlayerUtils {
         }
         releaseMediaPlayer();
         getInstance();
+        Log.d("Url","URLID" + audioUrl);
         mediaPlayer.setDataSource(audioUrl);
         mediaPlayer.prepare();
         //mediaPlayer.prepareAsync();

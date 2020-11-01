@@ -1,6 +1,8 @@
 package com.alejandro.android.femina.Entidades;
 
-public class Categorias {
+import java.io.Serializable;
+
+public class Categorias implements Serializable {
 
     private int id_categoria;
     private String descripcion;

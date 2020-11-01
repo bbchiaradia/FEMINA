@@ -1,6 +1,8 @@
 package com.alejandro.android.femina.Entidades;
 
-public class Audios {
+import java.io.Serializable;
+
+public class Audios implements Serializable {
     private Categorias id_categoria;
     private int id_audio;
     private String titulo;
@@ -16,11 +18,11 @@ public class Audios {
         this.url_audio = url_audio;
     }
 
-    public Audios( String titulo, Categorias id_categoria, String url_audio) {
+ /*   public Audios( String titulo, Categorias id_categoria, String url_audio) {
         this.titulo = titulo;
         this.id_categoria = id_categoria;
         this.url_audio = url_audio;
-    }
+    }*/
 
     public int getId_audio() {
         return id_audio;

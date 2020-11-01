@@ -1,6 +1,7 @@
 package com.alejandro.android.femina.Fragments.testimonios.Audios;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -16,29 +19,38 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.alejandro.android.femina.Adaptadores.AdaptadorAudios;
+import com.alejandro.android.femina.BD.Audios.AudiosBD;
+import com.alejandro.android.femina.Entidades.Audios;
 import com.alejandro.android.femina.R;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
- public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUtils.Listener {
-     public static  MediaPlayerUtils mediaPlayerUtils;
-     public Context context;
-    private final List<String> contactList = new ArrayList<>();
-    public  List<AudioEstado> audioStatusList = new ArrayList<>();
+public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUtils.Listener {
+    public Context context;
+    private ArrayList<Audios> contactList = new ArrayList<Audios>();
+    public List<AudioEstado> audioStatusList = new ArrayList<>();
     public Parcelable state;
     RecyclerView recyclerView;
     private TestimoniosAudiosViewModel testimoniosAudiosViewModel;
+    private TextView no_hay;
+    AdaptadorAudios adapter;
 
-
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         testimoniosAudiosViewModel =
                 ViewModelProviders.of(this).get(TestimoniosAudiosViewModel.class);
         View root = inflater.inflate(R.layout.fragment_testimonios_audios, container, false);
+        no_hay = root.findViewById(R.id.no_hay_audios);
         //final TextView textView = root.findViewById(R.id.txt_testimonios);
         testimoniosAudiosViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -51,25 +63,38 @@ import java.util.Objects;
         recyclerView = root.findViewById(R.id.recyclerView_audio);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        contactList.add("http://infinityandroid.com/music/good_times.mp3"); // URL of audio file
-        contactList.add("https://www.comecuco.org/sites/default/files/1.mp3"); // URL of audio file
-        contactList.add("https://www.shalombait.org.ar/wp-content/uploads/2019/07/Audio-Guia-Orientativa-para-realizar-una-Denuncia-por-Violencia-de-Ge%CC%81nero-en-la-Ciudad-de-Buenos-Aires.mp3"); // URL of audio file
-
-        for(int i = 0; i < contactList.size(); i++) {
-            audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), 0));
-        }
-        setRecyclerViewAdapter(contactList);
+        AudiosBD audiosBD = new AudiosBD(getContext(), contactList, no_hay, "Listar", this);
+        audiosBD.execute();
 
         return root;
-  }
+    }
+
+    public void getAudioList() {
+
+        SharedPreferences prefs = getContext().getSharedPreferences("lista_audios", Context.MODE_PRIVATE);
+        try {
+            contactList = (ArrayList<Audios>) ObjectSerializer.deserialize(prefs.getString("AudioList", ObjectSerializer.serialize(new ArrayList<Audios>())));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        Log.d("PreferenceFrag", "PrefFrag : " + contactList.size());
 
 
+        setRecyclerViewAdapter(contactList);
 
+        Log.d("SizeList", "SizeIs: " + contactList.size());
 
+        for (int i = -1; i < contactList.size(); i++) {
+            audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), -1));
+        }
+    }
 
-    private void setRecyclerViewAdapter(List<String> contactList) {
+    private void setRecyclerViewAdapter(List<Audios> contactList) {
+
         AdaptadorAudios adapter = new AdaptadorAudios(context, contactList, this, this);
         recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        Log.d("Sizerv", "SizeRvIs: " + contactList.size());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -78,6 +103,7 @@ import java.util.Objects;
         super.onPause();
         // Store its state
         state = Objects.requireNonNull(recyclerView.getLayoutManager()).onSaveInstanceState();
+        MediaPlayerUtils.releaseMediaPlayer();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -100,15 +126,15 @@ import java.util.Objects;
     @Override
     public void onAudioUpdate(int currentPosition) {
         int playingAudioPosition = -1;
-        for(int i = 0; i < audioStatusList.size(); i++) {
+        for (int i = 0; i < audioStatusList.size(); i++) {
             AudioEstado audioStatus = audioStatusList.get(i);
-            if(audioStatus.getAudioState() == AudioEstado.AUDIO_STATE.PLAYING.ordinal()) {
+            if (audioStatus.getAudioState() == AudioEstado.AUDIO_STATE.PLAYING.ordinal()) {
                 playingAudioPosition = i;
                 break;
             }
         }
 
-        if(playingAudioPosition != -1) {
+        if (playingAudioPosition != -1) {
             AdaptadorAudios.AudioViewHolder holder
                     = (AdaptadorAudios.AudioViewHolder) recyclerView.findViewHolderForAdapterPosition(playingAudioPosition);
             if (holder != null) {
@@ -124,7 +150,7 @@ import java.util.Objects;
         state = Objects.requireNonNull(recyclerView.getLayoutManager()).onSaveInstanceState();
 
         audioStatusList.clear();
-        for(int i = 0; i < contactList.size(); i++) {
+        for (int i = 0; i < contactList.size(); i++) {
             audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), 0));
         }
         setRecyclerViewAdapter(contactList);
@@ -134,7 +160,5 @@ import java.util.Objects;
             recyclerView.getLayoutManager().onRestoreInstanceState(state);
         }
     }
-
-
 
 }

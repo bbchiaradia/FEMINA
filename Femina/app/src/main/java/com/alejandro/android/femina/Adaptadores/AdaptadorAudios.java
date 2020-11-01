@@ -2,6 +2,7 @@ package com.alejandro.android.femina.Adaptadores;
 
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.alejandro.android.femina.Entidades.Audios;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.AudioEstado;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.MediaPlayerUtils;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.TestimoniosAudiosFragment;
@@ -27,17 +30,18 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
     private final Context context;
     private final TestimoniosAudiosFragment testimoniosAudiosFragment;
-    private List<String> contactList = new ArrayList<>();
+    private List<Audios> contactList = new ArrayList<>();
     private MediaPlayerUtils.Listener mListener;
 
 
-    public AdaptadorAudios(Context context, List<String> contactList, TestimoniosAudiosFragment testimoniosAudiosFragment, MediaPlayerUtils.Listener listener) {
+    public AdaptadorAudios(Context context, List<Audios> contactList, TestimoniosAudiosFragment testimoniosAudiosFragment, MediaPlayerUtils.Listener listener) {
         this.context = context;
         this.contactList = contactList;
         this.testimoniosAudiosFragment = testimoniosAudiosFragment;
         this.mListener = listener;
 
     }
+
 
     @NonNull
     @Override
@@ -48,9 +52,14 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
     @Override
     public void onBindViewHolder(@NonNull  AdaptadorAudios.AudioViewHolder holder,  int position) {
-        String songPath = contactList.get(position);
-        String songName = songPath.substring(songPath.lastIndexOf("/") + 1);
-        holder.txtSongName.setText(songName);
+        Log.d("SizeAdap", "SizeAdapIs: "+ contactList.size());
+        Audios currentItem = contactList.get(position);
+        holder.txtSongName.setText(currentItem.getTitulo());
+
+    /*    for(int i = 0; i < contactList.size(); i++) {
+            testimoniosAudiosFragment.audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), 0));
+        }*/
+
 
 
         if(testimoniosAudiosFragment.audioStatusList.get(position).getAudioState() != AudioEstado.AUDIO_STATE.IDLE.ordinal()) {
@@ -127,7 +136,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
               //listener.onAudioComplete();
           }
 
-          String audioPath = contactList.get(position);
+          String audioPath = contactList.get(position).getUrl_audio();
           AudioEstado audioEstado = testimoniosAudiosFragment.audioStatusList.get(position);
           int currentAudioState = audioEstado.getAudioState();
 
