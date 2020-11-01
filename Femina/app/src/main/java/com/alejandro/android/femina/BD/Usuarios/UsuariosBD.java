@@ -28,6 +28,7 @@ import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Entidades.Usuarios;
+import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
 import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
@@ -53,7 +54,7 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     private Context context;
     private ProgressDialog dialog;
     private String mensaje_devuelto,telefono;
-    private boolean dejo_loguear,insertamos,me_voy_pantalla,modificamos,guardo_contra,envio_mensaje;
+    private boolean dejo_loguear,insertamos,modificamos,guardo_contra,modifico;
     private Session session_usuario;
     private int filas;
     private Session ses;
@@ -63,6 +64,7 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     private TextView telUsu;
     private TextView Usu;
     private Spinner sexUsu;
+    private PerfilFragment perfilFragment;
     private int nueva_contra;
 
 
@@ -108,7 +110,7 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
         this.nueva_contra = 0;
         this.telefono = "";
         this.guardo_contra = false;
-
+        this.session_usuario = new Session();
     }
 
 
@@ -123,6 +125,20 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
         dialog = new ProgressDialog(ct);
         this.dejo_loguear = false;
         this.session_usuario = new Session();
+    }
+
+    public UsuariosBD(Context ct, Usuarios us, PerfilFragment perfilFragment, String que) {
+        ses = new Session();
+        ses.setCt(ct);
+        ses.cargar_session();
+        user = new Usuarios();
+        user = us;
+        this.context = ct;
+        this.que_hacer = que;
+        dialog = new ProgressDialog(ct);
+        this.dejo_loguear = false;
+        this.session_usuario = new Session();
+        this.perfilFragment = perfilFragment;
     }
 
 
@@ -356,6 +372,7 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
+                modifico = false;
 
                 if(modificamos)
                     filas = ps.executeUpdate();
@@ -363,8 +380,29 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
 
                 if (filas > 0) {
 
-                    mensaje_devuelto = "Se actualizó el usuario " + user.getUsuario();
-                    
+                    modifico = true;
+
+                    mensaje_devuelto = "Usuario " + user.getUsuario() + " actualizado";
+
+                    session_usuario.setId_usuario(ses.getId_usuario());
+
+                    session_usuario.setNombre(user.getNombre());
+                    session_usuario.setApellido(user.getApellido());
+                    session_usuario.setUsuario(user.getUsuario());
+                    session_usuario.setContrasena(user.getContrasena());
+                    if(user.getSexo() == 'M')
+                        session_usuario.setSexo("Masculino");
+                    if(user.getSexo() == 'F')
+                        session_usuario.setSexo("Femenino");
+                    if(user.getSexo() == 'O')
+                        session_usuario.setSexo("Otro");
+                    session_usuario.setTelefono(user.getTelefono());
+                    session_usuario.setEs_admin(user.isEs_admin());
+                    session_usuario.setCt(context);
+
+                    session_usuario.nueva_session();
+
+
 
                 }
 
@@ -450,19 +488,16 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
             if (user.getSexo()=='O')
                 sexUsu.setSelection(2);
 
-            Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
+           // Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
         }
 
 
         if(que_hacer.equals("Modificar")) {
             Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_SHORT).show();
-            if(modificamos) {
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
-                ((Activity) context).finish();
-            }
 
-            Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
+            if(modifico)
+                perfilFragment.setear_false();
+
 
         }
 
