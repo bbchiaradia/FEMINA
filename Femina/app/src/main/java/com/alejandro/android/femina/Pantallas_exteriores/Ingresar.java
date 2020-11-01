@@ -30,6 +30,8 @@ public class Ingresar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pantalla_ingresar);
 
+
+
        btn_ingresar = (Button) findViewById(R.id.btn_ingresar);
        btn_registrarse = (Button) findViewById(R.id.btn_registrarse);
        btn_olvidaste = (Button) findViewById(R.id.btn_olvidaste);

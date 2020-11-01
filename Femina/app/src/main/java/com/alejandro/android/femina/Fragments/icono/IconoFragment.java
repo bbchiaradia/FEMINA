@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,21 +151,24 @@ public class IconoFragment extends Fragment {
         gestionicono.ICON_COLOUR[] iconColour = gestionicono.ICON_COLOUR.values();
 
         for (int i = 0; i < iconColour.length ; ++i) {
-            int setting;
+            int setting = 0;
             if (iconColour[i] == tgt) {
                 setting = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-            } else {
-                setting = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+                Toast.makeText(getContext(), "Icono " + tgt + " actualizado con EXITO!!!", Toast.LENGTH_SHORT).show();
             }
+            else
+                setting = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
 
 
             ComponentName componentName = new ComponentName(BuildConfig.APPLICATION_ID, BuildConfig.APPLICATION_ID + "." + iconColour[i].name());
             getContext().getPackageManager().setComponentEnabledSetting(componentName,
                     setting,
                     PackageManager.DONT_KILL_APP);
-         //   Toast.makeText(getContext(), componentName.toString(), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getContext(), "Icono " +tgt +" actualizado con EXITO!!!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), componentName.toString(), Toast.LENGTH_SHORT).show();
+            Log.d("A VER QUE","" + componentName.toString());
+
         }
+
     }
 
 
