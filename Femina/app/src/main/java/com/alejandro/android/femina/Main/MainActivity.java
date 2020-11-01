@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
 import com.alejandro.android.femina.BD.Contactos.ContactosBD;
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AdapterVideos adapter_video;
     private static final int REQUEST_CALL = 1;
     private String phonenbr, direccion,latitud,longitud;
+    private TextView bienvenida;
     private int ID_ARTICULO;
     private int Inicio;
     private boolean corto_gps;
@@ -78,6 +80,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Session session = new Session();
+        session.setCt(this);
+        session.cargar_session();
 
         ContactosBD contactosBD = new ContactosBD(getApplicationContext(), "TraerContactos");
         contactosBD.execute();
@@ -113,9 +119,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(0);
+        bienvenida =(TextView)hView.findViewById(R.id.bienvenida);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         navigationView.setItemIconTintList(null);
+
+        bienvenida.setText("Bienvenido a FEMINA\n" + session.getNombre() + "!");
 
         // barra con los botones de inicio , llamadas de emergencia , sms de ayuda
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -368,6 +377,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "Vuelve a presionar para salir", Toast.LENGTH_SHORT).show();
         }
         tiempoPrimerClick = System.currentTimeMillis();
+    }
+
+    public void actualiza_nombre(){
+        Session session = new Session();
+        session.setCt(this);
+        session.cargar_session();
+        bienvenida.setText("Bienvenido a FEMINA\n" + session.getNombre() + "!");
+
     }
 
 

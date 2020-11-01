@@ -495,8 +495,10 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
         if(que_hacer.equals("Modificar")) {
             Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_SHORT).show();
 
-            if(modifico)
+            if(modifico) {
                 perfilFragment.setear_false();
+                ((MainActivity)context).actualiza_nombre();
+            }
 
 
         }
