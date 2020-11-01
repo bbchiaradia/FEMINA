@@ -6,35 +6,35 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/contactos"
+            android:icon="@drawable/casa"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_mis_datos"
-            android:icon="@drawable/misdatos"
+            android:icon="@drawable/mujerperfil"
             android:title="@string/menu_mis_datos" />
         <item
             android:id="@+id/nav_contactos_emergencia"
-            android:icon="@drawable/contactos"
+            android:icon="@drawable/contacto_inicio"
             android:title="@string/menu_contactos_emergencia" />
         <item
             android:id="@+id/nav_testimonios"
-            android:icon="@drawable/testimonio"
+            android:icon="@drawable/testimonios"
             android:title="@string/menu_Testimonios" />
         <item
             android:id="@+id/nav_crear_icono"
-            android:icon="@drawable/cambiaricono"
+            android:icon="@drawable/intercambio"
             android:title="@string/menu_crear_icono" />
         <item
             android:id="@+id/nav_test_violencia"
-            android:icon="@drawable/test"
+            android:icon="@drawable/prueba"
             android:title="@string/menu_test_volencia" />
         <item
             android:id="@+id/nav_que_hacer"
-            android:icon="@drawable/quehacer"
+            android:icon="@drawable/entrevista"
             android:title="@string/menu_que_hacer" />
         <item
             android:id="@+id/nav_ayuda"
-            android:icon="@drawable/preguntas"
+            android:icon="@drawable/info"
             android:title="@string/menu_ayuda" />
     </group>
 </menu>

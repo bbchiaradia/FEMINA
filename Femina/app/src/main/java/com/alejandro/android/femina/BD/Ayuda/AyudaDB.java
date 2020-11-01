@@ -81,19 +81,19 @@ public class AyudaDB extends AsyncTask<String, Void, String> {
                     ayu.setTitulo(rs.getString("Titulo"));
                     ayu.setDescripcion(rs.getString("Descripcion"));
                     if (ayu.getId_ayuda() == 1) {
-                        listaAyuda.add(new Ayuda(R.drawable.preguntas_ayuda, ayu.getTitulo(),ayu.getDescripcion()));
+                        listaAyuda.add(new Ayuda(R.drawable.preguntafemina, ayu.getTitulo(),ayu.getDescripcion()));
                     }else if(ayu.getId_ayuda() == 2){
-                        listaAyuda.add(new Ayuda(R.drawable.testimonios_ayuda, ayu.getTitulo(),ayu.getDescripcion()));
+                        listaAyuda.add(new Ayuda(R.drawable.testimonios, ayu.getTitulo(),ayu.getDescripcion()));
                     }else if(ayu.getId_ayuda() == 3){
-                        listaAyuda.add(new Ayuda(R.drawable.contactos_ayuda, ayu.getTitulo(),ayu.getDescripcion()));
+                        listaAyuda.add(new Ayuda(R.drawable.contacto_inicio, ayu.getTitulo(),ayu.getDescripcion()));
                     }else if(ayu.getId_ayuda() == 4){
-                        listaAyuda.add(new Ayuda(R.drawable.test_ayuda, ayu.getTitulo(),ayu.getDescripcion()));
+                        listaAyuda.add(new Ayuda(R.drawable.prueba, ayu.getTitulo(),ayu.getDescripcion()));
                     }else if(ayu.getId_ayuda() == 5){
-                        listaAyuda.add(new Ayuda(R.drawable.quehacer_ayuda, ayu.getTitulo(),ayu.getDescripcion()));
+                        listaAyuda.add(new Ayuda(R.drawable.entrevista, ayu.getTitulo(),ayu.getDescripcion()));
                     }else if(ayu.getId_ayuda() == 6){
-                        listaAyuda.add(new Ayuda(R.drawable.misdatos_ayuda, ayu.getTitulo(),ayu.getDescripcion()));
+                        listaAyuda.add(new Ayuda(R.drawable.mujerperfil, ayu.getTitulo(),ayu.getDescripcion()));
                     }else if(ayu.getId_ayuda() == 7){
-                        listaAyuda.add(new Ayuda(R.drawable.cambiaricono_ayuda, ayu.getTitulo(),ayu.getDescripcion()));
+                        listaAyuda.add(new Ayuda(R.drawable.intercambio, ayu.getTitulo(),ayu.getDescripcion()));
                     }
 
 

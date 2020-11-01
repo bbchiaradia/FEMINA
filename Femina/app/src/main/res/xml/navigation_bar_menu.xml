@@ -20,7 +20,7 @@
 <tab
     id="@+id/tab_sms"
     icon="@drawable/ic_sms"
-    title="SMS de Ayuda"
+    title="SMS"
     activeColor="@color/colorAccent"
     />
 

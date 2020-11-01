@@ -82,20 +82,20 @@ public class IconoFragment extends Fragment {
                         dialogoIcono.setPositiveButton("ACEPTAR", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialogo1, int id) {
 
-                                if (tituloIcono.getText().toString() == "MODA"){
-                                    setIcon(gestionicono.ICON_COLOUR.MODA);
+                                if (tituloIcono.getText().toString() == "Moda"){
+                                    setIcon(gestionicono.ICON_COLOUR.Moda);
 
-                                } else if (tituloIcono.getText().toString() == "HOROSCOPO"){
-                                    setIcon(gestionicono.ICON_COLOUR.HOROSCOPO);
+                                } else if (tituloIcono.getText().toString() == "Horoscopo"){
+                                    setIcon(gestionicono.ICON_COLOUR.Horoscopo);
 
-                                }else if (tituloIcono.getText().toString() == "PELUQUERIA"){
-                                    setIcon(gestionicono.ICON_COLOUR.PELUQUERIA);
+                                }else if (tituloIcono.getText().toString() == "Peluqueria"){
+                                    setIcon(gestionicono.ICON_COLOUR.Peluqueria);
 
-                                }else if (tituloIcono.getText().toString() == "RECETAS"){
-                                    setIcon(gestionicono.ICON_COLOUR.RECETAS);
+                                }else if (tituloIcono.getText().toString() == "Recetas"){
+                                    setIcon(gestionicono.ICON_COLOUR.Recetas);
 
-                                }else if (tituloIcono.getText().toString() == "FEMINA"){
-                                    setIcon(gestionicono.ICON_COLOUR.FEMINA);
+                                }else if (tituloIcono.getText().toString() == "Femina"){
+                                    setIcon(gestionicono.ICON_COLOUR.Femina);
 
                                 }
 
@@ -137,11 +137,11 @@ public class IconoFragment extends Fragment {
     private ArrayList<EntidadIcono> GetArrayIconos(){
         ArrayList<EntidadIcono> listIconos = new ArrayList<>();
 
-        listIconos.add(new EntidadIcono(R.drawable.icono_horoscopo, "HOROSCOPO"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_moda, "MODA"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_recetas, "RECETAS"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "PELUQUERIA"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_femina, "FEMINA"));
+        listIconos.add(new EntidadIcono(R.drawable.icono_horoscopo, "Horoscopo"));
+        listIconos.add(new EntidadIcono(R.drawable.icono_moda, "Moda"));
+        listIconos.add(new EntidadIcono(R.drawable.icono_recetas, "Recetas"));
+        listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "Peluqueria"));
+        listIconos.add(new EntidadIcono(R.drawable.icono_recetas, "Femina"));
 
         return listIconos;
     }

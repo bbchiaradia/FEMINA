@@ -6,10 +6,10 @@ public class gestionicono extends AppCompatActivity {
 
 
     public enum ICON_COLOUR {
-        HOROSCOPO,
-        MODA,
-        RECETAS,
-        PELUQUERIA,
-        FEMINA;
+        Horoscopo,
+        Moda,
+        Recetas,
+        Peluqueria,
+        Femina;
     }
 }

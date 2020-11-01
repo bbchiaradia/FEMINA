@@ -142,5 +142,13 @@
 
     <string name="aceptar">Aceptar</string>
 
+    <string name="PERFIL_INICIO">MIS DATOS</string>}
+    <string name="CONTACTOS_INICIO">CONTACTOS</string>
+    <string name="TEST_INICIO">TEST</string>
+    <string name="AYUDA_INICIO">AYUDA</string>
+    <string name="QUE_HACER_INICIO">QUE HACER?</string>
+    <string name="TESTIMONIOS_INICIO">TESTIMONIOS</string>
+    <string name="ICONO_INICIO">CAMBIAR ICONO</string>
+
 
 </resources>
