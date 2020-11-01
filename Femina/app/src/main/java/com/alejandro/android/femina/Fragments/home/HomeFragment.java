@@ -61,8 +61,6 @@ public class HomeFragment extends Fragment {
                     i++;
                 }
 
-
-
                 btn_misDatos_inicio = (ImageButton) root.findViewById(R.id.btn_misdatos_inicio);
                 btn_misDatos_inicio.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -70,7 +68,7 @@ public class HomeFragment extends Fragment {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         PerfilFragment fragment = new PerfilFragment();
-                        fragmentTransaction.add(R.id.content_main, fragment).commit();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
                         // Toast.makeText(root.getContext(),"MI PERFIL",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -82,7 +80,7 @@ public class HomeFragment extends Fragment {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         IconoFragment fragment = new IconoFragment();
-                        fragmentTransaction.add(R.id.content_main, fragment).commit();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
                         //  Toast.makeText(root.getContext(),"ICONO",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -93,7 +91,7 @@ public class HomeFragment extends Fragment {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         ContactosFragment fragment = new ContactosFragment();
-                        fragmentTransaction.add(R.id.content_main, fragment).commit();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
                         // Toast.makeText(root.getContext(),"CONTACTO",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -104,7 +102,7 @@ public class HomeFragment extends Fragment {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         QueHacerFragment fragment = new QueHacerFragment();
-                        fragmentTransaction.add(R.id.content_main, fragment).commit();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
                         //   Toast.makeText(root.getContext(),"QUE HACER",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -115,7 +113,7 @@ public class HomeFragment extends Fragment {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         AyudaFragment fragment = new AyudaFragment();
-                        fragmentTransaction.add(R.id.content_main, fragment).commit();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
                         //  Toast.makeText(root.getContext(),"PREGUNTAS",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -126,7 +124,7 @@ public class HomeFragment extends Fragment {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         TestViolenciaFragment fragment = new TestViolenciaFragment();
-                        fragmentTransaction.add(R.id.content_main, fragment).commit();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
                         //  Toast.makeText(root.getContext(),"TEST",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -137,7 +135,7 @@ public class HomeFragment extends Fragment {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         TestimoniosFragment fragment = new TestimoniosFragment();
-                        fragmentTransaction.add(R.id.content_main, fragment).commit();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
                         // Toast.makeText(root.getContext(),"TESTIMONIOS",Toast.LENGTH_SHORT).show();
                     }
                 });

@@ -76,12 +76,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         ContactosBD contactosBD = new ContactosBD(getApplicationContext(), "TraerContactos");
         contactosBD.execute();
-
 
         hideFlotante();
 
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             datosAEnviar.putInt("id_articulo", ID_ARTICULO);
             fragment.setArguments(datosAEnviar);
         }
-        getSupportFragmentManager().beginTransaction().add(R.id.content_main, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(0);
@@ -207,7 +206,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
 
     public void hideFlotante() {
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_mostrar);
