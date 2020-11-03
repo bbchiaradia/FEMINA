@@ -67,7 +67,6 @@ public class TestimoniosVideosFragment extends Fragment  {
         });
         btnfs = (Button) root.findViewById(R.id.fullscreen);
         spinner = (Spinner) root.findViewById(R.id.spn_categoria);
-        //spinner_editar = (Spinner) root.findViewById(R.id.spn_categoria_am);
         // llamando a Async Task
         VideosBD vid = new VideosBD(getContext(),"CargarSpinner",spinner);
         vid.execute();
@@ -96,12 +95,7 @@ public class TestimoniosVideosFragment extends Fragment  {
 
 
 //    Se agrego un widget SearchView para filtrar un RecyclerView en tiempo real.
-//    Agregando un SearchView como un elemento a nuestro menú menusearch y lo haremos expandible con el atributo collapseActionView.
-//    De esta manera podemos mostrarlo como un icono en nuestra barra de aplicaciones, que se expande a un campo de entrada cuando hacemos clic en él.
-//    Implementamos la interfaz filtrable en nuestro AdapterVideos RecyclerView y creamos nuestro propio filtro, donde manejamos la lógica del filtro en el método performFiltering asíncrono,
-//    que publica los resultados de la búsqueda en el método publishResults en el hilo de la interfaz de usuario.
-//    En nuestra actividad, luego conectamos nuestro SearchView con el filtro configurando un OnQueryTextListener
-//    en nuestro SearchView y escuchando la entrada de texto en onQueryTextChange.
+
    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -123,7 +117,7 @@ public class TestimoniosVideosFragment extends Fragment  {
        }
         sv = (SearchView) item.getActionView();
         sv.setImeOptions(EditorInfo.IME_ACTION_DONE);
-
+        Log.d("EntrandoDB", "EnDB");
         VideosBD v = new VideosBD(getContext(), adapter_video, youtubeVideos,no_hay,"Listar",sv,"");
         v.execute();
 
@@ -131,6 +125,7 @@ public class TestimoniosVideosFragment extends Fragment  {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.action_search:
                // Toast.makeText(getContext(),"Accion buscar Video",Toast.LENGTH_SHORT).show();
                 return true;

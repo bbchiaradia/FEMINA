@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alejandro.android.femina.Entidades.Audios;
+import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.AudioEstado;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.MediaPlayerUtils;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.TestimoniosAudiosFragment;
@@ -26,11 +30,12 @@ import java.util.List;
 //
 // Created by Juan Manuel on 21/10/2020.
 //
-public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioViewHolder> {
+public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioViewHolder> implements Filterable {
 
     private final Context context;
     private final TestimoniosAudiosFragment testimoniosAudiosFragment;
     private List<Audios> contactList = new ArrayList<>();
+    protected List<Audios> AudioListFull;
     private MediaPlayerUtils.Listener mListener;
 
 
@@ -39,6 +44,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
         this.contactList = contactList;
         this.testimoniosAudiosFragment = testimoniosAudiosFragment;
         this.mListener = listener;
+        AudioListFull = new ArrayList<>(contactList);
 
     }
 
@@ -56,12 +62,6 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
         Audios currentItem = contactList.get(position);
         holder.txtSongName.setText(currentItem.getTitulo());
 
-    /*    for(int i = 0; i < contactList.size(); i++) {
-            testimoniosAudiosFragment.audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), 0));
-        }*/
-
-
-
         if(testimoniosAudiosFragment.audioStatusList.get(position).getAudioState() != AudioEstado.AUDIO_STATE.IDLE.ordinal()) {
             holder.seekBarAudio.setMax(testimoniosAudiosFragment.audioStatusList.get(position).getTotalDuration());
             holder.seekBarAudio.setProgress(testimoniosAudiosFragment.audioStatusList.get(position).getCurrentValue());
@@ -73,9 +73,9 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
         if(testimoniosAudiosFragment.audioStatusList.get(position).getAudioState() == AudioEstado.AUDIO_STATE.IDLE.ordinal()
                 || testimoniosAudiosFragment.audioStatusList.get(position).getAudioState() == AudioEstado.AUDIO_STATE.PAUSED.ordinal()) {
-            holder.btnPlay.setText(context.getString(R.string.play));
+            holder.imagePlayPause.setImageResource(R.drawable.ic_play);
         } else {
-            holder.btnPlay.setText(context.getString(R.string.pause));
+            holder.imagePlayPause.setImageResource(R.drawable.ic_pause);
         }
 
 
@@ -87,16 +87,16 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
     }
 
     public class AudioViewHolder extends RecyclerView.ViewHolder {
-        Button btnPlay;
         public SeekBar seekBarAudio;
         TextView txtSongName;
+        ImageView imagePlayPause;
 
 
         public AudioViewHolder(@NonNull View itemView) {
             super(itemView);
             seekBarAudio = (SeekBar) itemView.findViewById(R.id.seekBarAudio);
             txtSongName = (TextView) itemView.findViewById(R.id.txtSongName);
-            btnPlay =(Button) itemView.findViewById(R.id.btnPlay);
+            imagePlayPause = itemView.findViewById(R.id.imgPlayPause);
 
             seekBarAudio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -116,7 +116,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
             });
 
 
-  btnPlay.setOnClickListener(new View.OnClickListener() {
+  imagePlayPause.setOnClickListener(new View.OnClickListener() {
 
 
 
@@ -132,8 +132,6 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
               // Resetea media player, casteando el escuchador con el contexto del MainActivity
               mListener.onAudioComplete();
-             // MediaPlayerUtils.Listener listener =  (MediaPlayerUtils.Listener) context  ;
-              //listener.onAudioComplete();
           }
 
           String audioPath = contactList.get(position).getUrl_audio();
@@ -142,28 +140,27 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
           if(currentAudioState == AudioEstado.AUDIO_STATE.PLAYING.ordinal()) {
               // Si mediaPlayer esta reproduciendo, pausa mediaPlayer
-              btnPlay.setText(context.getString(R.string.play));
+              imagePlayPause.setImageResource(R.drawable.ic_play);
               MediaPlayerUtils.pauseMediaPlayer();
 
               audioEstado.setAudioState(AudioEstado.AUDIO_STATE.PAUSED.ordinal());
               testimoniosAudiosFragment.audioStatusList.set(position, audioEstado);
           } else if(currentAudioState == AudioEstado.AUDIO_STATE.PAUSED.ordinal()) {
               // Si mediaPlayer esta pausado, reproduce mediaPlayer
-              btnPlay.setText(context.getString(R.string.pause));
+              imagePlayPause.setImageResource(R.drawable.ic_pause);
               MediaPlayerUtils.playMediaPlayer();
 
               audioEstado.setAudioState(AudioEstado.AUDIO_STATE.PLAYING.ordinal());
               testimoniosAudiosFragment.audioStatusList.set(position, audioEstado);
           } else {
               // si mediaPlayer esta stopeado, inicia y reproduce mediaPlayer
-              btnPlay.setText(context.getString(R.string.pause));
+              imagePlayPause.setImageResource(R.drawable.ic_pause);
 
               audioEstado.setAudioState(AudioEstado.AUDIO_STATE.PLAYING.ordinal());
               testimoniosAudiosFragment.audioStatusList.set(position, audioEstado);
 
               try {
                   Toast.makeText(context,"Por favor espera que cargue el audio",Toast.LENGTH_SHORT).show();
-                 // MediaPlayerUtils.startAndPlayMediaPlayer(audioPath, (MediaPlayerUtils.Listener) context);
                   MediaPlayerUtils.startAndPlayMediaPlayer(audioPath, mListener);
 
 
@@ -179,5 +176,37 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
     }
 
+    @Override
+    public Filter getFilter() {
+        return audioFilter;
+    }
+
+    private final Filter audioFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Audios> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(AudioListFull);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Audios item : AudioListFull) {
+                    //Aca se indica cual sera el campo a filtar
+                    if (item.getTitulo().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            contactList.clear();
+            contactList.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }
 
