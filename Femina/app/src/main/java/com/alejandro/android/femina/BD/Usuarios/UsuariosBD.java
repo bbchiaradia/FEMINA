@@ -26,7 +26,9 @@ import androidx.fragment.app.FragmentManager;
 
 import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
 import com.alejandro.android.femina.BD.Data.DatosBD;
+import com.alejandro.android.femina.BD.Secuencias.SecuenciasBD;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
+import com.alejandro.android.femina.Entidades.Secuencias;
 import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
 import com.alejandro.android.femina.Main.MainActivity;
@@ -245,6 +247,9 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                         if (rs.next())
                             session_usuario.setId_usuario(rs.getInt("idUsuario"));
 
+
+
+
                         session_usuario.setNombre(user.getNombre());
                         session_usuario.setApellido(user.getApellido());
                         session_usuario.setUsuario(user.getUsuario());
@@ -448,6 +453,15 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
                 ((Activity) context).finish();
+
+                Secuencias sec = new Secuencias();
+                Usuarios uss = new Usuarios();
+                uss.setId_usuario(session_usuario.getId_usuario());
+                sec.setId_usuario(uss);
+
+                SecuenciasBD secuenciasBD = new SecuenciasBD(sec,context,"Insertar");
+                secuenciasBD.execute();
+
             }
 
               Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();

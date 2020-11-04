@@ -1,11 +1,15 @@
 package com.alejandro.android.femina.Fragments.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +32,7 @@ import com.alejandro.android.femina.Session.SessionContactos;
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
+    private String LOGUEO = "NORMAL";
     ImageButton btn_misDatos_inicio;
     ImageButton btn_icono_inicio;
     ImageButton btn_contactos_inicio;
@@ -36,6 +41,7 @@ public class HomeFragment extends Fragment {
     ImageButton btn_test_inicio;
     ImageButton btn_testimonios_inicio;
     ImageButton btn_videos_inicio;
+    private TableRow[] tableRow;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -53,6 +59,18 @@ public class HomeFragment extends Fragment {
 
                 String[] contactos;
                 contactos = sessionContactos.getContactos();
+
+                tableRow = new TableRow[6];
+
+                tableRow[0] = (TableRow) root.findViewById(R.id.tablarow1);
+                tableRow[1] = (TableRow) root.findViewById(R.id.tablarow2);
+                tableRow[2] = (TableRow) root.findViewById(R.id.tablarow3);
+                tableRow[3] = (TableRow) root.findViewById(R.id.tablarow4);
+                tableRow[4] = (TableRow) root.findViewById(R.id.tablarow5);
+                tableRow[5] = (TableRow) root.findViewById(R.id.tablarow6);
+
+                SharedPreferences preferences = getContext().getSharedPreferences("LOGUEO", Context.MODE_PRIVATE);
+                LOGUEO = preferences.getString("LOGUEO","NORMAL");
 
                 int i = 1;
 
@@ -139,6 +157,23 @@ public class HomeFragment extends Fragment {
                         // Toast.makeText(root.getContext(),"TESTIMONIOS",Toast.LENGTH_SHORT).show();
                     }
                 });
+
+                if(LOGUEO.equals("NORMAL")) {
+                    tableRow[0].setVisibility(View.VISIBLE);
+                    tableRow[1].setVisibility(View.VISIBLE);
+                    tableRow[2].setVisibility(View.VISIBLE);
+                    tableRow[3].setVisibility(View.VISIBLE);
+                    tableRow[4].setVisibility(View.VISIBLE);
+                    tableRow[5].setVisibility(View.VISIBLE);
+                }
+                else {
+                    tableRow[0].setVisibility(View.GONE);
+                    tableRow[1].setVisibility(View.GONE);
+                    tableRow[2].setVisibility(View.GONE);
+                    tableRow[3].setVisibility(View.GONE);
+                    tableRow[4].setVisibility(View.GONE);
+                    tableRow[5].setVisibility(View.GONE);
+                }
 
 
             }

@@ -134,8 +134,9 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new AdaptadorAudios(context, contactList, this, this);
-        recyclerView.setAdapter(adapter);
         adapter.getFilter().filter(search);
+        recyclerView.setAdapter(adapter);
+
 
       //  adapter.notifyDataSetChanged();
 

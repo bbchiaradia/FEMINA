@@ -150,5 +150,10 @@
     <string name="TESTIMONIOS_INICIO">TESTIMONIOS</string>
     <string name="ICONO_INICIO">CAMBIAR ICONO</string>
 
+    <string name="INICIO_RAPIDO">Accesibilidad</string>
+
+    <string name="Recordar">Recordar usuario!</string>
+
+
 
 </resources>

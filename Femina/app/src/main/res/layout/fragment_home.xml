@@ -5,13 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:id="@+id/contenido_inicio"
     android:background="@color/fondo_pantallas">
 
     <TableRow
+        android:id="@+id/tablarow1"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:layout_margin="10dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp">
 
         <ImageButton
             android:id="@+id/btn_misdatos_inicio"
@@ -40,11 +43,12 @@
     </TableRow>
 
     <TableRow
+        android:id="@+id/tablarow2"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,10 +81,12 @@
 
 
     <TableRow
+        android:id="@+id/tablarow3"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:layout_margin="10dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp">
 
         <ImageButton
             android:id="@+id/btn_test_inicio"
@@ -109,11 +115,12 @@
     </TableRow>
 
     <TableRow
+        android:id="@+id/tablarow4"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -146,10 +153,12 @@
 
 
     <TableRow
+        android:id="@+id/tablarow5"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:layout_margin="10dp">
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp">
 
         <ImageButton
             android:id="@+id/btn_preguntas_inicio"
@@ -162,11 +171,12 @@
     </TableRow>
 
     <TableRow
+        android:id="@+id/tablarow6"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_gravity="center"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp">
 
         <TextView
             android:layout_width="wrap_content"

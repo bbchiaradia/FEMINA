@@ -121,6 +121,7 @@ public class GestionarImagen extends AppCompatActivity implements View.OnClickLi
 
                 Intent intent = new Intent(GestionarImagen.this, MainActivity.class);
                 intent.putExtra("id_articulo",id_articulo);
+                intent.putExtra("LOGUEO","NORMAL");
                 GestionarImagen.this.startActivity(intent);
 
             }

@@ -1,7 +1,9 @@
 package com.alejandro.android.femina.Main;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private long tiempoPrimerClick;
     private AdapterVideos adapter_video;
     private static final int REQUEST_CALL = 1;
-    private String phonenbr, direccion,latitud,longitud;
+    private String phonenbr, direccion,latitud,longitud,LOGUEO;
     private TextView bienvenida;
     private int ID_ARTICULO;
     private int Inicio;
@@ -92,12 +94,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         corto_gps = false;
 
+        LOGUEO = "NORMAL";
+
         ID_ARTICULO = -1;
 
         Bundle parametros = this.getIntent().getExtras();
         if (parametros != null) {
             ID_ARTICULO = getIntent().getExtras().getInt("id_articulo");
+            LOGUEO = getIntent().getExtras().getString("LOGUEO");
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -115,6 +121,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             datosAEnviar.putInt("id_articulo", ID_ARTICULO);
             fragment.setArguments(datosAEnviar);
         }
+
+        if(!LOGUEO.equals("NORMAL")){
+            SharedPreferences preferencias = this.getSharedPreferences("LOGUEO", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencias.edit();
+            editor.putString("LOGUEO","EMERGENCIA");
+            editor.apply();
+        }else {
+            SharedPreferences preferencias = this.getSharedPreferences("LOGUEO", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferencias.edit();
+            editor.putString("LOGUEO","NORMAL");
+            editor.apply();
+        }
+
         getSupportFragmentManager().beginTransaction().replace(R.id.content_main, fragment).commit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -125,6 +144,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setItemIconTintList(null);
 
         bienvenida.setText("Bienvenido a FEMINA\n" + session.getNombre() + "!");
+
+        if(!LOGUEO.equals("NORMAL")){
+           navigationView.getMenu().setGroupVisible(R.id.items_navigation,false);
+        }
+        else
+            navigationView.getMenu().setGroupVisible(R.id.items_navigation,true);
 
         // barra con los botones de inicio , llamadas de emergencia , sms de ayuda
         bottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -304,6 +329,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SessionContactos ses_cont = new SessionContactos();
         ses_cont.setContext(getApplicationContext());
         ses_cont.cerrar_session();
+        SharedPreferences preferencias = this.getSharedPreferences("LOGUEO", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.clear();
+        editor.apply();
     }
 
     @Override
