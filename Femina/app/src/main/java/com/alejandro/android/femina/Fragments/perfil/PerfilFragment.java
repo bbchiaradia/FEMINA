@@ -13,12 +13,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.BD.Contactos.ContactosBD;
 import com.alejandro.android.femina.BD.Usuarios.UsuariosBD;
 import com.alejandro.android.femina.Entidades.Usuarios;
+import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
+import com.alejandro.android.femina.Fragments.secuencia.SecuenciaFragment;
+import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
 import com.alejandro.android.femina.Pantallas_exteriores.Registrarse;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
@@ -26,7 +31,7 @@ import com.alejandro.android.femina.Session.Session;
 public class PerfilFragment extends Fragment {
 
     private Spinner sexo;
-    private Button btn_modificarPerfil,habilitar_txt;
+    private Button btn_modificarPerfil,habilitar_txt,mi_secuencia;
     private EditText txt_nombre, txt_apellido, txt_usuario, txt_contrasena, txt_telefono;
     private Usuarios user;
     private char sex;
@@ -36,8 +41,6 @@ public class PerfilFragment extends Fragment {
 
 
     private PerfilViewModel perfilViewModel;
-
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +58,7 @@ public class PerfilFragment extends Fragment {
         txt_telefono = (EditText) root.findViewById(R.id.txt_telefono);
         txt_usuario = (EditText) root.findViewById(R.id.txt_usuario);
         habilitar_txt = (Button) root.findViewById(R.id.btn_habilitar_txt);
+        mi_secuencia = (Button) root.findViewById(R.id.btn_mi_secuencia);
 
 
         setear_false();
@@ -77,6 +81,16 @@ public class PerfilFragment extends Fragment {
 
         UsuariosBD usu = new UsuariosBD(getContext(),txt_nombre,txt_apellido,txt_contrasena,txt_telefono,txt_usuario,sexo,"Listar");
         usu.execute();
+
+        mi_secuencia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fm.beginTransaction().replace(R.id.content_main, new SecuenciaFragment()).commit();
+            }
+        });
+
 
         perfilFragment = this;
 

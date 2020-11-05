@@ -160,6 +160,9 @@
 
     <string name="Recordar">Recordar usuario!</string>
 
+    <string name="secuencia">Secuencia</string>
+
+    <string name="misecuencia">Mi secuencia</string>
 
 
 </resources>

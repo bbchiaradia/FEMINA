@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/fondo_pantallas"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_habilitar_secuencia"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
+        android:background="@android:color/transparent"
+        android:text="@string/modificar"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="italic|normal"
+        android:layout_marginRight="8dp" />
+
+        <TextView
+            android:id="@+id/txt_id_secuencia"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="cursive"
+            android:textColor="#403C3C"
+            android:textSize="30sp"
+            android:visibility="gone"
+            android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="cursive"
+        android:text="@string/secuencia"
+        android:textColor="#403C3C"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
+
+    <Switch
+        android:id="@+id/activar_secuencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+    </Switch>
+
+    <EditText
+        android:id="@+id/txt_secuencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:inputType="textPersonName"
+        android:text="RAPI"/>
+
+
+
+    <TableLayout
+        android:id="@+id/accesibilidad"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start">
+
+
+            <ImageButton
+                android:id="@+id/btn_arriba"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:background="@drawable/flechaarriba" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start">
+
+            <ImageButton
+                android:id="@+id/btn_izquierda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:background="@drawable/flechaizquierda" />
+
+            <ImageButton
+                android:id="@+id/btn_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_column="2"
+                android:background="@drawable/borrar" />
+
+            <ImageButton
+                android:id="@+id/btn_derecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="3"
+                android:background="@drawable/flechaderecha" />
+
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="start">
+
+            <ImageButton
+                android:id="@+id/btn_abajo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="2"
+                android:background="@drawable/flechaabajo" />
+
+        </TableRow>
+
+        <Button
+            android:id="@+id/btn_guardar_secuencia"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/boton_rosa"
+            android:text="@string/guardar_cambios" />
+
+
+    </TableLayout>
+
+</LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

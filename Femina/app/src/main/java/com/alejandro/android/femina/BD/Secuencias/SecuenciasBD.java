@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,13 +36,17 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
 
 
     private Secuencias sec;
+    private EditText secuencia;
+    TextView id_secuencia;
+    private Switch activado;
     private Usuarios user;
     private String que_hacer;
     private Context context;
     private ProgressDialog dialog;
     private String mensaje_devuelto;
     private Session ses;
-    private Boolean activo,dejo_loguear,secuencia_ok,usuario_existe;
+    private Boolean activo,dejo_loguear,secuencia_ok,usuario_existe,sec_activa;
+    private String id_sec,secuencia_;
 
 
     public SecuenciasBD(Secuencias sec, Context ct, String que) {
@@ -56,12 +63,56 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
         user = new Usuarios();
     }
 
+    public SecuenciasBD(Secuencias sec, Context ct, EditText secuencia, Switch activado, TextView id_sec, String que) {
+        ses = new Session();
+        this.sec = new Secuencias();
+        this.sec = sec;
+        this.context = ct;
+        this.que_hacer = que;
+        dialog = new ProgressDialog(ct);
+        user = new Usuarios();
+        this.secuencia = secuencia;
+        this.activado = activado;
+        this.id_secuencia = id_sec;
+        sec_activa = false;
+        this.id_sec = "";
+        secuencia_ = "";
+    }
+
 
     @Override
     protected String doInBackground(String... urls) {
         String response = "";
         mensaje_devuelto = "";
         PreparedStatement ps;
+
+        if (que_hacer.equals("TraerSecuencia")) {
+
+            response = "";
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("SELECT * FROM Secuencias where idUsuario='" + sec.getId_usuario().getId_usuario() + "'" );
+
+                if(rs.next()) {
+                    sec.setSecuencia(rs.getString("Secuencia"));
+                    sec.setId_secuencia(rs.getInt("idSecuencia"));
+                    sec.setActivado(rs.getBoolean("Activo"));
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch(Exception e){
+                e.printStackTrace();
+                response = "Conexion no exitosa";
+            }
+
+
+        }
 
         if (que_hacer.equals("LeerSecuencia")) {
 
@@ -309,6 +360,34 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
             }
             else
                 Toast.makeText(context, mensaje_devuelto, Toast.LENGTH_LONG).show();
+        }
+
+        if(que_hacer.equals("TraerSecuencia")){
+
+            if(sec.getActivado())
+                activado.setChecked(true);
+            else
+                activado.setChecked(false);
+
+            for(int i= 0; i < sec.getSecuencia().length(); i ++){
+
+                if(sec.getSecuencia().charAt(i) == '0')
+                    secuencia_ += "ARRIBA;";
+
+                if(sec.getSecuencia().charAt(i) == '1')
+                    secuencia_ += "DERECHA;";
+
+                if(sec.getSecuencia().charAt(i) == '2')
+                    secuencia_ += "ABAJO;";
+
+                if(sec.getSecuencia().charAt(i) == '3')
+                    secuencia_ += "IZQUIERDA;";
+            }
+
+            secuencia.setText(secuencia_);
+
+            id_secuencia.setText("" + sec.getId_secuencia());
+
         }
 
         if(que_hacer.equals("Modificar") || que_hacer.equals("Activar") || que_hacer.equals("Desactivar")){
