@@ -18,27 +18,27 @@
 
         <ImageButton
             android:id="@+id/btn_misdatos_inicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="86dp"
+            android:layout_height="76dp"
             android:layout_column="1"
             android:layout_margin="20dp"
-            android:background="@drawable/mujerperfil" />
+            android:background="@drawable/new_perfil" />
 
         <ImageButton
             android:id="@+id/btn_icono_inicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="86dp"
+            android:layout_height="76dp"
             android:layout_column="2"
             android:layout_margin="20dp"
-            android:background="@drawable/intercambio" />
+            android:background="@drawable/new_cambiaricono" />
 
         <ImageButton
             android:id="@+id/btn_contactos_inicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="86dp"
+            android:layout_height="76dp"
             android:layout_column="3"
             android:layout_margin="20dp"
-            android:background="@drawable/contacto_inicio" />
+            android:background="@drawable/new_contactosemergencia" />
 
     </TableRow>
 
@@ -90,27 +90,27 @@
 
         <ImageButton
             android:id="@+id/btn_test_inicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="86dp"
+            android:layout_height="76dp"
             android:layout_column="1"
             android:layout_margin="20dp"
-            android:background="@drawable/prueba" />
+            android:background="@drawable/new_test" />
 
         <ImageButton
             android:id="@+id/btn_quehacer_inicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="86dp"
+            android:layout_height="76dp"
             android:layout_column="2"
             android:layout_margin="20dp"
-            android:background="@drawable/entrevista" />
+            android:background="@drawable/new_quehacer" />
 
         <ImageButton
             android:id="@+id/btn_testimonios_inicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="86dp"
+            android:layout_height="76dp"
             android:layout_column="3"
             android:layout_margin="20dp"
-            android:background="@drawable/testimonios" />
+            android:background="@drawable/new_testimonios" />
 
     </TableRow>
 
@@ -162,11 +162,11 @@
 
         <ImageButton
             android:id="@+id/btn_preguntas_inicio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="86dp"
+            android:layout_height="76dp"
             android:layout_column="1"
             android:layout_margin="20dp"
-            android:background="@drawable/info" />
+            android:background="@drawable/new_ayuda" />
 
     </TableRow>
 

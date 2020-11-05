@@ -88,8 +88,8 @@ public class IconoFragment extends Fragment {
                                 } else if (tituloIcono.getText().toString() == "Horoscopo"){
                                     setIcon(gestionicono.ICON_COLOUR.Horoscopo);
 
-                                }else if (tituloIcono.getText().toString() == "Peluqueria"){
-                                    setIcon(gestionicono.ICON_COLOUR.Peluqueria);
+                                }else if (tituloIcono.getText().toString() == "MakeUp"){
+                                    setIcon(gestionicono.ICON_COLOUR.MakeUp);
 
                                 }else if (tituloIcono.getText().toString() == "Recetas"){
                                     setIcon(gestionicono.ICON_COLOUR.Recetas);
@@ -137,11 +137,11 @@ public class IconoFragment extends Fragment {
     private ArrayList<EntidadIcono> GetArrayIconos(){
         ArrayList<EntidadIcono> listIconos = new ArrayList<>();
 
-        listIconos.add(new EntidadIcono(R.drawable.icono_horoscopo, "Horoscopo"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_moda, "Moda"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_recetas, "Recetas"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_peluqueria, "Peluqueria"));
-        listIconos.add(new EntidadIcono(R.drawable.icono_recetas, "Femina"));
+        listIconos.add(new EntidadIcono(R.drawable.new_horoscopo, "Horoscopo"));
+        listIconos.add(new EntidadIcono(R.drawable.new_moda, "Moda"));
+        listIconos.add(new EntidadIcono(R.drawable.new_recetas, "Recetas"));
+        listIconos.add(new EntidadIcono(R.drawable.new_makeup, "MakeUp"));
+        listIconos.add(new EntidadIcono(R.drawable.new_iconofemina, "Femina"));
 
         return listIconos;
     }

@@ -51,7 +51,7 @@
 
         <activity-alias
             android:label="Femina"
-            android:icon="@mipmap/ic_femina"
+            android:icon="@mipmap/ic_new_femina"
             android:name=".Femina"
             android:enabled="true"
             android:targetActivity=".Pantallas_exteriores.Ingresar">
@@ -65,7 +65,7 @@
 
         <activity-alias
             android:label="Horoscopo"
-            android:icon="@mipmap/ic_horoscopo"
+            android:icon="@mipmap/ic_new_horoscopo"
             android:name=".Horoscopo"
             android:enabled="false"
             android:targetActivity=".Pantallas_exteriores.Ingresar">
@@ -79,7 +79,7 @@
 
         <activity-alias
             android:label="Moda"
-            android:icon="@mipmap/ic_moda"
+            android:icon="@mipmap/ic_new_moda"
             android:name=".Moda"
             android:enabled="false"
             android:targetActivity=".Pantallas_exteriores.Ingresar">
@@ -92,9 +92,9 @@
         </activity-alias>
 
         <activity-alias
-            android:label="Peluqueria"
-            android:icon="@mipmap/ic_peluqueria"
-            android:name=".Peluqueria"
+            android:label="MakeUp"
+            android:icon="@mipmap/ic_new_makeup"
+            android:name=".MakeUp"
             android:enabled="false"
             android:targetActivity=".Pantallas_exteriores.Ingresar">
             <intent-filter>
@@ -102,11 +102,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <meta-data android:name="android.support.multidex.MultiDexApplication"
-                android:value=".Peluqueria" />
+                android:value=".MakeUp" />
         </activity-alias>
         <activity-alias
             android:label="Recetas"
-            android:icon="@mipmap/ic_recetas_"
+            android:icon="@mipmap/ic_new_recetas"
             android:name=".Recetas"
             android:enabled="false"
             android:targetActivity=".Pantallas_exteriores.Ingresar">

@@ -21,18 +21,18 @@
             android:layout_gravity="center"
             android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/portapapeles"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="29dp" />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@drawable/new_perfil"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="29dp" />
 
         <TextView
             android:id="@+id/textView3"

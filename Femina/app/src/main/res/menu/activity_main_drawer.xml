@@ -7,35 +7,35 @@
         android:id="@+id/items_navigation">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/casa"
+            android:icon="@drawable/new_home"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_mis_datos"
-            android:icon="@drawable/mujerperfil"
+            android:icon="@drawable/new_perfil"
             android:title="@string/menu_mis_datos" />
         <item
             android:id="@+id/nav_contactos_emergencia"
-            android:icon="@drawable/contacto_inicio"
+            android:icon="@drawable/new_contactosemergencia"
             android:title="@string/menu_contactos_emergencia" />
         <item
             android:id="@+id/nav_testimonios"
-            android:icon="@drawable/testimonios"
+            android:icon="@drawable/new_testimonios"
             android:title="@string/menu_Testimonios" />
         <item
             android:id="@+id/nav_crear_icono"
-            android:icon="@drawable/intercambio"
+            android:icon="@drawable/new_cambiaricono"
             android:title="@string/menu_crear_icono" />
         <item
             android:id="@+id/nav_test_violencia"
-            android:icon="@drawable/prueba"
+            android:icon="@drawable/new_test"
             android:title="@string/menu_test_volencia" />
         <item
             android:id="@+id/nav_que_hacer"
-            android:icon="@drawable/entrevista"
+            android:icon="@drawable/new_quehacer"
             android:title="@string/menu_que_hacer" />
         <item
             android:id="@+id/nav_ayuda"
-            android:icon="@drawable/info"
+            android:icon="@drawable/new_ayuda"
             android:title="@string/menu_ayuda" />
     </group>
 </menu>
