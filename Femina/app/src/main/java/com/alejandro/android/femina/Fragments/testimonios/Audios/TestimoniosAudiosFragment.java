@@ -270,15 +270,15 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                // Toast.makeText(getContext(),"Accion buscar Video",Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getContext(),"Accion buscar Audio",Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.add_video:
-                Toast.makeText(getContext(), "Accion ingresar Video", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Accion ingresar Audio", Toast.LENGTH_SHORT).show();
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fm.beginTransaction().replace(R.id.content_main, new TestimoniosAMAudiosFragment()).commit();
 
-                SharedPreferences preferencias = getContext().getSharedPreferences("accion_videos", Context.MODE_PRIVATE);
+                SharedPreferences preferencias = getContext().getSharedPreferences("accion_audios", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferencias.edit();
                 editor.putString("accion", "Insertar");
                 editor.apply();

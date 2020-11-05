@@ -1,8 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/fondo_pantallas"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/imageAudio"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/voz"
+            android:contentDescription="TODO" />
+
+        <TextView
+            android:id="@+id/textViewAudio"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="cursive"
+            android:text="@string/updateAudio"
+            android:textColor="#403C3C"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/txt_idaudio_am"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            android:textStyle="italic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/marco_redondo"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+    <Spinner
+        android:id="@+id/spn_categoriaam"
+        android:layout_width="match_parent"
+        android:popupBackground="@color/fondo_pantallas"
+        android:spinnerMode="dropdown"
+        android:layout_height="50dp"/>
+
+    </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/txt_titulo_audio_am"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:layout_gravity="center"
+            android:hint="@string/titulodospuntos"
+            android:inputType="textPersonName"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "
+            />
+
+        <EditText
+            android:id="@+id/txturl_am"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:ems="10"
+            android:layout_gravity="center"
+            android:hint="@string/urldospuntos"
+            android:inputType="textWebEmailAddress"/>
+
+        <Button
+            android:id="@+id/btn_update_audio"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/boton_celeste"
+            android:text="@string/guardar_cambios"
+            android:layout_marginLeft="20dp" />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

@@ -57,10 +57,23 @@
             android:visibility="invisible"
             android:textStyle="italic" />
 
-        <Spinner
-            android:id="@+id/spn_categoria_am"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/marco_redondo"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+    <Spinner
+        android:id="@+id/spn_categoria_am"
+        android:layout_width="match_parent"
+        android:popupBackground="@color/fondo_pantallas"
+        android:spinnerMode="dropdown"
+        android:layout_height="50dp"/>
+
+    </LinearLayout>
 
 
         <EditText

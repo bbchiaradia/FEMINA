@@ -11,6 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.SearchView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.alejandro.android.femina.Adaptadores.AdaptadorAudios;
 import com.alejandro.android.femina.BD.Data.DatosBD;
@@ -91,19 +95,14 @@ public class AudiosBD extends AsyncTask<String, Void, String> {
         dialog = new ProgressDialog(context);
     }
 
-    public AudiosBD(Context context, ArrayList<Audios> listaAudios, String que, TextView tx, TestimoniosAudiosFragment fragment, RecyclerView myRv, AdaptadorAudios myAdapter, SearchView sv) {
-        listaAudios.clear();
+    public AudiosBD(Audios a, Context context, String que,TestimoniosAudiosFragment fragment){
+        this.audio = a;
         this.mContext = context;
-        this.audiosList = listaAudios;
         this.que_hacer = que;
-        no_hay = tx;
         this.testimoniosAudiosFragment = fragment;
-        this.rv = myRv;
-        this.adapter = myAdapter;
-        this.buscar = sv;
         dialog = new ProgressDialog(context);
-        no_hay_cont = true;
     }
+
 
 
     @Override
@@ -190,6 +189,126 @@ public class AudiosBD extends AsyncTask<String, Void, String> {
             }
         }
 
+        if (que_hacer.equals("Modificar")) {
+
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("UPDATE Audios SET Titulo=?, idCategoria=?, urlAudio=? WHERE idAudio=?");
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("Select idCategoria from Categorias where Descripcion='"
+                        + audio.getId_categoria().getDescripcion() + "'");
+
+                if (rs.next())
+                    ps.setInt(2, rs.getInt(1));
+                else
+                    insertamos = false;
+
+                ps.setString(1,audio.getTitulo());
+                ps.setString(3,audio.getUrl_audio());
+                ps.setInt(4,audio.getId_audio());
+
+                if (insertamos) {
+
+                    int filas = ps.executeUpdate();
+
+                    if (filas > 0) {
+                        mensaje_devuelto = "Audio actualizado!";
+                    } else
+                        mensaje_devuelto = "Error al actualizar el audio!";
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al actualizar el audio!!";
+            }
+        }
+
+        if (que_hacer.equals("Insertar")) {
+
+            boolean insertamos = true;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("INSERT INTO Audios (Titulo, idCategoria, urlAudio) VALUES(?, ?, ?)");
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("Select idCategoria from Categorias where Descripcion='"
+                        + audio.getId_categoria().getDescripcion() + "'");
+
+                if (rs.next())
+                    ps.setInt(2, rs.getInt(1));
+                else
+                    insertamos = false;
+
+                Statement st_ = con.createStatement();
+                ResultSet rs_;
+
+                ps.setString(1, audio.getTitulo());
+                ps.setString(3, audio.getUrl_audio());
+
+                rs_ = st_.executeQuery("SELECT 1 FROM Audios where urlAudio ='" + audio.getUrl_audio() + "'");
+
+                if (rs_.next()) {
+                    insertamos = false;
+                    mensaje_devuelto = "La URL ya esta registrada";
+                }
+
+                if (insertamos) {
+
+                    int filas = ps.executeUpdate();
+
+                    if (filas > 0) {
+                        mensaje_devuelto = "Audio registrado!";
+                    } else
+                        mensaje_devuelto = "Error al registrar el Audio!";
+
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                mensaje_devuelto = "Error al registrar el Audio!";
+            }
+        }
+
+        if (que_hacer.equals("Eliminar")) {
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                ps = con.prepareStatement("DELETE FROM Audios WHERE idAudio=?");
+
+                ps.setInt(1, audio.getId_audio());
+
+                int filas = ps.executeUpdate();
+
+                if (filas > 0) {
+                    mensaje_devuelto = "Audio eliminado!";
+                } else
+                    mensaje_devuelto = "Error al eliminar el Audio!";
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al eliminar el Audio!!";
+            }
+        }
+
         return response;
     }
 
@@ -211,6 +330,7 @@ public class AudiosBD extends AsyncTask<String, Void, String> {
 
         if (que_hacer.equals("Listar") || que_hacer.equals("SelCategoria")) {
 
+            // Metodo que captura el array enviado por el metodo addAudios
             testimoniosAudiosFragment.getAudioList();
 
             if (no_hay_cont) {
@@ -238,6 +358,20 @@ public class AudiosBD extends AsyncTask<String, Void, String> {
             editor.putInt("tamaño", lista_categorias.length);
             editor.putStringSet("categorias", lista_categorias_set);
             editor.apply();
+        }
+
+
+        if(que_hacer.equals("Insertar")) {
+            Toast.makeText(mContext,mensaje_devuelto,Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = ((AppCompatActivity)mContext).getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosAudiosFragment()).commit();
+        }
+
+        if(que_hacer.equals("Modificar") || que_hacer.equals("Eliminar")){
+            Toast.makeText(mContext,mensaje_devuelto, Toast.LENGTH_SHORT).show();
+            FragmentManager fragmentManager = ((AppCompatActivity)mContext).getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosAudiosFragment()).commit();
+
         }
 
     }

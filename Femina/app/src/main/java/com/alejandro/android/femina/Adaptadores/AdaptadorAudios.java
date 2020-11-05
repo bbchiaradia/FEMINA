@@ -15,14 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alejandro.android.femina.Dialogos.DialogoAMAudios;
 import com.alejandro.android.femina.Entidades.Audios;
+import com.alejandro.android.femina.Entidades.Categorias;
 import com.alejandro.android.femina.Entidades.Videos;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.AudioEstado;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.MediaPlayerUtils;
 import com.alejandro.android.femina.Fragments.testimonios.Audios.TestimoniosAudiosFragment;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.Session.Session;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,9 +64,18 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
     @Override
     public void onBindViewHolder(@NonNull  AdaptadorAudios.AudioViewHolder holder,  int position) {
-        Log.d("SizeAdap", "SizeAdapIs: "+ contactList.size());
-        Audios currentItem = contactList.get(position);
+        // cargo la sesion de usuario
+        final Session ses = new Session();
+        ses.setCt(context.getApplicationContext());
+        ses.cargar_session();
+
+        final Audios currentItem = contactList.get(position);
         holder.txtSongName.setText(currentItem.getTitulo());
+        holder.txtCategoria.setText(currentItem.getId_categoria().getDescripcion());
+        holder.idCategoria.setText(currentItem.getId_categoria().toString());
+        holder.urlAudio.setText(currentItem.getUrl_audio());
+        holder.idAudio.setInputType(currentItem.getId_audio());
+
 
         if(testimoniosAudiosFragment.audioStatusList.get(position).getAudioState() != AudioEstado.AUDIO_STATE.IDLE.ordinal()) {
             holder.seekBarAudio.setMax(testimoniosAudiosFragment.audioStatusList.get(position).getTotalDuration());
@@ -79,6 +94,34 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
         }
 
 
+        // Solo es visible para el admin
+        if (ses.getEs_admin()) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Audios audio = new Audios();
+                    TextView txt_SongName = v.findViewById(R.id.txtSongName);
+                    TextView id_Audio = v.findViewById(R.id.txt_idaudio);
+                    TextView id_Categoria = v.findViewById(R.id.txt_idCategoria_a);
+                    TextView url_Audio = v.findViewById(R.id.txtUrlAudio);
+                    TextView txt_Categoria = v.findViewById(R.id.txtCatAudio);
+
+                    audio.setTitulo(txt_SongName.getText().toString());
+                    audio.setId_audio(currentItem.getId_audio());
+                    audio.setId_categoria(currentItem.getId_categoria());
+                    audio.setUrl_audio(url_Audio.getText().toString());
+
+                    DialogoAMAudios dialogoAMAudios = new DialogoAMAudios(audio,testimoniosAudiosFragment);
+                    FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
+                    dialogoAMAudios.show(fragmentManager, "");
+
+
+
+                }
+            });
+        }
+
+
     }
 
     @Override
@@ -88,7 +131,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
     public class AudioViewHolder extends RecyclerView.ViewHolder {
         public SeekBar seekBarAudio;
-        TextView txtSongName;
+        TextView txtSongName, idAudio, idCategoria, urlAudio, txtCategoria;
         ImageView imagePlayPause;
 
 
@@ -97,6 +140,11 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
             seekBarAudio = (SeekBar) itemView.findViewById(R.id.seekBarAudio);
             txtSongName = (TextView) itemView.findViewById(R.id.txtSongName);
             imagePlayPause = itemView.findViewById(R.id.imgPlayPause);
+            idAudio = itemView.findViewById(R.id.txt_idaudio);
+            idCategoria = itemView.findViewById(R.id.txt_idCategoria_a);
+            urlAudio = itemView.findViewById(R.id.txtUrlAudio);
+            txtCategoria = itemView.findViewById(R.id.txtCatAudio);
+
 
             seekBarAudio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override

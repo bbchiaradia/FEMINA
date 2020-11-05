@@ -96,12 +96,18 @@
     <string name="categoria">Categoria</string>
     <string name="nombredospuntos">Nombre: </string>
     <string name="updateVideo">Video</string>
+    <string name="updateAudio">Audio</string>
     <string name="titulo">Titulo</string>
 
-    <string-array name="gestion_video">
+   <string-array name="gestion_video">
         <item>Modificar</item>
         <item>Eliminar</item>
-    </string-array>
+   </string-array>
+
+   <string-array name="gestion_audio">
+        <item>Modificar</item>
+        <item>Eliminar</item>
+   </string-array>
 
     <string-array name="gestion_icono">
         <item>Seleccionar</item>
