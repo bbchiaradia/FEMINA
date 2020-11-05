@@ -132,7 +132,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
     public class AudioViewHolder extends RecyclerView.ViewHolder {
         public SeekBar seekBarAudio;
         TextView txtSongName, idAudio, idCategoria, urlAudio, txtCategoria;
-        ImageView imagePlayPause;
+        public ImageView imagePlayPause;
 
 
         public AudioViewHolder(@NonNull View itemView) {
@@ -222,6 +222,8 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
             });
         }
 
+
+
     }
 
     @Override
@@ -256,5 +258,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
             notifyDataSetChanged();
         }
     };
+
+
 }
 

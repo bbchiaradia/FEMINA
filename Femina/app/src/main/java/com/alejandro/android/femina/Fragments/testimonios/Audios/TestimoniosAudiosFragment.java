@@ -138,7 +138,7 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
         recyclerView.setAdapter(adapter);
 
 
-      //  adapter.notifyDataSetChanged();
+      adapter.notifyDataSetChanged();
 
     }
 
@@ -259,8 +259,8 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                    adapter.getFilter().filter(newText);
-                    search = newText;
+                adapter.getFilter().filter(newText);
+                search = newText;
                 return false;
             }
         });
