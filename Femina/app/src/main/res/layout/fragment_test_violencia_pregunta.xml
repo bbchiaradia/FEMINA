@@ -61,9 +61,10 @@
 
     <Button
         android:id="@+id/btn_proxima_pregunta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="195dp"
+        android:layout_height="37dp"
         android:layout_marginBottom="24dp"
+        android:background="@drawable/boton_rosa"
         android:onClick="pulsarProximaPregunta"
         android:text="@string/proxima_pregunta"
         app:layout_constraintBottom_toTopOf="@+id/btn_pregunta_1_anterior"
@@ -76,9 +77,10 @@
 
     <Button
         android:id="@+id/btn_pregunta_1_anterior"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="197dp"
+        android:layout_height="39dp"
         android:layout_marginBottom="108dp"
+        android:background="@drawable/boton_rosa"
         android:text="@string/pregunta_anterior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

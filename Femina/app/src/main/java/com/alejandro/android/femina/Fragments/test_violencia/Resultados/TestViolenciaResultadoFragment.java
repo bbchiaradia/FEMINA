@@ -51,12 +51,12 @@ public class TestViolenciaResultadoFragment extends Fragment {
             if(score ==2) {
 
                 txt_consejos_resultado_test.setText("Si bien en apariencia tu relación no presenta señales de alerta, puedes usar estas preguntas como guía no solo para vos sino también para prestar atención a las relaciones de parejas que te rodean (tus amigas , tus papas , etc.");
-                txt_titulo_resultado_test.setText("Tu relacion no presenta señales de violencia.¡Disfruta tu noviazgo!");
+                txt_titulo_resultado_test.setText("Tu relacion no presenta señales de violencia.¡Disfruta tu relacion!");
                 ResultadoDB test = new ResultadoDB(ses.getId_usuario(),1,0);
                 test.execute();
             }
             if(score == 1){
-                txt_consejos_resultado_test.setText("Es muy probable que te encuentres en una relación de noviazgo violento.Los actos de violencia se dan en cualquier contexto y son cada vez mas frecuentes e intensos. Muy probablemente despues de cada agresión te pida perdón y te promete que no volverá a pasar.Esta etapa es difícil porque podes sentir miedo y vergüenza pero mas peligroso es continuar con esa relación");
+                txt_consejos_resultado_test.setText("Es muy probable que te encuentres en una relación  violenta.Los actos de violencia se dan en cualquier contexto y son cada vez mas frecuentes e intensos. Muy probablemente despues de cada agresión te pida perdón y te promete que no volverá a pasar.Esta etapa es difícil porque podes sentir miedo y vergüenza pero mas peligroso es continuar con esa relación. Ante cualquier problema, recorda que podes comunicarte con el 144.");
                 txt_titulo_resultado_test.setText("¡Pedi ayuda! Estas viviendo una relacion violenta");
                 ResultadoDB test = new ResultadoDB(ses.getId_usuario(),1,1);
                 test.execute();

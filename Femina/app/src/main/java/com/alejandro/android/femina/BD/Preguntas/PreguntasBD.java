@@ -14,7 +14,8 @@ import com.alejandro.android.femina.Adaptadores.AdapterIPreguntas;
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.PreguntasTest;
 import com.alejandro.android.femina.Entidades.Test;
-import com.alejandro.android.femina.Session.Session;
+        import com.alejandro.android.femina.R;
+        import com.alejandro.android.femina.Session.Session;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -102,31 +103,17 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
     }
 
     protected void onPreExecute() {
-        dialog.setMessage("Cargando Preguntas...");
-        dialog.setMax(100);
-        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.show();
+        dialog.setContentView(R.layout.progress_dialog);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
     }
 
     @Override
     protected void onPostExecute(String response) {//Aqui vamos a tener lo que vamos a visualizar en la pantalla
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while(dialog.getProgress() <= dialog.getMax()){
-                        Thread.sleep(100);
-                        dialog.incrementProgressBy(10);
-                        if(dialog.getProgress() == dialog.getMax()){
-                            dialog.dismiss();
-                        }
-                    }
-                }catch (Exception e){
-
-                }
-            }
-        }).start();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
         if(arrP.size()==0){
             Toast.makeText(context,"El Test no presenta preguntas cargadas ",Toast.LENGTH_SHORT).show();
         }else {

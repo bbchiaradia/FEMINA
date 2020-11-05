@@ -9,31 +9,31 @@
 
     <Button
         android:id="@+id/btnFinalizarTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="153dp"
+        android:layout_height="38dp"
         android:layout_marginBottom="40dp"
+        android:background="@drawable/boton_rosa"
         android:text="@string/menu_test_violencia_finalizar"
-        android:textColor="#E3779C"
-        android:textStyle="bold"
+        android:textColor="@color/mr_cast_meta_default_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_consejos_resultado_test"
-        app:layout_constraintVertical_bias="0.111"
+        app:layout_constraintVertical_bias="0.153"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/txt_titulo_resultado_test"
-        android:layout_width="325dp"
-        android:layout_height="91dp"
-        android:layout_marginTop="48dp"
+        android:layout_width="390dp"
+        android:layout_height="103dp"
+        android:layout_marginTop="56dp"
+        android:fontFamily="cursive"
         android:text="Finalizo el test de violencia"
         android:textColor="#403C3C"
-        android:textSize="25sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.813"
+        app:layout_constraintHorizontal_bias="0.761"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,23 +41,23 @@
         android:id="@+id/txt_consejos_resultado_test"
         android:layout_width="201dp"
         android:layout_height="271dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="4dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.405"
+        app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toEndOf="@+id/imageView9"
         app:layout_constraintTop_toBottomOf="@+id/txt_titulo_resultado_test" />
 
     <ImageView
         android:id="@+id/imageView9"
-        android:layout_width="124dp"
-        android:layout_height="168dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="12dp"
+        android:layout_width="125dp"
+        android:layout_height="153dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.549"
+        app:layout_constraintVertical_bias="0.395"
         app:srcCompat="@drawable/mujer" />
 
 

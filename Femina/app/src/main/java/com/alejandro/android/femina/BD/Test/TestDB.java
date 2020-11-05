@@ -8,6 +8,7 @@ import android.widget.Spinner;
 
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.Test;
+import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 
 import java.sql.Connection;
@@ -46,7 +47,7 @@ public class TestDB extends AsyncTask<String, Void, String> {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
                 Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT * FROM `Test` " ); //
+                ResultSet rs = st.executeQuery("SELECT * FROM `Test` where estado = 1" ); //
                 while (rs.next()) {
                    Test test = new Test();
                    test.setId_test(rs.getInt("idTest"));
@@ -65,29 +66,15 @@ public class TestDB extends AsyncTask<String, Void, String> {
     }
 
     protected void onPreExecute() {
-        dialog.setMessage("Cargando Test...");
-        dialog.setMax(100);
-        dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         dialog.show();
+        dialog.setContentView(R.layout.progress_dialog);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
     }
     @Override
     protected void onPostExecute(String response) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while(dialog.getProgress() <= dialog.getMax()){
-                        Thread.sleep(100);
-                        dialog.incrementProgressBy(10);
-                        if(dialog.getProgress() == dialog.getMax()){
-                            dialog.dismiss();
-                        }
-                    }
-                }catch (Exception e){
-
-                }
-            }
-        }).start();
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
         ArrayAdapter<Test> adapter = new ArrayAdapter<>(this.context,android.R.layout.simple_spinner_dropdown_item,arrayTest);
         spinnerTest.setAdapter(adapter);
 
