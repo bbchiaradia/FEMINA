@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:background="@drawable/testimonios" />
+        android:background="@drawable/new_testimonios" />
 
     <TextView
         android:id="@+id/txt_testimonios"
@@ -62,7 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="67dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/reprodvideo"
+                    android:src="@drawable/new_video"
                     />
 
                 <TextView
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="67dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/voz"/>
+                    android:src="@drawable/new_voz"/>
 
                 <TextView
                     android:layout_width="match_parent"

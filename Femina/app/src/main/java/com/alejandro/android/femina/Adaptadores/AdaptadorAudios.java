@@ -76,7 +76,6 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
         holder.urlAudio.setText(currentItem.getUrl_audio());
         holder.idAudio.setInputType(currentItem.getId_audio());
 
-
         if(testimoniosAudiosFragment.audioStatusList.get(position).getAudioState() != AudioEstado.AUDIO_STATE.IDLE.ordinal()) {
             holder.seekBarAudio.setMax(testimoniosAudiosFragment.audioStatusList.get(position).getTotalDuration());
             holder.seekBarAudio.setProgress(testimoniosAudiosFragment.audioStatusList.get(position).getCurrentValue());
@@ -114,8 +113,6 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
                     DialogoAMAudios dialogoAMAudios = new DialogoAMAudios(audio,testimoniosAudiosFragment);
                     FragmentManager fragmentManager = ((AppCompatActivity) v.getContext()).getSupportFragmentManager();
                     dialogoAMAudios.show(fragmentManager, "");
-
-
 
                 }
             });

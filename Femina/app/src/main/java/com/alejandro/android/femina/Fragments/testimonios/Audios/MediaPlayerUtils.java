@@ -38,6 +38,7 @@ public class MediaPlayerUtils {
         }
     }
 
+
     public static void pauseMediaPlayer() {
         mediaPlayer.pause();
     }

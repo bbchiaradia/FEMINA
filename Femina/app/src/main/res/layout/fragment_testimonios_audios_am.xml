@@ -22,7 +22,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            app:srcCompat="@drawable/voz"
+            app:srcCompat="@drawable/new_voz"
             android:contentDescription="TODO" />
 
         <TextView

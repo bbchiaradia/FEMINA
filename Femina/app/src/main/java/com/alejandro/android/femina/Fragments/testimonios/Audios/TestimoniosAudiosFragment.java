@@ -2,6 +2,7 @@ package com.alejandro.android.femina.Fragments.testimonios.Audios;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -138,7 +139,7 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
         recyclerView.setAdapter(adapter);
 
 
-      adapter.notifyDataSetChanged();
+     // adapter.notifyDataSetChanged();
 
     }
 
@@ -205,20 +206,17 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
 
         //Almacenar su estado
         state = Objects.requireNonNull(recyclerView.getLayoutManager()).onSaveInstanceState();
-
+Log.d("DelStatus", "DeleteStatus");
         audioStatusList.clear();
-       /* for (int i = 0; i < contactList.size(); i++) {
+/*        for (int i = 0; i < contactList.size(); i++) {
             audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), 0));
         }
         Log.d("onComplete","Estoy_onComplete");
-        setRecyclerViewAdapter(contactList);
-*/
+        setRecyclerViewAdapter(contactList);*/
 
         for (int i = 0; i < audiosAux.size(); i++) {
             audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), 0));
         }
-        Log.d("onComplete","Estoy_onComplete");
-        Log.d("AuxSize","LisAux: " + audiosAux.size());
         setRecyclerViewAdapter(audiosAux);
 
 
