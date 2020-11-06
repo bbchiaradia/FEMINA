@@ -35,6 +35,7 @@ import androidx.core.content.ContextCompat;
 
 import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.R;
+import com.alejandro.android.femina.Session.Session;
 import com.alejandro.android.femina.Session.SessionContactos;
 import com.roughike.bottombar.OnTabReselectListener;
 
@@ -202,10 +203,15 @@ public class Servicio extends android.app.Service {
 
     public void EnviarMensaje(){
 
+        Session session = new Session();
+        session.setCt(this);
+        session.cargar_session();
+
 
         try {
             String messageToSend = "http://maps.google.com/maps?f=q&q=(" + latitud + "," + longitud + ")";
-            String mensaje_completo = "Estoy en peligro, necesito tu ayuda en: " + direccion + " " + messageToSend;
+            String mensaje_completo = "" + session.getNombre() + " " + session.getApellido()
+              + " se encuentra en peligro, necesita tu ayuda en: " + direccion + " " + messageToSend;
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(mainActivity, Manifest.permission.SEND_SMS)) {
