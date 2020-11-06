@@ -43,6 +43,30 @@
             android:visibility="gone"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/largo_"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="cursive"
+            android:textColor="#403C3C"
+            android:textSize="30sp"
+            android:visibility="gone"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/secuencia_"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="cursive"
+            android:textColor="#403C3C"
+            android:textSize="30sp"
+            android:visibility="gone"
+            android:textStyle="bold" />
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
@@ -70,8 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
-        android:inputType="textPersonName"
-        android:text="RAPI"/>
+        android:inputType="textPersonName" />
 
 
 
@@ -90,7 +113,7 @@
 
 
             <ImageButton
-                android:id="@+id/btn_arriba"
+                android:id="@+id/btn_arriba_secuencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="2"
@@ -104,14 +127,14 @@
             android:layout_gravity="start">
 
             <ImageButton
-                android:id="@+id/btn_izquierda"
+                android:id="@+id/btn_izquierda_secuencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="1"
                 android:background="@drawable/flechaizquierda" />
 
             <ImageButton
-                android:id="@+id/btn_ok"
+                android:id="@+id/btn_borrar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -119,7 +142,7 @@
                 android:background="@drawable/borrar" />
 
             <ImageButton
-                android:id="@+id/btn_derecha"
+                android:id="@+id/btn_derecha_secuencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="3"
@@ -134,7 +157,7 @@
             android:layout_gravity="start">
 
             <ImageButton
-                android:id="@+id/btn_abajo"
+                android:id="@+id/btn_abajo_secuencia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_column="2"

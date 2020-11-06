@@ -152,22 +152,23 @@
                 android:textSize="18sp" />
 
             <LinearLayout
-                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:orientation="vertical"
                 android:layout_gravity="center"
-                android:background="@drawable/marco_redondo">
+                android:layout_marginTop="20dp"
+                android:background="@drawable/marco_redondo"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp">
 
                 <Spinner
                     android:id="@+id/spn_sexo_modificar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:dropDownWidth="match_parent"
                     android:layout_gravity="center"
                     android:popupBackground="@color/fondo_pantallas"
-                    android:spinnerMode="dropdown" />
+                    android:spinnerMode="dropdown"
+                    android:layout_height="35dp"/>
 
             </LinearLayout>
 
@@ -179,7 +180,7 @@
                 android:layout_height="37dp"
                 android:layout_marginStart="50dp"
                 android:layout_marginEnd="50dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/boton_rosa"
                 android:text="@string/guardar_cambios" />

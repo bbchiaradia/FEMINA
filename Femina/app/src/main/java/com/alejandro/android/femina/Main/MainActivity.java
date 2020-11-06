@@ -28,10 +28,16 @@ import com.alejandro.android.femina.Fragments.perfil.PerfilFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion.QueHacerAMFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.Principal.QueHacerFragment;
 import com.alejandro.android.femina.Fragments.que_hacer.User.Detalle.QueHacerDetalleFragment;
+import com.alejandro.android.femina.Fragments.secuencia.SecuenciaFragment;
+import com.alejandro.android.femina.Fragments.test_violencia.Preguntas.TestViolenciaPreguntasFragment;
 import com.alejandro.android.femina.Fragments.test_violencia.Principal.TestViolenciaFragment;
+import com.alejandro.android.femina.Fragments.test_violencia.Resultados.TestViolenciaResultadoFragment;
+import com.alejandro.android.femina.Fragments.testimonios.Admin.AMAudios.TestimoniosAMAudiosFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Admin.AMVideos.TestimoniosAMVideosFragment;
+import com.alejandro.android.femina.Fragments.testimonios.Audios.TestimoniosAudiosFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Videos.TestimoniosVideosFragment;
+import com.alejandro.android.femina.Fragments.testimonios.VideosFullScreen.TestimoniosVideosFullScreenFragment;
 import com.alejandro.android.femina.Pantallas_exteriores.Ingresar;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Servicio.Servicio;
@@ -399,7 +405,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fragmentManager.beginTransaction().replace(R.id.content_main, new QueHacerFragment()).commit();
         } else if (currentFragment instanceof ContactosSeleccionFragment) {
             fragmentManager.beginTransaction().replace(R.id.content_main, new ContactosAEFragment()).commit();
-        } else if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
+        } else if (currentFragment instanceof SecuenciaFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new PerfilFragment()).commit();
+        }else if (currentFragment instanceof TestimoniosAMVideosFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosVideosFragment()).commit();
+        }else if (currentFragment instanceof TestimoniosAMAudiosFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosAudiosFragment()).commit();
+        }else if (currentFragment instanceof TestimoniosVideosFullScreenFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestimoniosVideosFragment()).commit();
+        }else if (currentFragment instanceof TestViolenciaResultadoFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestViolenciaFragment()).commit();
+        }else if (currentFragment instanceof TestViolenciaPreguntasFragment) {
+            fragmentManager.beginTransaction().replace(R.id.content_main, new TestViolenciaFragment()).commit();
+        }else if (tiempoPrimerClick + INTERVALO > System.currentTimeMillis()) {
             super.onBackPressed();
             return;
         } else {

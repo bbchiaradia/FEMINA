@@ -21,6 +21,7 @@ import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Entidades.Secuencias;
 import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
+import com.alejandro.android.femina.Fragments.secuencia.SecuenciaFragment;
 import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
@@ -37,7 +38,7 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
 
     private Secuencias sec;
     private EditText secuencia;
-    TextView id_secuencia;
+    TextView id_secuencia,largo,secuencia_string;
     private Switch activado;
     private Usuarios user;
     private String que_hacer;
@@ -47,7 +48,24 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
     private Session ses;
     private Boolean activo,dejo_loguear,secuencia_ok,usuario_existe,sec_activa;
     private String id_sec,secuencia_;
+    private SecuenciaFragment secuenciaFragment;
 
+
+
+    public SecuenciasBD(Secuencias sec, Context ct, SecuenciaFragment secuenciaFragment, String que) {
+        ses = new Session();
+        this.sec = new Secuencias();
+        this.sec = sec;
+        this.context = ct;
+        this.que_hacer = que;
+        dialog = new ProgressDialog(ct);
+        secuencia_ok = false;
+        activo = false;
+        usuario_existe = false;
+        dejo_loguear = false;
+        user = new Usuarios();
+        this.secuenciaFragment = secuenciaFragment;
+    }
 
     public SecuenciasBD(Secuencias sec, Context ct, String que) {
         ses = new Session();
@@ -63,7 +81,8 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
         user = new Usuarios();
     }
 
-    public SecuenciasBD(Secuencias sec, Context ct, EditText secuencia, Switch activado, TextView id_sec, String que) {
+    public SecuenciasBD(Secuencias sec, Context ct, EditText secuencia, Switch activado, TextView id_sec, TextView largo,
+                        TextView secu, String que) {
         ses = new Session();
         this.sec = new Secuencias();
         this.sec = sec;
@@ -77,6 +96,8 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
         sec_activa = false;
         this.id_sec = "";
         secuencia_ = "";
+        this.largo = largo;
+        this.secuencia_string = secu;
     }
 
 
@@ -204,12 +225,13 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
                 ps = con.prepareStatement("INSERT INTO Secuencias (idUsuario, Secuencia, Activo) " +
-                        "VALUES (?,NULL,false)");
+                        "VALUES (?,?,false)");
 
                 Statement st = con.createStatement();
                 ResultSet rs;
 
                 ps.setInt(1, sec.getId_usuario().getId_usuario());
+                ps.setString(2,"0123");
 
                 int filas = ps.executeUpdate();
 
@@ -269,7 +291,7 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                ps.setBoolean(1, false);
+                ps.setBoolean(1, true);
                 ps.setInt(2, sec.getId_secuencia());
 
                 if (insertamos) {
@@ -304,7 +326,7 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
                 Statement st = con.createStatement();
                 ResultSet rs;
 
-                ps.setBoolean(1, true);
+                ps.setBoolean(1, false);
                 ps.setInt(2, sec.getId_secuencia());
 
                 if (insertamos) {
@@ -369,6 +391,8 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
             else
                 activado.setChecked(false);
 
+            largo.setText("" + sec.getSecuencia().length());
+
             for(int i= 0; i < sec.getSecuencia().length(); i ++){
 
                 if(sec.getSecuencia().charAt(i) == '0')
@@ -384,6 +408,8 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
                     secuencia_ += "IZQUIERDA;";
             }
 
+            secuencia_string.setText(sec.getSecuencia());
+
             secuencia.setText(secuencia_);
 
             id_secuencia.setText("" + sec.getId_secuencia());
@@ -392,6 +418,7 @@ public class SecuenciasBD extends AsyncTask <String, Void, String> {
 
         if(que_hacer.equals("Modificar") || que_hacer.equals("Activar") || que_hacer.equals("Desactivar")){
             Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_SHORT).show();
+                secuenciaFragment.setDisabled();
         }
 
 
