@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,8 +22,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.alejandro.android.femina.BD.Preguntas.PreguntasBD;
+import com.alejandro.android.femina.BD.ResultadoTest.ResultadoDB;
 import com.alejandro.android.femina.BD.Test.TestDB;
 import com.alejandro.android.femina.Entidades.PreguntasTest;
+import com.alejandro.android.femina.Entidades.ResultadosTest;
 import com.alejandro.android.femina.Entidades.Test;
 import com.alejandro.android.femina.Fragments.test_violencia.Preguntas.TestViolenciaPreguntasFragment;
 import com.alejandro.android.femina.R;
@@ -38,6 +41,7 @@ public class TestViolenciaFragment extends Fragment {
     ArrayList<PreguntasTest> arrayPreguntas = new ArrayList<PreguntasTest>(); //declaro para ver las preguntas
     private Spinner spinner_test;
     private int seleccion;
+    private TextView textResultadoTest;
 
 
 
@@ -53,9 +57,13 @@ public class TestViolenciaFragment extends Fragment {
             //    textView.setText(s);
                 lvlPreguntas = (ListView) root.findViewById(R.id.lvlPreguntas);
                 spinner_test = (Spinner) root.findViewById(R.id.sp_test);
+                textResultadoTest = (TextView) root.findViewById(R.id.txtResultadoTestUsuario);
 
                 TestDB testDB = new TestDB(getContext(),spinner_test);
                 testDB.execute();
+
+
+
                //PreguntasBD cont = new PreguntasBD(getContext(), arrayPreguntas , lvlPreguntas , 1 /*(Integer) spinner_test.getSelectedItem()*/);
                 //cont.execute();
 
@@ -100,7 +108,11 @@ public class TestViolenciaFragment extends Fragment {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int i, long id) {
                              //if( seleccion > 0){
-                                  Test test = (Test) spinner_test.getSelectedItem();
+                                Test test = (Test) spinner_test.getSelectedItem();
+
+                                ResultadoDB resu = new ResultadoDB(test.getId_test() ,getContext(),"ConsultarTestUsuario",textResultadoTest );
+                                  resu.execute();
+
                                   PreguntasBD cont = new PreguntasBD(getContext(), arrayPreguntas , lvlPreguntas , test.getId_test() );
                                   cont.execute();
                               //}

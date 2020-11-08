@@ -501,7 +501,6 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 sexUsu.setSelection(1);
             if (user.getSexo()=='O')
                 sexUsu.setSelection(2);
-
            // Toast.makeText(context,mensaje_devuelto,Toast.LENGTH_LONG).show();
         }
 

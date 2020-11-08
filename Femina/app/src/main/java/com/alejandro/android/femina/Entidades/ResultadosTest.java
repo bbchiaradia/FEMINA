@@ -1,5 +1,8 @@
 package com.alejandro.android.femina.Entidades;
 
+import android.content.Context;
+import android.widget.TextView;
+
 public class ResultadosTest {
 
     private int id_resultado;
@@ -7,7 +10,7 @@ public class ResultadosTest {
     private Test id_test;
     private boolean sufre_violencia;
 
-    public ResultadosTest() {
+    public ResultadosTest(int i, int i1, Context context, String consultarTestUsuario, TextView textResultadoTest) {
     }
 
     public ResultadosTest(int id_resultado, Usuarios id_usuario, Test id_test, boolean sufre_violencia) {

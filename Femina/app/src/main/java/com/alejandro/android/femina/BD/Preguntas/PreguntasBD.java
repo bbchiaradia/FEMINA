@@ -121,6 +121,7 @@ public class PreguntasBD  extends AsyncTask<String, Void, String> {
             lvlPreguntas.setAdapter(adaptador);
             //System.out.println( "EL VALOR ES BASE DE DATOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS : " + lvlPreguntas.getItemAtPosition(1).);
         }
+
     }
 
 }
