@@ -133,7 +133,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
     public class AudioViewHolder extends RecyclerView.ViewHolder {
         public SeekBar seekBarAudio;
-        TextView txtSongName, idAudio, idCategoria, urlAudio, txtCategoria, current,total;
+        TextView txtSongName, idAudio, idCategoria, urlAudio, txtCategoria;
         public ImageView imagePlayPause;
 
 
@@ -146,8 +146,6 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
             idCategoria = itemView.findViewById(R.id.txt_idCategoria_a);
             urlAudio = itemView.findViewById(R.id.txtUrlAudio);
             txtCategoria = itemView.findViewById(R.id.txtCatAudio);
-            current = (TextView) itemView.findViewById(R.id.current);
-            total = (TextView) itemView.findViewById(R.id.total);
 
 
 
