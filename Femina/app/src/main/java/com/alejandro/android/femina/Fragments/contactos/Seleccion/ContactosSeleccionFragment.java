@@ -2,8 +2,10 @@ package com.alejandro.android.femina.Fragments.contactos.Seleccion;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -30,6 +32,7 @@ import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
 import com.alejandro.android.femina.Adaptadores.AdaptadorSeleccionarContacto;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
+import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.R;
 
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ public class ContactosSeleccionFragment extends Fragment {
     private ListView list_contactos;
     private SearchView buscar;
     private int id_contacto;
+    private int REQUEST_CONTACT = 2;
 
     private ContactosSeleccionViewModel contactosSeleccionViewModel;
 
@@ -109,20 +113,30 @@ public class ContactosSeleccionFragment extends Fragment {
         });
 
 
-        if((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) &&
-                (ActivityCompat.checkSelfPermission(getContext(),android.Manifest.permission.READ_CONTACTS)
-                        != PackageManager.PERMISSION_GRANTED)){
-            requestPermissions(new String[]{android.Manifest.permission.READ_CONTACTS},1);
-        }else
-            {
-
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CONTACT);
+        } else {
             getContact();
-
-            }
+        }
 
 
         return root;
     }
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CONTACT) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                getContact();
+            } else {
+                //Toast.makeText(getApplicationContext(), "Permiso RECHAZADO", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 
     public void getContact(){
 
@@ -182,17 +196,6 @@ public class ContactosSeleccionFragment extends Fragment {
             }
         });
 
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == 1){
-
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                getContact();
-            }
-
-        }
     }
 
 }

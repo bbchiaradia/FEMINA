@@ -35,6 +35,10 @@
         <activity android:name=".GestionImagen.ViewImage"></activity>
         <activity android:name=".GestionImagen.GestionarImagen"></activity>
         <activity android:name=".Pantallas_exteriores.Registrarse"></activity>
+        <activity
+            android:name=".Exit.ExitActivity"
+            android:theme="@android:style/Theme.NoDisplay"
+            android:autoRemoveFromRecents="true"/>
         <activity android:name=".Pantallas_exteriores.Ingresar">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Process;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.alejandro.android.femina.Adaptadores.AdapterVideos;
 import com.alejandro.android.femina.BD.Contactos.ContactosBD;
 import com.alejandro.android.femina.Entidades.Videos;
+import com.alejandro.android.femina.Exit.ExitActivity;
 import com.alejandro.android.femina.Fragments.ayuda.AyudaFragment;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int ID_ARTICULO;
     private int Inicio;
     private boolean corto_gps;
+    private ContactosBD contactosBD;
 
 
     private List<Videos> youtubeVideoList;
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         session.setCt(this);
         session.cargar_session();
 
-        ContactosBD contactosBD = new ContactosBD(getApplicationContext(), "TraerContactos");
+        contactosBD = new ContactosBD(getApplicationContext(), "TraerContactos");
         contactosBD.execute();
 
         hideFlotante();
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LOGUEO = "NORMAL";
 
         ID_ARTICULO = -1;
+
 
         Bundle parametros = this.getIntent().getExtras();
         if (parametros != null) {
@@ -190,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         Intent serviceIntent = new Intent(getApplicationContext(), Servicio.class);
                         startService(serviceIntent);
-                    }
+                    }else if(contactosBD.getStatus() == AsyncTask.Status.RUNNING)
+                        Toast.makeText(MainActivity.this,"ESPERA UN MOMENTO!",Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(MainActivity.this,"NO TIENES CONTACTOS REGISTRADOS!",Toast.LENGTH_SHORT).show();
                 } else if (tabId == R.id.tab_ocultar) {
@@ -232,7 +236,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         Intent serviceIntent = new Intent(getApplicationContext(), Servicio.class);
                         startService(serviceIntent);
-                    }
+                    } else if(contactosBD.getStatus() == AsyncTask.Status.RUNNING)
+                        Toast.makeText(MainActivity.this,"ESPERA UN MOMENTO!",Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(MainActivity.this,"NO TIENES CONTACTOS REGISTRADOS!",Toast.LENGTH_SHORT).show();
                 } else if (tabId == R.id.tab_ocultar) {
@@ -276,7 +281,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 hacerLlamadaTel();
             } else {
-                Toast.makeText(getApplicationContext(), "Permiso RECHAZADO", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Permiso RECHAZADO", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -343,14 +348,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onDestroy() {
-        Process.killProcess(Process.myPid());
         super.onDestroy();
     }
 
     private void finalizarApp() {
-        finish();
-        System.runFinalization();
-        MainActivity.this.finish();
+        ExitActivity.exitApplication(this);
+        //Process.killProcess(Process.myPid());
+        //MainActivity.this.finish();
+        //System.runFinalization();
+        //finish();
     }
 
 
