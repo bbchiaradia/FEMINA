@@ -2,6 +2,7 @@ package com.alejandro.android.femina.BD.ResultadoTest;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.widget.TextView;
 
@@ -76,6 +77,7 @@ public class ResultadoDB extends AsyncTask<String, Void, String> {
             }
         }
         if (que_hacer.equals("ConsultarTestUsuario")) {
+            this.resultado = -1;
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
@@ -107,10 +109,12 @@ public class ResultadoDB extends AsyncTask<String, Void, String> {
         }
       if (que_hacer.equals("ConsultarTestUsuario")) {
           if (this.resultado == 1) {
-              textResultadoTest.setText("Ultimo Resultado del test : Positivo");
-          } else if (this.resultado == 0) {
-              textResultadoTest.setText("Ultimo Resultado del test : Negativo");
-          } else {
+              textResultadoTest.setText("Ultimo Resultado : Estas siendo victima de mal trato");
+              textResultadoTest.setTextColor(Color.parseColor("#FF4933"));
+          }  if (this.resultado == 0) {
+              textResultadoTest.setText("Ultimo Resultado : Estas en uina relacion sana");
+              textResultadoTest.setTextColor(Color.parseColor("#33FF4F"));
+          } if (this.resultado == -1) {
               textResultadoTest.setText("Usted todavia no realizo el test");
           }
       }
