@@ -389,6 +389,4 @@ public VideosBD(Context context, String que, Spinner spn){
 
     }
 
-
-
 }

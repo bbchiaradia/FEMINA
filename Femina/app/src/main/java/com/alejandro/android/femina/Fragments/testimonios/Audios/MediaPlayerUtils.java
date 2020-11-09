@@ -4,13 +4,17 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
 
+import com.alejandro.android.femina.Entidades.Audios;
+
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MediaPlayerUtils {
 
     private static MediaPlayer mediaPlayer;
     private static Listener listener;
     private static Handler mHandler;
+    private ArrayList<Audios> myAudiosList;
 
     /**
      * Obtener instancia
@@ -67,7 +71,6 @@ public class MediaPlayerUtils {
         }
         releaseMediaPlayer();
         getInstance();
-        Log.d("Url","URLID" + audioUrl);
         mediaPlayer.setDataSource(audioUrl);
         mediaPlayer.prepare();
         //mediaPlayer.prepareAsync();

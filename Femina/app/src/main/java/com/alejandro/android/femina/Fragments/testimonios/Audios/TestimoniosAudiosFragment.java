@@ -2,7 +2,6 @@ package com.alejandro.android.femina.Fragments.testimonios.Audios;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -59,6 +58,7 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
     private SearchView buscar;
     private ArrayList<Audios> audiosAux = new ArrayList<Audios>();
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,13 +91,14 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
         AudiosBD audiosBD = new AudiosBD(getContext(), contactList, no_hay, "Listar", this, recyclerView);
         audiosBD.execute();
 
-        search = "";
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 if (spinner_arranco) {
-                    LaodSelectedSpinner(spinner.getSelectedItem().toString());
+                    MediaPlayerUtils.releaseMediaPlayer();
+                    onAudioComplete();
+                    LoadSelectedSpinner(spinner.getSelectedItem().toString());
                 }
                 spinner_arranco = true;
             }
@@ -109,9 +110,15 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
         return root;
     }
 
-    public void LaodSelectedSpinner(String Cat) {
+    public void LoadSelectedSpinner(String Cat) {
         // llamando a Async Task
         AudiosBD audiosBdSelSpn = new AudiosBD(getContext(), contactList, "SelCategoria", Cat, no_hay, this, recyclerView);
+        audiosBdSelSpn.execute();
+
+    }
+    public void LoadSelectedSearch(String Cat) {
+        // llamando a Async Task
+        AudiosBD audiosBdSelSpn = new AudiosBD(getContext(), contactList, "Buscar", Cat, no_hay, this, recyclerView);
         audiosBdSelSpn.execute();
 
     }
@@ -135,12 +142,7 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         adapter = new AdaptadorAudios(context, contactList, this, this);
-        adapter.getFilter().filter(search);
         recyclerView.setAdapter(adapter);
-
-
-     // adapter.notifyDataSetChanged();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -171,7 +173,6 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
     @Override
     public void onAudioUpdate(int currentPosition) {
 
-        Log.d("onUpdate","Estoy_onUpdate");
         int playingAudioPosition = -1;
         for (int i = 0; i < audioStatusList.size(); i++) {
             AudioEstado audioStatus = audioStatusList.get(i);
@@ -194,38 +195,29 @@ public class TestimoniosAudiosFragment extends Fragment implements MediaPlayerUt
     @Override
     public void onAudioComplete() {
 
-         SharedPreferences prefs = getContext().getSharedPreferences("lista_audios", Context.MODE_PRIVATE);
-        try {
-            audiosAux = (ArrayList<Audios>) ObjectSerializer.deserialize(prefs.getString("AudioList", ObjectSerializer.serialize(new ArrayList<Audios>())));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
         //Almacenar su estado
         state = Objects.requireNonNull(recyclerView.getLayoutManager()).onSaveInstanceState();
-Log.d("DelStatus", "DeleteStatus");
+
         audioStatusList.clear();
-/*        for (int i = 0; i < contactList.size(); i++) {
+        for (int i = 0; i < contactList.size(); i++) {
             audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), 0));
         }
         Log.d("onComplete","Estoy_onComplete");
-        setRecyclerViewAdapter(contactList);*/
-
-        for (int i = 0; i < audiosAux.size(); i++) {
-            audioStatusList.add(new AudioEstado(AudioEstado.AUDIO_STATE.IDLE.ordinal(), 0));
-        }
-        setRecyclerViewAdapter(audiosAux);
-
-
+        setRecyclerViewAdapter(contactList);
 
         //Posición principal de RecyclerView cuando se carga de nuevo
         if (state != null) {
             recyclerView.getLayoutManager().onRestoreInstanceState(state);
         }
     }
+
+    public void loadAudiosSearch(){
+        // llamando a Async Task
+        AudiosBD audiosBDSearch = new AudiosBD(getContext(), contactList, no_hay, "Listar", this, recyclerView);
+        audiosBDSearch.execute();
+
+    }
+
 
     //    Se agrego un widget SearchView para filtrar un RecyclerView en tiempo real.
     @Override
@@ -251,17 +243,34 @@ Log.d("DelStatus", "DeleteStatus");
 
         sv = (SearchView) item.getActionView();
         sv.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {return false; }
 
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                Toast.makeText(getContext(),"Buscando Audios",Toast.LENGTH_SHORT).show();
+                MediaPlayerUtils.releaseMediaPlayer();
+                LoadSelectedSearch(query);
+                onAudioComplete();
+
+                return true; }
+
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
-                search = newText;
-                return false;
+                if (newText.isEmpty()) {
+                    Toast.makeText(getContext(),"Listando todos los Audios, por favor espera",Toast.LENGTH_SHORT).show();
+                    MediaPlayerUtils.releaseMediaPlayer();
+                    loadAudiosSearch();
+                     onAudioComplete();
+
+                }
+
+                return true;
             }
         });
+
     }
 
     @Override

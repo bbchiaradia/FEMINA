@@ -111,7 +111,7 @@ public class AudiosBD extends AsyncTask<String, Void, String> {
         mensaje_devuelto = "";
         PreparedStatement ps;
 
-        if (que_hacer.equals("Listar") || que_hacer.equals("SelCategoria")) {
+        if (que_hacer.equals("Listar") || que_hacer.equals("SelCategoria") || que_hacer.equals("Buscar")) {
 
             response = "";
 
@@ -120,12 +120,16 @@ public class AudiosBD extends AsyncTask<String, Void, String> {
                 Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
                 Statement st = con.createStatement();
                 ResultSet rs;
+                  Log.d("que_hacer", "que: " + que_hacer);
 
                 if (que_hacer.equals("Listar"))
                     rs = st.executeQuery("SELECT a.idAudio, a.Titulo, c.Descripcion, a.urlAudio FROM Audios a inner join Categorias c on a.idCategoria = c.idCategoria");
 
                 else if (cate.equals("Todas"))
                     rs = st.executeQuery("SELECT a.idAudio, a.Titulo, c.Descripcion, a.urlAudio FROM Audios a inner join Categorias c on a.idCategoria = c.idCategoria");
+
+                else if (que_hacer.equals("Buscar"))
+                    rs = st.executeQuery("SELECT a.idAudio, a.Titulo, c.Descripcion, a.urlAudio FROM Audios a inner join Categorias c on a.idCategoria = c.idCategoria where a.Titulo LIKE '%" + cate + "%'");
                 else
                     rs = st.executeQuery("SELECT a.idAudio, a.Titulo, c.Descripcion, a.urlAudio FROM Audios a inner join Categorias c on a.idCategoria = c.idCategoria where c.Descripcion='" + cate + "'");
 
@@ -328,7 +332,7 @@ public class AudiosBD extends AsyncTask<String, Void, String> {
             dialog.dismiss();
         }
 
-        if (que_hacer.equals("Listar") || que_hacer.equals("SelCategoria")) {
+        if (que_hacer.equals("Listar") || que_hacer.equals("SelCategoria") || que_hacer.equals("Buscar") ) {
 
             // Metodo que captura el array enviado por el metodo addAudios
             testimoniosAudiosFragment.getAudioList();

@@ -2,6 +2,7 @@ package com.alejandro.android.femina.Adaptadores;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,17 +58,21 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
     @NonNull
     @Override
-    public AdaptadorAudios.AudioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AudioViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_testimonios_audios, parent, false);
         return new AudioViewHolder(view);
     }
 
+
+
     @Override
-    public void onBindViewHolder(@NonNull  AdaptadorAudios.AudioViewHolder holder,  int position) {
+    public void onBindViewHolder(@NonNull  AudioViewHolder holder, int position) {
+
         // cargo la sesion de usuario
         final Session ses = new Session();
         ses.setCt(context.getApplicationContext());
         ses.cargar_session();
+
 
         final Audios currentItem = contactList.get(position);
         holder.txtSongName.setText(currentItem.getTitulo());
@@ -128,7 +133,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
     public class AudioViewHolder extends RecyclerView.ViewHolder {
         public SeekBar seekBarAudio;
-        TextView txtSongName, idAudio, idCategoria, urlAudio, txtCategoria;
+        TextView txtSongName, idAudio, idCategoria, urlAudio, txtCategoria, current,total;
         public ImageView imagePlayPause;
 
 
@@ -141,9 +146,13 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
             idCategoria = itemView.findViewById(R.id.txt_idCategoria_a);
             urlAudio = itemView.findViewById(R.id.txtUrlAudio);
             txtCategoria = itemView.findViewById(R.id.txtCatAudio);
+            current = (TextView) itemView.findViewById(R.id.current);
+            total = (TextView) itemView.findViewById(R.id.total);
 
 
-            seekBarAudio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+
+                    seekBarAudio.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     if(fromUser) MediaPlayerUtils.applySeekBarValue(progress);
@@ -163,13 +172,12 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
 
   imagePlayPause.setOnClickListener(new View.OnClickListener() {
 
-
-
-                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                @Override
-                public void onClick(View view) {
+        @Override
+        public void onClick(View view) {
 
           int position = getAdapterPosition();
+
+                    Log.d("PositionAdapter","PosAdap: " + position);
 
           // Comprueba si se está reproduciendo algún otro audio
           if(testimoniosAudiosFragment.audioStatusList.get(position).getAudioState()
@@ -255,7 +263,6 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
             notifyDataSetChanged();
         }
     };
-
 
 }
 
