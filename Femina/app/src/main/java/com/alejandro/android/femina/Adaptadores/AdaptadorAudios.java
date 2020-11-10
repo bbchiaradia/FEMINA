@@ -211,10 +211,7 @@ public class AdaptadorAudios extends RecyclerView.Adapter<AdaptadorAudios.AudioV
               testimoniosAudiosFragment.audioStatusList.set(position, audioEstado);
 
               try {
-                  Toast.makeText(context,"Por favor espera que cargue el audio",Toast.LENGTH_SHORT).show();
                   MediaPlayerUtils.startAndPlayMediaPlayer(audioPath, mListener);
-
-
                   audioEstado.setTotalDuration(MediaPlayerUtils.getTotalDuration());
                   testimoniosAudiosFragment.audioStatusList.set(position, audioEstado);
               } catch (IOException e) {
