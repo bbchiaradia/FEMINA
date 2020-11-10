@@ -100,6 +100,8 @@ public class AyudaDB extends AsyncTask<String, Void, String> {
                         listaAyuda.add(new Ayuda(R.drawable.ic_calls, ayu.getTitulo(),ayu.getDescripcion()));
                     }else if(ayu.getId_ayuda() == 10){
                         listaAyuda.add(new Ayuda(R.drawable.ic_calls, ayu.getTitulo(),ayu.getDescripcion()));
+                    }else if(ayu.getId_ayuda() == 11){
+                        listaAyuda.add(new Ayuda(R.drawable.ic_arriba, ayu.getTitulo(),ayu.getDescripcion()));
                     }
 
 
