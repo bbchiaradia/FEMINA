@@ -46,7 +46,7 @@ public class ContactosSeleccionFragment extends Fragment {
     private ListView list_contactos;
     private SearchView buscar;
     private int id_contacto;
-    private int REQUEST_CONTACT = 2;
+    private final int REQUEST_CONTACT = 100;
 
     private ContactosSeleccionViewModel contactosSeleccionViewModel;
 
@@ -88,7 +88,7 @@ public class ContactosSeleccionFragment extends Fragment {
 
                 Fragment fragmento = new ContactosAEFragment();
 
-                if(id_contacto!=-1){
+                if (id_contacto != -1) {
 
                     datosAEnviar.putInt("idContacto", id_contacto);
                     datosAEnviar.putString("nombre", nombre.getText().toString());
@@ -98,7 +98,7 @@ public class ContactosSeleccionFragment extends Fragment {
                     FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
                     fragmentManager.beginTransaction().replace(R.id.content_main, fragmento).commit();
 
-                }else{
+                } else {
 
                     datosAEnviar.putString("nombre", nombre.getText().toString());
                     datosAEnviar.putString("telefono", numero.getText().toString());
@@ -112,73 +112,55 @@ public class ContactosSeleccionFragment extends Fragment {
             }
         });
 
-
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CONTACT);
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1000);
         } else {
             getContact();
         }
-
-
         return root;
     }
 
+    public void getContact() {
 
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CONTACT) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getContact();
-            } else {
-                //Toast.makeText(getApplicationContext(), "Permiso RECHAZADO", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-
-    public void getContact(){
-
-
-    Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-            null,null,null,null);
+        Cursor cursor = getContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null, null, null, null);
 
         arrayList.clear();
         array_auxiliar.clear();
         array_final.clear();
 
-    while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
 
-        Log.d("Contacto:", cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
-        Log.d("Contacto-Numero:", cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
+            Log.d("Contacto:", cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)));
+            Log.d("Contacto-Numero:", cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)));
 
-        String nombre = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-        String numero = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            String nombre = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String numero = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-        cont = new ContactosEmergencia();
-        cont.setNombre_contacto(nombre);
-        cont.setTelefono(numero);
+            cont = new ContactosEmergencia();
+            cont.setNombre_contacto(nombre);
+            cont.setTelefono(numero);
 
-        arrayList.add(cont);
+            arrayList.add(cont);
 
-    }
+        }
 
-    for(int i = 0; i< arrayList.size(); i++){
+        for (int i = 0; i < arrayList.size(); i++) {
 
-        for(int j = 0; j<arrayList.size(); j++){
+            for (int j = 0; j < arrayList.size(); j++) {
 
-            if(i==j){
+                if (i == j) {
 
 
-            }else if (arrayList.get(i).getTelefono().equals(arrayList.get(j).getTelefono()) &&
-            arrayList.get(i).getNombre_contacto().equals(arrayList.get(i).getNombre_contacto())){
+                } else if (arrayList.get(i).getTelefono().equals(arrayList.get(j).getTelefono()) &&
+                        arrayList.get(i).getNombre_contacto().equals(arrayList.get(i).getNombre_contacto())) {
 
-                arrayList.remove(j);
+                    arrayList.remove(j);
 
+                }
             }
         }
-    }
 
         final AdaptadorSeleccionarContacto adapter = new AdaptadorSeleccionarContacto(getContext(), arrayList);
         list_contactos.setAdapter(adapter);

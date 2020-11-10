@@ -214,10 +214,7 @@ public class ContactosAEFragment extends Fragment {
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     fm.beginTransaction().replace(R.id.content_main, fragment).commit();
                 }
-
                 return true;
-
-
         }
 
         return false;

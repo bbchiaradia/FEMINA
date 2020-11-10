@@ -1,7 +1,9 @@
 package com.alejandro.android.femina.Fragments.contactos.Principal;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -68,7 +71,6 @@ public class ContactosFragment extends Fragment {
         ContactosBD contactosBD = new ContactosBD(getContext(),"TraerContactos");
         contactosBD.execute();
 
-
         btn_agregar_contacto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +109,10 @@ public class ContactosFragment extends Fragment {
 
             }
         });
+
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, 1000);
+        }
 
 
         contactosViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
