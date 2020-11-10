@@ -136,19 +136,17 @@ public class QueHacerAMFragment extends Fragment {
             public void onClick(View view) {
                 if(id_articulo !=-1) {
 
+                    /*if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_MEDIA_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION}, 1000);
 
-                    if((Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) &&
-                            (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_MEDIA_LOCATION)
-                                    != PackageManager.PERMISSION_GRANTED)){
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_MEDIA_LOCATION},1);
                     }else
-                    {
+                    {*/
                         Articulos art = new Articulos();
                         art.setId_articulo(id_articulo);
                         DialogoEditarFoto dialog = new DialogoEditarFoto(art);
                         FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
                         dialog.show(fragmentManager, "");
-                    }
+                    //}
 
                 }
                 else
