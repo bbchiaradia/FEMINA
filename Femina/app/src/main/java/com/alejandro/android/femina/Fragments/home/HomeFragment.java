@@ -7,12 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TableLayout;
-import android.widget.TableRow;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -33,15 +31,10 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private String LOGUEO = "NORMAL";
-    ImageButton btn_misDatos_inicio;
-    ImageButton btn_icono_inicio;
-    ImageButton btn_contactos_inicio;
-    ImageButton btn_quehacer_inicio;
-    ImageButton btn_preguntas_inicio;
-    ImageButton btn_test_inicio;
-    ImageButton btn_testimonios_inicio;
-    ImageButton btn_videos_inicio;
-    private TableRow[] tableRow;
+
+
+    CardView cardDatos, cardIcono, cardContactos, cardTest, cardQuehacer, cardTestimonios, cardAyuda;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -60,124 +53,121 @@ public class HomeFragment extends Fragment {
                 String[] contactos;
                 contactos = sessionContactos.getContactos();
 
-                tableRow = new TableRow[6];
-
-                tableRow[0] = (TableRow) root.findViewById(R.id.tablarow1);
-                tableRow[1] = (TableRow) root.findViewById(R.id.tablarow2);
-                tableRow[2] = (TableRow) root.findViewById(R.id.tablarow3);
-                tableRow[3] = (TableRow) root.findViewById(R.id.tablarow4);
-                tableRow[4] = (TableRow) root.findViewById(R.id.tablarow5);
-                tableRow[5] = (TableRow) root.findViewById(R.id.tablarow6);
 
                 SharedPreferences preferences = getContext().getSharedPreferences("LOGUEO", Context.MODE_PRIVATE);
-                LOGUEO = preferences.getString("LOGUEO","NORMAL");
+                LOGUEO = preferences.getString("LOGUEO", "NORMAL");
 
                 int i = 1;
 
-                for(String x : contactos){
-                    Log.d("Contacto" , x );
+                for (String x : contactos) {
+                    Log.d("Contacto", x);
                     i++;
                 }
 
-                btn_misDatos_inicio = (ImageButton) root.findViewById(R.id.btn_misdatos_inicio);
-                btn_misDatos_inicio.setOnClickListener(new View.OnClickListener() {
+
+                cardDatos = root.findViewById(R.id.cardMisDatos);
+                cardDatos.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         PerfilFragment fragment = new PerfilFragment();
                         fragmentTransaction.replace(R.id.content_main, fragment).commit();
-                        // Toast.makeText(root.getContext(),"MI PERFIL",Toast.LENGTH_SHORT).show();
                     }
                 });
-                btn_icono_inicio = (ImageButton) root.findViewById(R.id.btn_icono_inicio);
-                btn_icono_inicio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
 
+                cardIcono = root.findViewById(R.id.cardIconoInicio);
+                cardIcono.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         IconoFragment fragment = new IconoFragment();
                         fragmentTransaction.replace(R.id.content_main, fragment).commit();
-                        //  Toast.makeText(root.getContext(),"ICONO",Toast.LENGTH_SHORT).show();
                     }
                 });
-                btn_contactos_inicio = (ImageButton) root.findViewById(R.id.btn_contactos_inicio);
-                btn_contactos_inicio.setOnClickListener(new View.OnClickListener() {
+
+                cardContactos = root.findViewById(R.id.cardContactoInicio);
+                cardContactos.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         ContactosFragment fragment = new ContactosFragment();
                         fragmentTransaction.replace(R.id.content_main, fragment).commit();
-                        // Toast.makeText(root.getContext(),"CONTACTO",Toast.LENGTH_SHORT).show();
                     }
                 });
-                btn_quehacer_inicio = (ImageButton) root.findViewById(R.id.btn_quehacer_inicio);
-                btn_quehacer_inicio.setOnClickListener(new View.OnClickListener() {
+
+
+                cardTest = root.findViewById(R.id.cardTestInicio);
+                cardTest.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        QueHacerFragment fragment = new QueHacerFragment();
-                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
-                        //   Toast.makeText(root.getContext(),"QUE HACER",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                btn_preguntas_inicio = (ImageButton) root.findViewById(R.id.btn_preguntas_inicio);
-                btn_preguntas_inicio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentManager fm = getActivity().getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        AyudaFragment fragment = new AyudaFragment();
-                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
-                        //  Toast.makeText(root.getContext(),"PREGUNTAS",Toast.LENGTH_SHORT).show();
-                    }
-                });
-                btn_test_inicio = (ImageButton) root.findViewById(R.id.btn_test_inicio);
-                btn_test_inicio.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         TestViolenciaFragment fragment = new TestViolenciaFragment();
                         fragmentTransaction.replace(R.id.content_main, fragment).commit();
-                        //  Toast.makeText(root.getContext(),"TEST",Toast.LENGTH_SHORT).show();
                     }
                 });
-                btn_testimonios_inicio = (ImageButton) root.findViewById(R.id.btn_testimonios_inicio);
-                btn_testimonios_inicio.setOnClickListener(new View.OnClickListener() {
+
+
+                cardQuehacer = root.findViewById(R.id.cardQueHacerInicio);
+                cardQuehacer.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        QueHacerFragment fragment = new QueHacerFragment();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
+                    }
+                });
+
+
+                cardTestimonios = root.findViewById(R.id.cardTestimoniosIni);
+                cardTestimonios.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
                         FragmentManager fm = getActivity().getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
                         TestimoniosFragment fragment = new TestimoniosFragment();
                         fragmentTransaction.replace(R.id.content_main, fragment).commit();
-                        // Toast.makeText(root.getContext(),"TESTIMONIOS",Toast.LENGTH_SHORT).show();
                     }
                 });
 
-                if(LOGUEO.equals("NORMAL")) {
-                    tableRow[0].setVisibility(View.VISIBLE);
-                    tableRow[1].setVisibility(View.VISIBLE);
-                    tableRow[2].setVisibility(View.VISIBLE);
-                    tableRow[3].setVisibility(View.VISIBLE);
-                    tableRow[4].setVisibility(View.VISIBLE);
-                    tableRow[5].setVisibility(View.VISIBLE);
-                }
-                else {
-                    tableRow[0].setVisibility(View.GONE);
-                    tableRow[1].setVisibility(View.GONE);
-                    tableRow[2].setVisibility(View.GONE);
-                    tableRow[3].setVisibility(View.GONE);
-                    tableRow[4].setVisibility(View.GONE);
-                    tableRow[5].setVisibility(View.GONE);
-                }
 
+                cardAyuda = root.findViewById(R.id.cardAyudaInicio);
+                cardAyuda.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        FragmentManager fm = getActivity().getSupportFragmentManager();
+                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        AyudaFragment fragment = new AyudaFragment();
+                        fragmentTransaction.replace(R.id.content_main, fragment).commit();
+                    }
+                });
+
+
+                if (LOGUEO.equals("NORMAL")) {
+                    cardDatos.setVisibility(View.VISIBLE);
+                    cardIcono.setVisibility(View.VISIBLE);
+                    cardContactos.setVisibility(View.VISIBLE);
+                    cardTest.setVisibility(View.VISIBLE);
+                    cardQuehacer.setVisibility(View.VISIBLE);
+                    cardTestimonios.setVisibility(View.VISIBLE);
+                    cardAyuda.setVisibility(View.VISIBLE);
+                } else {
+                    cardDatos.setVisibility(View.GONE);
+                    cardIcono.setVisibility(View.GONE);
+                    cardContactos.setVisibility(View.GONE);
+                    cardTest.setVisibility(View.GONE);
+                    cardQuehacer.setVisibility(View.GONE);
+                    cardTestimonios.setVisibility(View.GONE);
+                    cardAyuda.setVisibility(View.GONE);
+                }
 
             }
         });
+
         return root;
     }
 }
