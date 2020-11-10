@@ -177,7 +177,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     phonenbr = "611";
                     hacerLlamadaTel();
                 } else if (tabId == R.id.tab_call144) {
-                    //locationManager.removeUpdates(local);
+                    phonenbr = "644";
+                    hacerLlamadaTel();
                 } else if (tabId == R.id.tab_sms) {
                     SessionContactos sessionContactos = new SessionContactos();
                     sessionContactos.setContext(MainActivity.this);
@@ -220,7 +221,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     phonenbr = "611";
                     hacerLlamadaTel();
                 } else if (tabId == R.id.tab_call144) {
-                    //locationManager.removeUpdates(local);
+                    phonenbr = "644";
+                    hacerLlamadaTel();//locationManager.removeUpdates(local);
                 } else if (tabId == R.id.tab_sms) {
                     SessionContactos sessionContactos = new SessionContactos();
                     sessionContactos.setContext(MainActivity.this);

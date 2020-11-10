@@ -27,6 +27,7 @@ import com.alejandro.android.femina.BD.Usuarios.UsuariosBD;
 import com.alejandro.android.femina.Dialogos.DialogoRecuperar;
 import com.alejandro.android.femina.Entidades.Secuencias;
 import com.alejandro.android.femina.Entidades.Usuarios;
+import com.alejandro.android.femina.Exit.ExitActivity;
 import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.R;
 
@@ -290,6 +291,12 @@ public class Ingresar extends AppCompatActivity {
 
         return false;
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        ExitActivity.exitApplication(this);
     }
 
     public boolean enviar_datos(String numero, String contrasena, String usuario) {
