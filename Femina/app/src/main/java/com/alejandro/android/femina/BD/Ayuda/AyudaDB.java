@@ -94,6 +94,12 @@ public class AyudaDB extends AsyncTask<String, Void, String> {
                         listaAyuda.add(new Ayuda(R.drawable.new_perfil, ayu.getTitulo(),ayu.getDescripcion()));
                     }else if(ayu.getId_ayuda() == 7){
                         listaAyuda.add(new Ayuda(R.drawable.new_cambiaricono, ayu.getTitulo(),ayu.getDescripcion()));
+                    }else if(ayu.getId_ayuda() == 8){
+                        listaAyuda.add(new Ayuda(R.drawable.ic_sms, ayu.getTitulo(),ayu.getDescripcion()));
+                    }else if(ayu.getId_ayuda() == 9){
+                        listaAyuda.add(new Ayuda(R.drawable.ic_calls, ayu.getTitulo(),ayu.getDescripcion()));
+                    }else if(ayu.getId_ayuda() == 10){
+                        listaAyuda.add(new Ayuda(R.drawable.ic_calls, ayu.getTitulo(),ayu.getDescripcion()));
                     }
 
 
