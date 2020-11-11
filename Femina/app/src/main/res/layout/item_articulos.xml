@@ -33,6 +33,12 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
@@ -43,10 +49,9 @@
             android:text="17/10/2020"
             android:textStyle="italic|bold"
             android:textSize="14sp"
-            android:layout_marginStart="100dp"
+            android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="100dp" />
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/txt_articulo_visualizaciones"
@@ -55,10 +60,9 @@
             android:text="1567 visualizaciones"
             android:textStyle="italic"
             android:textSize="14sp"
-            android:layout_marginStart="20dp"
+            android:layout_margin="5dp"
             android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp" />
+            android:layout_gravity="center" />
 
         <TextView
             android:id="@+id/txt_id_articulo"
@@ -75,6 +79,8 @@
             android:visibility="invisible"
             android:textStyle="italic" />
 
+
+    </LinearLayout>
 
     </LinearLayout>
     

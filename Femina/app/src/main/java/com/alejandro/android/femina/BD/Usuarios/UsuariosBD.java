@@ -75,6 +75,9 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
     public UsuariosBD(Usuarios us, Context ct, String que) {
         user = new Usuarios();
         user = us;
+        ses = new Session();
+        ses.setCt(ct);
+        ses.cargar_session();
         this.context = ct;
         this.que_hacer = que;
         dialog = new ProgressDialog(ct);
@@ -378,6 +381,15 @@ public class UsuariosBD extends AsyncTask<String, Void, String> {
                 ResultSet rs;
 
                 modifico = false;
+
+                rs = st.executeQuery("Select Usuario from Usuarios where Usuario='" + user.getUsuario() + "' and " +
+                        "Usuario<>'"+ ses.getUsuario() + "'");
+
+                if(rs.next()){
+                    modificamos = false;
+                    mensaje_devuelto = "El usuario ya existe";
+                }
+
 
                 if(modificamos)
                     filas = ps.executeUpdate();

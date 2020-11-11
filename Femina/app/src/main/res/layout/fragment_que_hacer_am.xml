@@ -35,8 +35,7 @@
         android:layout_gravity="center"
         android:ems="10"
         android:hint="@string/titulo"
-        android:inputType="textPersonName"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 "/>
+        android:inputType="textPersonName"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,7 +70,6 @@
         android:hint="@string/descripcion"
         android:ems="10"
         android:gravity="start|top"
-        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 \n"
         android:inputType="textMultiLine"
         android:layout_marginLeft="20dp" />
 
@@ -93,6 +91,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/boton_rojo"
         android:text="@string/borrar_Articulo" />
 

@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private int Inicio;
     private boolean corto_gps;
     private ContactosBD contactosBD;
+    private boolean esperando_contactos;
 
 
     private List<Videos> youtubeVideoList;
@@ -90,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        esperando_contactos = false;
 
         Session session = new Session();
         session.setCt(this);
@@ -194,10 +197,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         Intent serviceIntent = new Intent(getApplicationContext(), Servicio.class);
                         startService(serviceIntent);
-                    }else if(contactosBD.getStatus() == AsyncTask.Status.RUNNING)
+                    }else if(contactosBD.getStatus() == AsyncTask.Status.RUNNING || esperando_contactos == true)
                         Toast.makeText(MainActivity.this,"ESPERA UN MOMENTO!",Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(MainActivity.this,"NO TIENES CONTACTOS REGISTRADOS!",Toast.LENGTH_SHORT).show();
+
                 } else if (tabId == R.id.tab_ocultar) {
                     bottomBar.setVisibility(View.INVISIBLE);
                     showFlotante();
@@ -238,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                         Intent serviceIntent = new Intent(getApplicationContext(), Servicio.class);
                         startService(serviceIntent);
-                    } else if(contactosBD.getStatus() == AsyncTask.Status.RUNNING)
+                    } else if(contactosBD.getStatus() == AsyncTask.Status.RUNNING || esperando_contactos == true)
                         Toast.makeText(MainActivity.this,"ESPERA UN MOMENTO!",Toast.LENGTH_SHORT).show();
                     else
                         Toast.makeText(MainActivity.this,"NO TIENES CONTACTOS REGISTRADOS!",Toast.LENGTH_SHORT).show();
@@ -252,6 +256,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
+    }
+
+    public void esperando_contactos_false(){
+        esperando_contactos = false;
+    }
+
+    public void esperando_contactos_true(){
+        esperando_contactos = true;
     }
 
     public void hideFlotante() {

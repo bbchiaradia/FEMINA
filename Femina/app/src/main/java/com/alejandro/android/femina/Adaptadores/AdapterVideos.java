@@ -72,7 +72,7 @@ public class AdapterVideos extends RecyclerView.Adapter<AdapterVideos.VideoViewH
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(mCtx, "Click On: " + currentItem.getTitulo(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(mCtx, "Click On: " + currentItem.getTitulo(), Toast.LENGTH_SHORT).show();
                     Videos video = new Videos();
 
                     TextView titulovi = (TextView) view.findViewById(R.id.txtTituloVideo);

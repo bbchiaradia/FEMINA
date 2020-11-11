@@ -6,6 +6,15 @@
     android:background="@color/fondo_pantallas"
     android:orientation="vertical">
 
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="95dp"
         android:layout_height="95dp"
@@ -51,6 +60,10 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:gravity="start|top" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

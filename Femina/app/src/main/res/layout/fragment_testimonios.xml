@@ -18,16 +18,16 @@
         android:background="@drawable/new_testimonios" />
 
     <TextView
-        android:id="@+id/txt_testimonios"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:text="Testimonios"
-        android:textColor="#E91E63"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        />
+        android:fontFamily="cursive"
+        android:text="@string/menu_Testimonios"
+        android:textColor="#403C3C"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/IdGrid"
@@ -71,7 +71,6 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Videos"
                     android:textAlignment="center"
-                    android:textColor="#ffcc00"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 
@@ -110,7 +109,6 @@
                     android:layout_gravity="center_horizontal"
                     android:text="Audios"
                     android:textAlignment="center"
-                    android:textColor="#ffcc00"
                     android:textSize="16sp"
                     android:textStyle="bold"/>
 

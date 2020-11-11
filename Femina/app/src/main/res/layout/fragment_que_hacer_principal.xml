@@ -34,6 +34,12 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
     <RadioGroup
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
@@ -45,28 +51,28 @@
             android:orientation="horizontal">
 
         <RadioButton
+            android:layout_margin="10dp"
             android:id="@+id/radio_fecha_articulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="75dp"
             android:text="@string/fecha"
-            android:buttonTint="#F2A0D8"
-            android:layout_marginLeft="75dp" />
+            android:buttonTint="#F2A0D8" />
 
         <RadioButton
+            android:layout_margin="10dp"
             android:id="@+id/radio_relevancia_articulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="75dp"
             android:buttonTint="#F2A0D8"
-            android:text="@string/relevancia"
-            android:layout_marginLeft="75dp">
+            android:text="@string/relevancia">
         </RadioButton>
 
 
         </LinearLayout>
 
     </RadioGroup>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/no_hay_articulos"

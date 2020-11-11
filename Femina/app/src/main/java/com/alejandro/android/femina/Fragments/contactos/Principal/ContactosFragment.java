@@ -30,6 +30,7 @@ import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Fragments.contactos.Agregar_editar.ContactosAEFragment;
 import com.alejandro.android.femina.Fragments.icono.IconoFragment;
 import com.alejandro.android.femina.Fragments.testimonios.Principal.TestimoniosFragment;
+import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.SessionContactos;
 
@@ -51,6 +52,8 @@ public class ContactosFragment extends Fragment {
         no_hay = root.findViewById(R.id.no_hay_contactos);
         btn_agregar_contacto = root.findViewById(R.id.bnt_agregar_contacto);
 
+        ((MainActivity)getContext()).esperando_contactos_true();
+
         ContactosBD cont = new ContactosBD(getContext(), lcontactos, no_hay, "Listar");
         cont.execute();
 
@@ -68,7 +71,7 @@ public class ContactosFragment extends Fragment {
         sessionContactos.setContext(getContext());
         sessionContactos.cerrar_session();
 
-        ContactosBD contactosBD = new ContactosBD(getContext(),"TraerContactos");
+        ContactosBD contactosBD = new ContactosBD(getContext(),"TraerContactosContactos");
         contactosBD.execute();
 
         btn_agregar_contacto.setOnClickListener(new View.OnClickListener() {

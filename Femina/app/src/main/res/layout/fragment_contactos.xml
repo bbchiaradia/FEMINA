@@ -14,7 +14,7 @@
         android:layout_marginLeft="9dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="12dp"
-        android:text="@string/no_hay_articulos"
+        android:text="@string/no_hay_contactos"
         android:textSize="16dp"
         android:textStyle="italic"
         android:visibility="gone" />

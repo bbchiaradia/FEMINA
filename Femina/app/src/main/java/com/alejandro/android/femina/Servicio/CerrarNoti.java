@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.alejandro.android.femina.R;
+
 public class CerrarNoti extends AppCompatActivity {
 
     @Override
@@ -13,7 +15,7 @@ public class CerrarNoti extends AppCompatActivity {
         Intent serviceIntent = new Intent(getApplicationContext(),Servicio.class);
         stopService(serviceIntent);
         finish();
-        //setContentView(R.layout.activity_cerrar_noti);
+        //setContentView(R.layout.pantalla_registrarse);
 
     }
 }

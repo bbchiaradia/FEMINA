@@ -4,9 +4,11 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -30,6 +32,9 @@ import com.alejandro.android.femina.Fragments.testimonios.Audios.TestimoniosAudi
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

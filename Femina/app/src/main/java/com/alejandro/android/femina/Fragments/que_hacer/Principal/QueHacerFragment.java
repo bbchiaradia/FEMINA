@@ -78,7 +78,7 @@ public class QueHacerFragment extends Fragment {
         if(ses.getEs_admin())
             btn_agregar_articulo.setVisibility(View.VISIBLE);
         else
-            btn_agregar_articulo.setVisibility(View.INVISIBLE);
+            btn_agregar_articulo.setVisibility(View.GONE);
 
         btn_agregar_articulo.setOnClickListener(new View.OnClickListener() {
             @Override

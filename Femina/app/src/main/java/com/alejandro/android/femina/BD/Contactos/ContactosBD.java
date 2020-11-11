@@ -23,6 +23,7 @@ import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Entidades.Usuarios;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
+import com.alejandro.android.femina.Main.MainActivity;
 import com.alejandro.android.femina.R;
 import com.alejandro.android.femina.Session.Session;
 import com.alejandro.android.femina.Session.SessionContactos;
@@ -133,6 +134,45 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
         }
 
         if (que_hacer.equals("TraerContactos")) {
+
+            Log.d("TraerContactos","Actualizando");
+
+            response = "";
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("SELECT count(*) FROM ContactosEmergencia where idUsuario=" + ses.getId_usuario());
+
+                if(rs.next()){
+                    cant_contactos = rs.getInt(1);
+                }
+
+                contactos = new String[cant_contactos];
+
+                rs = st.executeQuery("SELECT * FROM ContactosEmergencia where idUsuario=" + ses.getId_usuario());
+
+                int i = 0;
+
+                while (rs.next()) {
+                    contactos[i] = rs.getString("nroTelefono");
+                    i++;
+                }
+
+                response = "Conexion exitosa";
+                con.close();
+            } catch(Exception e){
+                e.printStackTrace();
+                response = "Conexion no exitosa";
+            }
+
+
+        }
+
+        if (que_hacer.equals("TraerContactosContactos")) {
 
             Log.d("TraerContactos","Actualizando");
 
@@ -311,11 +351,12 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPreExecute() {
-        if(!que_hacer.equals("TraerContactos")) {
+        if(!que_hacer.equals("TraerContactos") && !que_hacer.equals("TraerContactosContactos")) {
             dialog.show();
             dialog.setContentView(R.layout.progress_dialog);
             dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
+
     }
 
     @Override
@@ -346,6 +387,18 @@ public class ContactosBD extends AsyncTask<String, Void, String> {
             sessionContactos.setCant_contactos(cant_contactos);
             sessionContactos.setContactos(contactos);
             sessionContactos.nueva_session();
+            //((MainActivity)context).esperando_contactos_false();
+
+        }
+
+        if(que_hacer.equals("TraerContactosContactos")) {
+
+            SessionContactos sessionContactos = new SessionContactos();
+            sessionContactos.setContext(context);
+            sessionContactos.setCant_contactos(cant_contactos);
+            sessionContactos.setContactos(contactos);
+            sessionContactos.nueva_session();
+            ((MainActivity)context).esperando_contactos_false();
 
         }
 

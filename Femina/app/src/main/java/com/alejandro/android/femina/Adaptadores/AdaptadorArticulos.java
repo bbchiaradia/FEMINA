@@ -64,7 +64,7 @@ public class AdaptadorArticulos extends ArrayAdapter<ArticulosExtra> implements 
 
         titulo.setText(getItem(position).getArticulo().getTitulo());
         fecha.setText("" + getItem(position).getArticulo().getFecha_carga());
-        vistas.setText(getItem(position).getArticulo().getVistas() + " Visualizaciones");
+        vistas.setText(getItem(position).getArticulo().getVistas() + " Visualizacion/es");
         id_articulo.setText("" + getItem(position).getArticulo().getId_articulo());
         imagen_articulo.setImageBitmap(getItem(position).getImagen_articulo());
         descrip.setText(getItem(position).getArticulo().getDescripcion());

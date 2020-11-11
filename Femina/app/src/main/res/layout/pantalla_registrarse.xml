@@ -48,7 +48,7 @@
             android:ems="10"
             android:hint="@string/usuario"
             android:inputType="textPersonName"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 " />
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" />
 
         <EditText
             android:id="@+id/txt_contraseña_registrarse"
@@ -59,7 +59,7 @@
             android:ems="10"
             android:hint="@string/contraseña"
             android:inputType="textPassword"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 " />
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" />
 
         <EditText
             android:id="@+id/txt_nombre_registrarse"
