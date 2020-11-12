@@ -448,9 +448,10 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 }
 
                 ps = con.prepareStatement("INSERT INTO Articulos (idArticulo, Titulo, idCategoria, Descripcion,imagen,fechaCarga,vistas) " +
-                        "VALUES (?,NULL,1,NULL,NULL,CURRENT_DATE(),0)");
+                        "VALUES (?,?,1,NULL,NULL,CURRENT_DATE(),0)");
 
                 ps.setInt(1, id);
+                ps.setString(2,"Titulo");
 
                 int filas = ps.executeUpdate();
 
