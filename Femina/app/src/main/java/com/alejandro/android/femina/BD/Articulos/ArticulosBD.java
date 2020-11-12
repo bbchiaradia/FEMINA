@@ -141,6 +141,22 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
         this.cat = new Categorias();
     }
 
+    public ArticulosBD(Context ct, Articulos art, ImageButton img, Spinner sp, int position, String que) {
+        datosSpinner.clear();
+        this.ses = new Session();
+        dialog = new ProgressDialog(ct);
+        this.context = ct;
+        ses.setCt(ct);
+        ses.cargar_session();
+        this.que_hacer = que;
+        this.art = art;
+        this.img = img;
+        this.art_ = new Articulos();
+        this.cat = new Categorias();
+        this.position = position;
+        this.spn_cat = sp;
+    }
+
     public ArticulosBD(Context context, ListView list, TextView no, SearchView sv, String catt, Spinner sp, Boolean radio_fecha,
                        Boolean radio_relevancia, String que) {
         datosSpinner.clear();
@@ -328,6 +344,55 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
                 //result2 = "Conexion no exitosa";
                 mensaje_devuelto = "Error al cargar articulo!";
+            }
+        }
+
+        if (que_hacer.equals("CargarFoto")) {
+
+            imagen_nula = false;
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(DatosBD.urlMySQL, DatosBD.user, DatosBD.pass);
+
+                Statement st = con.createStatement();
+                ResultSet rs;
+
+                rs = st.executeQuery("SELECT * from Categorias");
+
+                while (rs.next()) {
+                    datosSpinner.add(rs.getString("Descripcion"));
+                }
+
+                //datosSpinner.add("Todas");
+
+                    String add = "http://femina.webcindario.com/getImage.php?id=" + art.getId_articulo();
+                    URL url = null;
+                    //Bitmap image = null;
+                    try {
+                        url = new URL(add);
+                        image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    rs = st.executeQuery("SELECT imagen from Articulos where idArticulo =" + art.getId_articulo());
+
+                    if (rs.next()) {
+
+                        if (rs.getBlob(1) == null)
+                            image = BitmapFactory.decodeResource(context.getResources(), R.drawable.nodisponible);
+                    }
+
+                response = "ok";
+
+                con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+                //result2 = "Conexion no exitosa";
+                mensaje_devuelto = "Error al cargar imagen!";
             }
         }
 
@@ -690,6 +755,12 @@ public class ArticulosBD extends AsyncTask<String, Void, String> {
             }
 
 
+        }
+
+        if (que_hacer.equals("CargarFoto")) {
+            img.setImageBitmap(image);
+            spn_cat.setAdapter(new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, datosSpinner));
+            spn_cat.setSelection(position);
         }
 
         if (que_hacer.equals("CargarDetalle")) {

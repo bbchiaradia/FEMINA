@@ -112,8 +112,8 @@ public class ResultadoDB extends AsyncTask<String, Void, String> {
               textResultadoTest.setText("Ultimo Resultado : Estas siendo victima de mal trato");
               textResultadoTest.setTextColor(Color.parseColor("#FF4933"));
           }  if (this.resultado == 0) {
-              textResultadoTest.setText("Ultimo Resultado : Estas en uina relacion sana");
-              textResultadoTest.setTextColor(Color.parseColor("#33FF4F"));
+              textResultadoTest.setText("Ultimo Resultado : Estas en una relacion sana");
+              textResultadoTest.setTextColor(Color.parseColor("#3D7845"));
           } if (this.resultado == -1) {
               textResultadoTest.setText("Usted todavia no realizo el test");
           }

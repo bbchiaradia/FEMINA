@@ -2,7 +2,9 @@ package com.alejandro.android.femina.GestionImagen;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -123,7 +125,10 @@ public class GestionarImagen extends AppCompatActivity implements View.OnClickLi
                 intent.putExtra("id_articulo",id_articulo);
                 intent.putExtra("LOGUEO","NORMAL");
                 GestionarImagen.this.startActivity(intent);
-
+                SharedPreferences preferencias = GestionarImagen.this.getSharedPreferences("ERROR_ART", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferencias.edit();
+                editor.putString("Activo","SI");
+                editor.apply();
             }
 
             @Override

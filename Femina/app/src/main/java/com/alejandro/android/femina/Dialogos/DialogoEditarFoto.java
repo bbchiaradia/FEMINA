@@ -2,8 +2,10 @@ package com.alejandro.android.femina.Dialogos;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
@@ -35,6 +37,10 @@ public class DialogoEditarFoto extends AppCompatDialogFragment {
                             case 0:
                                 ArticulosBD usu = new ArticulosBD(getContext(),art,"EliminarFoto");
                                 usu.execute();
+                                SharedPreferences preferencias = getContext().getSharedPreferences("ERROR_ART", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = preferencias.edit();
+                                editor.putString("Activo","SI");
+                                editor.apply();
                                 break;
 
                             case 1:

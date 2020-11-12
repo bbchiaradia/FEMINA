@@ -1,6 +1,8 @@
 package com.alejandro.android.femina.Fragments.que_hacer.Admin.Alta_Modificacion;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,6 +65,8 @@ public class QueHacerAMFragment extends Fragment {
             id_articulo = datosRecuperados.getInt("id_articulo");
         }
 
+
+
         imageButton = (ImageButton) root.findViewById(R.id.editar_foto);
         txt_titulo = (EditText) root.findViewById(R.id.txt_titulo_articulo_edit);
         descripcion = (EditText) root.findViewById(R.id.txt_descrip_articulo_edit);
@@ -79,9 +83,35 @@ public class QueHacerAMFragment extends Fragment {
             Articulos art_ = new Articulos();
             art_.setId_articulo(id_articulo);
 
-            ArticulosBD art = new ArticulosBD(getContext(),art_,imageButton,txt_titulo,descripcion,
-                    spn_cat,"CargarArticulo");
-            art.execute();
+
+
+            SharedPreferences preferences = getContext().getSharedPreferences("ERROR_ART", Context.MODE_PRIVATE);
+            Log.d("ID_ARTICULO",preferences.getString("Activo",""));
+            if(preferences.getString("Activo","").equals("SI")){
+
+                Log.d("ID_ARTICULO","ENTRASHARED");
+
+                txt_titulo.setText(preferences.getString("Titulo",""));
+                descripcion.setText(preferences.getString("Descripcion",""));
+                //spn_cat.setSelection(preferences.getInt("Posicion",-1));
+
+                int posicion = preferences.getInt("Posicion",-1);
+
+                ArticulosBD art = new ArticulosBD(getContext(), art_, imageButton,spn_cat,posicion, "CargarFoto");
+                art.execute();
+
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("Activo","NO");
+
+            }else {
+
+                Log.d("ID_ARTICULO","NOENTRASHARED");
+
+                ArticulosBD art = new ArticulosBD(getContext(), art_, imageButton, txt_titulo, descripcion,
+                        spn_cat, "CargarArticulo");
+                art.execute();
+
+            }
 
 
         }
@@ -146,6 +176,14 @@ public class QueHacerAMFragment extends Fragment {
                         DialogoEditarFoto dialog = new DialogoEditarFoto(art);
                         FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
                         dialog.show(fragmentManager, "");
+
+                    SharedPreferences preferencias = getContext().getSharedPreferences("ERROR_ART", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferencias.edit();
+                    editor.putString("Titulo",txt_titulo.getText().toString());
+                    editor.putString("Descripcion",descripcion.getText().toString());
+                    editor.putInt("Posicion",spn_cat.getSelectedItemPosition());
+                    editor.putString("Activo","NO");
+                    editor.apply();
                     //}
 
                 }

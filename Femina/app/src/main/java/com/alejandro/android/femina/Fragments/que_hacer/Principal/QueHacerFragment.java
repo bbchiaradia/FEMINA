@@ -1,5 +1,7 @@
 package com.alejandro.android.femina.Fragments.que_hacer.Principal;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -70,6 +72,11 @@ public class QueHacerFragment extends Fragment {
         lista_articulos.addHeaderView(new View(getContext()), null, true);
 
         radio_fecha_articulo.setChecked(true);
+
+        SharedPreferences preferencias = getContext().getSharedPreferences("ERROR_ART", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.putString("Activo","NO");
+        editor.apply();
 
         final Session ses = new Session();
         ses.setCt(getContext());

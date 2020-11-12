@@ -148,7 +148,7 @@
 
     <string name="aceptar">Aceptar</string>
 
-    <string name="PERFIL_INICIO">MIS DATOS</string>}
+    <string name="PERFIL_INICIO">MIS DATOS</string>
     <string name="CONTACTOS_INICIO">CONTACTOS</string>
     <string name="TEST_INICIO">TEST</string>
     <string name="AYUDA_INICIO">AYUDA</string>
@@ -163,6 +163,21 @@
     <string name="secuencia">Mi secuencia</string>
 
     <string name="misecuencia">Mi secuencia</string>
+
+    <string name="NO_BIEN">NO ME ENCUENTRO BIEN</string>
+
+    <string name="SI_BIEN">ME ENCUENTRO BIEN</string>
+
+    <string name="desactivar_sos">Desactivar ayuda</string>
+
+    <string name="aviso_desactivar">Para desactivar la alerta SOS, indicanos tu situacion actual.</string>
+
+    <string name="aviso_adicional">* Recordá solo hacerlo si te
+        encuentras fuera de peligro. *</string>
+
+    <string name="ingrese_contraseña">Ingrese su contraseña</string>
+
+    <string name="cancelar">Cancelar</string>
 
 
 </resources>

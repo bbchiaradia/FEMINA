@@ -157,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         bienvenida.setText("Bienvenido a FEMINA\n" + session.getNombre() + "!");
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_mostrar);
+
+
         if(!LOGUEO.equals("NORMAL")){
            navigationView.getMenu().setGroupVisible(R.id.items_navigation,false);
         }
