@@ -15,6 +15,7 @@ import com.alejandro.android.femina.Adaptadores.AdaptadorContactos;
 import com.alejandro.android.femina.Adaptadores.AdapterAyuda;
 import com.alejandro.android.femina.BD.Data.DatosBD;
 import com.alejandro.android.femina.Entidades.Ayuda;
+import com.alejandro.android.femina.Entidades.AyudaList;
 import com.alejandro.android.femina.Entidades.ContactosEmergencia;
 import com.alejandro.android.femina.Fragments.contactos.Principal.ContactosFragment;
 import com.alejandro.android.femina.R;
@@ -38,7 +39,7 @@ public class AyudaDB extends AsyncTask<String, Void, String> {
     private Session ses;
     private ListView layuda;
 
-    private static ArrayList<Ayuda> listaAyuda = new ArrayList<Ayuda>();
+    private static ArrayList<AyudaList> listaAyuda = new ArrayList<AyudaList>();
 
     public  AyudaDB(Context ct, ListView lv, String que) {
         listaAyuda.clear();
@@ -80,30 +81,11 @@ public class AyudaDB extends AsyncTask<String, Void, String> {
                     ayu.setId_ayuda(rs.getInt("idAyuda"));
                     ayu.setTitulo(rs.getString("Titulo"));
                     ayu.setDescripcion(rs.getString("Descripcion"));
-                    if (ayu.getId_ayuda() == 1) {
-                        listaAyuda.add(new Ayuda(R.drawable.new_logo_femina, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 2){
-                        listaAyuda.add(new Ayuda(R.drawable.new_testimonios, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 3){
-                        listaAyuda.add(new Ayuda(R.drawable.new_contactosemergencia, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 4){
-                        listaAyuda.add(new Ayuda(R.drawable.new_test, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 5){
-                        listaAyuda.add(new Ayuda(R.drawable.new_quehacer, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 6){
-                        listaAyuda.add(new Ayuda(R.drawable.new_perfil, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 7){
-                        listaAyuda.add(new Ayuda(R.drawable.new_cambiaricono, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 8){
-                        listaAyuda.add(new Ayuda(R.drawable.ic_sms, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 9){
-                        listaAyuda.add(new Ayuda(R.drawable.ic_calls, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 10){
-                        listaAyuda.add(new Ayuda(R.drawable.ic_calls, ayu.getTitulo(),ayu.getDescripcion()));
-                    }else if(ayu.getId_ayuda() == 11){
-                        listaAyuda.add(new Ayuda(R.drawable.ic_arriba, ayu.getTitulo(),ayu.getDescripcion()));
-                    }
+                    ayu.setImg_ayuda(rs.getString("NombreImagen"));
 
+                    int id = context.getResources().getIdentifier(ayu.getImg_ayuda(), "drawable", context.getPackageName());
+
+                        listaAyuda.add(new AyudaList(ayu.getTitulo(),ayu.getDescripcion(),id));
 
                 }
 

@@ -6,27 +6,18 @@ public class Ayuda {
 
     private int id_ayuda;
     private String titulo;
-    private Categorias id_categoria;
     private String descripcion;
-    private int imgAyuda;
-
+    private String img_ayuda;
 
     public Ayuda() {
     }
 
-    public Ayuda(int id_ayuda, String titulo, int imgAyuda, String descripcion) {
+    public Ayuda(int id_ayuda, String titulo, String descripcion, String img_ayuda) {
         this.id_ayuda = id_ayuda;
         this.titulo = titulo;
         this.descripcion = descripcion;
-        this.imgAyuda = imgAyuda;
+        this.img_ayuda = img_ayuda;
     }
-
-    public Ayuda(int imgAyuda, String titulo, String descripcion) {
-        this.titulo = titulo;
-        this.descripcion = descripcion;
-        this.imgAyuda = imgAyuda;
-    }
-
 
     public int getId_ayuda() {
         return id_ayuda;
@@ -44,7 +35,6 @@ public class Ayuda {
         this.titulo = titulo;
     }
 
-
     public String getDescripcion() {
         return descripcion;
     }
@@ -53,9 +43,14 @@ public class Ayuda {
         this.descripcion = descripcion;
     }
 
+    public String getImg_ayuda() {
+        return img_ayuda;
+    }
 
-    public  int getImgAyuda(){return  imgAyuda; }
+    public void setImg_ayuda(String img_ayuda) {
+        this.img_ayuda = img_ayuda;
+    }
 
-    private ListView lvAyuda;
+
 
 }
