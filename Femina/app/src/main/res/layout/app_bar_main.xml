@@ -44,6 +44,8 @@
         android:layout_gravity="bottom|end"
         app:fab_colorNormal="#fcd1c6"
         android:layout_alignParentRight="true"
+        app:fab_colorPressed="#fcd1c6"
+        app:fab_colorDisabled="#fcd1c6"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_arriba"/>
