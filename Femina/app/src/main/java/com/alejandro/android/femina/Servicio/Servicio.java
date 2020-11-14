@@ -81,6 +81,8 @@ public class Servicio extends android.app.Service {
 
         startForeground(1, notification);
 
+        Toast.makeText(Servicio.this,"SOS ACTIVADO",Toast.LENGTH_LONG).show();
+
         //HACER TRABAJO PESADO EN UN HILO APARTE
 
         //stopSelf();
