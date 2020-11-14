@@ -103,7 +103,7 @@ public class TestViolenciaPreguntasFragment extends Fragment {
                              contadorSi = contadorSi + 1;
                              //ultimaRtaSi=true;
                          }
-                         numeroPregunta = 8;
+                         numeroPregunta = 12;
                          FragmentManager fm = getActivity().getSupportFragmentManager();
                          FragmentTransaction fragmentTransaction = fm.beginTransaction();
                          TestViolenciaResultadoFragment fragment = new TestViolenciaResultadoFragment();
