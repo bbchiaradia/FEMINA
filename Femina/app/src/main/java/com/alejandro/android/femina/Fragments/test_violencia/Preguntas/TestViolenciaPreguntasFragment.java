@@ -47,7 +47,7 @@ public class TestViolenciaPreguntasFragment extends Fragment {
     private RadioButton radioButton2,rbNo;
     private int contadorSi;
     private ListView lvlPreguntas;
-    Boolean respuesta1 ,respuesta2 , respuesta3 ,respuesta4 ,respuesta5;
+    Boolean respuesta1=false ,respuesta2=false , respuesta3=false ,respuesta4=false ,respuesta5=false , respuesta6=false ,respuesta7=false ,respuesta8=false  , respuesta9=false ,respuesta10=false ,respuesta11=false,respuesta12=false;
     private ArrayList<PreguntasTest> arrayPreguntas = new ArrayList<PreguntasTest>();
     private int i ;
 
@@ -91,10 +91,84 @@ public class TestViolenciaPreguntasFragment extends Fragment {
                          txtPregunta1.setText(arrayPreguntas.get(i).getTexto_pregunta());
                          numeroPregunta = i + 1;
                          if (radioButton2.isChecked()) {
+                             System.out.println("ENTRO  en check true " + numeroPregunta );
                              contadorSi = contadorSi + 1;
-                             respuesta1 = true;
+                             if(numeroPregunta==2){
+                                 respuesta1 = true;
+                             }
+                             if(numeroPregunta==3){
+                                 System.out.println("ENTRO ");
+                                 respuesta2 = true;
+                             }
+                             if(numeroPregunta==4){
+                                 respuesta3 = true;
+                             }
+                             if(numeroPregunta==5){
+                                 respuesta4 = true;
+                             }
+                             if(numeroPregunta==6){
+                                 respuesta5 = true;
+                             }
+                             if(numeroPregunta==7){
+                                 System.out.println("ENTRO ");
+                                 respuesta6 = true;
+                             }
+                             if(numeroPregunta==8){
+                                 respuesta7 = true;
+                             }
+                             if(numeroPregunta==9){
+                                 respuesta8 = true;
+                             }
+                             if(numeroPregunta==6){
+                                 respuesta9 = true;
+                             }
+                             if(numeroPregunta==7){
+                                 System.out.println("ENTRO ");
+                                 respuesta10 = true;
+                             }
+                             if(numeroPregunta==8){
+                                 respuesta11 = true;
+                             }
+                             if(numeroPregunta==9){
+                                 respuesta12 = true;
+                             }
                          } else {
-                             respuesta1 = false;
+                             if(i==1){
+                                 respuesta1 = false;
+                             }
+                             if(i==2){
+                                 respuesta2 = false;
+                             }
+                             if(i==3){
+                                 respuesta3 = false;
+                             }
+                             if(i==4){
+                                 respuesta4 = false;
+                             }
+                             if(i==5){
+                                 respuesta1 = false;
+                             }
+                             if(i==6){
+                                 respuesta2 = false;
+                             }
+                             if(i==7){
+                                 respuesta3 = false;
+                             }
+                             if(i==8){
+                                 respuesta4 = false;
+                             }
+                             if(i==9){
+                                 respuesta1 = false;
+                             }
+                             if(i==10){
+                                 respuesta2 = false;
+                             }
+                             if(i==11){
+                                 respuesta3 = false;
+                             }
+                             if(i==12){
+                                 respuesta4 = false;
+                             }
                          }
                          break;
                      }
@@ -133,12 +207,82 @@ public class TestViolenciaPreguntasFragment extends Fragment {
                         System.out.println("ingreso NICO" + i + " Numero pregunta " + numeroPregunta);
                         txtPregunta1.setText(arrayPreguntas.get(i-2).getTexto_pregunta());
                         numeroPregunta = i-1;
-                        if(respuesta1== true){
+
                             contadorSi = contadorSi-1;
+                        if( respuesta1 == true  && numeroPregunta == 1){
                             radioButton2.setChecked(true);
-                        }else{
-                            rbNo.setChecked(true);
                         }
+                        if( respuesta2 == true  && numeroPregunta == 2){
+                            radioButton2.setChecked(true);
+                        }
+                        if( respuesta3 == true  && numeroPregunta == 3){
+                            radioButton2.setChecked(true);
+                        }if( respuesta4 == true  && numeroPregunta == 4){
+                            radioButton2.setChecked(true);
+                        }
+                        if( respuesta5 == true  && numeroPregunta == 5){
+                            radioButton2.setChecked(true);
+                        }
+                        if( respuesta6 == true  && numeroPregunta == 6){
+                            radioButton2.setChecked(true);
+                        }
+                        if( respuesta7 == true  && numeroPregunta == 7){
+                            radioButton2.setChecked(true);
+                        }
+                        if( respuesta8 == true  && numeroPregunta == 8){
+                            radioButton2.setChecked(true);
+                        }if( respuesta9 == true  && numeroPregunta == 9){
+                            radioButton2.setChecked(true);
+                        }
+                        if( respuesta10 == true  && numeroPregunta == 10){
+                            radioButton2.setChecked(true);
+                        }
+                    if( respuesta11 == true  && numeroPregunta == 11){
+                        radioButton2.setChecked(true);
+                    }
+                    if( respuesta12 == true  && numeroPregunta == 12){
+                        radioButton2.setChecked(true);
+                    }
+
+
+
+                    if( respuesta1 == false  && numeroPregunta == 1){
+                        rbNo.setChecked(true);
+                    }
+                    if( respuesta2 == false  && numeroPregunta == 2){
+                        rbNo.setChecked(true);
+                    }
+                    if( respuesta3 == false  && numeroPregunta == 3){
+                        rbNo.setChecked(true);
+                    }if( respuesta4 == false  && numeroPregunta == 4){
+                        rbNo.setChecked(true);
+                    }
+                    if( respuesta5 == false  && numeroPregunta == 5) {
+                        rbNo.setChecked(true);
+                    }
+                    if( respuesta6 == false  && numeroPregunta == 6){
+                        rbNo.setChecked(true);
+                    }
+                    if( respuesta7 == false  && numeroPregunta == 7){
+                        rbNo.setChecked(true);
+                    }
+                    if( respuesta8 == false  && numeroPregunta == 8){
+                        rbNo.setChecked(true);
+                    }
+                    if( respuesta9 == false  && numeroPregunta == 9){
+                        rbNo.setChecked(true);
+                    }
+                    if( respuesta10 == false  && numeroPregunta == 10) {
+                        rbNo.setChecked(true);
+                    }
+                if( respuesta11 == false  && numeroPregunta == 11){
+                    rbNo.setChecked(true);
+                }
+                if( respuesta12 == false  && numeroPregunta == 12) {
+                    rbNo.setChecked(true);
+                }
+
+
                         break;
                     }
                 }
