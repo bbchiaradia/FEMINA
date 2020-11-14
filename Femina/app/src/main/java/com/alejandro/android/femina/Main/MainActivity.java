@@ -369,6 +369,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void finalizarApp() {
+        Session ses = new Session();
+        ses.setCt(getApplicationContext());
+        ses.cerrar_session();
+        SessionContactos ses_cont = new SessionContactos();
+        ses_cont.setContext(getApplicationContext());
+        ses_cont.cerrar_session();
+        SharedPreferences preferencias = this.getSharedPreferences("LOGUEO", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.clear();
+        editor.apply();
         ExitActivity.exitApplication(this);
         //Process.killProcess(Process.myPid());
         //MainActivity.this.finish();
