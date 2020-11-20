@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="210dp"
+    android:layout_height="280dp"
     android:layout_marginBottom="10dp"
     app:cardBackgroundColor="#f8f8f8"
     app:cardCornerRadius="8dp">
@@ -12,8 +12,7 @@
 <RelativeLayout
 
     android:layout_width="match_parent"
-android:layout_height="200dp">
-
+android:layout_height="270dp">
     <TextView
         android:id="@+id/txt_idvideo"
         android:layout_width="0dp"
